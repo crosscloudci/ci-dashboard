@@ -1,0 +1,85 @@
+@mixin badge($bg, $text){
+  @include border-radius($round);
+  background: $bg;
+  color: $text;
+  padding: rem(2) rem(5);
+  margin-bottom: rem(10);
+  cursor: pointer;
+  border:3px solid $trans;
+  border-color:$bg;
+  font-weight: bold;
+
+  .icon { color: $text; }
+
+  &:hover {
+    background: $text;
+    color: $bg;
+
+    .icon { color: $bg; }
+  }
+}
+
+@mixin border-radius($rad:$radius) {
+  border-radius: $rad;
+}
+
+@mixin transform($transforms) {
+     -moz-transform: $transforms;
+       -o-transform: $transforms;
+      -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+          transform: $transforms;
+}
+// rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+
+// scale
+@mixin scale($scale) {
+   @include transform(scale($scale));
+}
+
+@mixin flex-container($type:flex, $direction:row, $wrap:nowrap, $justify:flex-start, $align:flex-start, $align-content:flex-start) {
+  display: $type;
+  /* or inline-flex */
+  flex-direction: $direction;
+  /* or row | row-reverse | column | column-reverse; */
+  flex-wrap: $wrap;
+  /* or wrap | wrap-reverse */
+  justify-content: $justify;
+  /* or flex-start | flex-end | center | space-between | space-around */
+  align-items: $align;
+  /* flex-start | flex-end | center | baseline | stretch; */
+  align-content: $align-content;
+  /* flex-start | flex-end | center | space-between | space-around | stretch */
+}
+
+@mixin fbox($val:0){
+  flex-grow:$val;
+}
+
+@function rem($size, $base-font-size: 16) {
+  $remSize: $size / $base-font-size;
+  @return #{$remSize}rem;
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin mq($point) {
+  @if $point == 'lg' {
+    @media (min-width: 64.063em) { @content; }
+  }
+  @else if $point == 'md' {
+    @media (min-width: 40.063em) { @content; }
+  }
+  @else if $point == 'sm' {
+    @media (max-width: 40em)  { @content; }
+  }
+}

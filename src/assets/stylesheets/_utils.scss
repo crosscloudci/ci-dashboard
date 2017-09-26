@@ -1,0 +1,43 @@
+body {
+  font-family: 'Encode Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $dark;
+}
+
+// Special
+::-moz-selection { background: $yellow; }
+::selection { background: $yellow; }
+
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+// Grid
+.container {
+  width: 80%;
+  margin: auto;
+  @include mq('sm') { width: 100%; }
+  @include mq('md') { width: 90%; }
+}
+
+.flex,
+.flex-container {
+  @include flex-container;
+
+  &.start { justify-content:flex-start; }
+  &.reverse { flex-direction:row-reverse; }
+  &.nowrap { flex-wrap: nowrap; }
+  &.wrap { flex-wrap: wrap; }
+  &.spaced { justify-content:space-between; }
+  &.justify { justify-content:flex-start; }
+  &.valign { align-items: stretch }
+
+  .box,
+  .fbox { @include fbox(1); }
+}
+
+// Typography
+.bold { font-weight: bold }
+.italic { font-style: italic; }
+.sans { font-family: $sans; }
+.serif { font-family: $serif; }
