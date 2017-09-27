@@ -1,15 +1,24 @@
+@mixin shadow($value:0 2px 5px 0 rgba(0, 0, 0, 0.26)) {
+  box-shadow:$value;
+  -webkit-box-shadow:$value;
+  -moz-box-shadow:$value;
+}
 @mixin badge($bg, $text){
   @include border-radius($round);
   background: $bg;
   color: $text;
-  padding: rem(2) rem(5);
+  padding: rem(1) rem(2);
   margin-bottom: rem(10);
   cursor: pointer;
   border:3px solid $trans;
   border-color:$bg;
   font-weight: bold;
-
-  .icon { color: $text; }
+  font-size: rem(8);
+  line-height: rem(16);
+  .icon {
+    color: $text;
+    i.fa { font-size: rem(14) }
+  }
 
   &:hover {
     background: $text;
@@ -74,12 +83,12 @@
 
 @mixin mq($point) {
   @if $point == 'lg' {
-    @media (min-width: 64.063em) { @content; }
+    @media (min-width: 991px) { @content; }
   }
   @else if $point == 'md' {
-    @media (min-width: 40.063em) { @content; }
+    @media (min-width: 768px) { @content; }
   }
   @else if $point == 'sm' {
-    @media (max-width: 40em)  { @content; }
+    @media (max-width: 480px)  { @content; }
   }
 }

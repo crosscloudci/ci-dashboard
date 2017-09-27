@@ -14,10 +14,11 @@ body {
 
 // Grid
 .container {
-  width: 80%;
+  width: $app-width-lg;
+  @include mq('sm') { width: $app-width-sm; }
+  @include mq('md') { width: $app-width-md; }
+
   margin: auto;
-  @include mq('sm') { width: 100%; }
-  @include mq('md') { width: 90%; }
 }
 
 .flex,
