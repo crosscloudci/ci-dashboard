@@ -52,12 +52,17 @@ export default {
       }
 
       .icon {
-        width: rem(50);
-        height: rem(50);
+        width: rem(40);
+        height: rem(40);
 
         @include mq('lg') {
           width: rem(60);
           height: rem(60);
+        }
+
+        @include mq('sm') {
+          width: rem(30);
+          height: rem(30);
         }
 
         img { width: inherit; }
@@ -72,15 +77,20 @@ export default {
         }
 
         .title {
-          font-size: rem(16);
+          font-size: rem(14);
           @include mq('lg') { font-size: rem(18); }
-
           font-weight: bold;
         }
+
         .caption {
-          font-size: rem(12);
           @include mq('lg') { font-size: rem(14); }
+          font-size: rem(12);
           color: $dark;
+
+          @include mq('sm') {
+            display: none;
+          }
+
         }
       }
     }

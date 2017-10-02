@@ -83,12 +83,12 @@
 
 @mixin mq($point) {
   @if $point == 'lg' {
-    @media (min-width: 991px) { @content; }
+    @media screen and (min-width: 64em) { @content; }
   }
   @else if $point == 'md' {
-    @media (min-width: 768px) { @content; }
+    @media screen and (min-width: 40em) { @content; }
   }
   @else if $point == 'sm' {
-    @media (max-width: 480px)  { @content; }
+    @media screen and (max-width: 39.9375em)  { @content; }
   }
 }

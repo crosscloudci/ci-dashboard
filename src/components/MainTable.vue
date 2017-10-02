@@ -30,7 +30,9 @@
               <div class="project-box">
 
                 <ProjectFlag
-                  url="http://google.com"/>
+                  url="http://google.com"
+                  title="Project name"
+                  caption="Caption here"/>
 
                 <div class="gfx">
                   <span class="half-circle"></span>
