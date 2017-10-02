@@ -23,6 +23,8 @@ export default {
     padding: rem(10) 0 rem(5) 0;
     border-bottom: 1px solid $ccc;
 
+    @include mq('sm') { display: none; }
+
     .linux-foundation-logo {
       width: rem(300);
       img { width: inherit; }

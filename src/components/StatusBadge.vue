@@ -19,7 +19,6 @@
     </div>
     <ToolTip content="We should be able to render Markdown or HTML in here."/>
   </div>
-
 </template>
 
 <script>

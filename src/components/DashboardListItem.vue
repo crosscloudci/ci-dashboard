@@ -12,14 +12,15 @@
         <StatusBadge :state="demoState2" url="http://google.com"/>
       </div>
       <div class="item-block stable">
-        <MetaLabel label="v1.87" url="http://google.com"/>
-        <MetaLabel label="72jsbg" url="http://google.com"/>
+        <!-- if isMobile? '' : '' -->
+        <MetaLabel label="v1.87" url="http://google.com" :class="[demoState1, respondToBrowser]"/>
+        <MetaLabel label="72jsbg" url="http://google.com" :class="[demoState3, respondToBrowser]"/>
       </div>
     </div>
 
     <div class="deployment-blocks">
       <div class="item-block ${`deployment`}" v-for="deployment in project.deployments">
-        <StatusBadge :state="demoState3" url="http://google.com" :title="deployment"/>
+        <StatusBadge :state="demoState3" url="http://google.com"/>
         <StatusBadge :state="demoState1" url="http://google.com"/>
       </div>
     </div>
@@ -38,7 +39,10 @@ export default {
   components: {ProjectFlag, StatusBadge, MetaLabel},
   data () {
     return {
-      demoStateTypes: ['success', 'running', 'failed']
+      demoStateTypes: ['success', 'running', 'failed'],
+      windowWidth: 0,
+      windowHeight: 0,
+      currentState: this.$props.state
     }
   },
   computed: {
@@ -51,12 +55,38 @@ export default {
     },
     demoState3: function () {
       return array.random(this.demoStateTypes)
+    },
+    respondToBrowser: function () {
+      if (this.windowWidth <= '480') {
+        return 'mobile'
+      } else {
+        return ''
+      }
     }
   },
   created: function () {},
-  mounted: function () {},
+  mounted: function () {
+    this.$nextTick(function () {
+      window.addEventListener('resize', this.getWindowWidth)
+      window.addEventListener('resize', this.getWindowHeight)
+
+      this.getWindowWidth()
+      this.getWindowHeight()
+    })
+  },
+  methods: {
+    getWindowWidth (event) {
+      this.windowWidth = document.documentElement.clientWidth
+    },
+    getWindowHeight (event) {
+      this.windowHeight = document.documentElement.clientHeight
+    }
+  },
   updated: function () {},
-  destroyed: function () {}
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.getWindowWidth)
+    window.removeEventListener('resize', this.getWindowHeight)
+  }
 
 }
 </script>
@@ -68,11 +98,13 @@ export default {
 
   .dashboard-list-item {
     @include flex-container;
-    border-bottom: 1px solid $ccc;
     align-content:stretch;
     padding-top: rem(20);
 
-    @include mq('sm') { flex-wrap:wrap; }
+    @include mq('sm') {
+      flex-wrap:wrap;
+      padding: 0;
+    }
 
     .deployment-blocks,
     .status-blocks {
@@ -82,6 +114,10 @@ export default {
       .item-block {
         @include fbox(1);
         margin-right: rem(5);
+
+        .status-badge {
+          margin-bottom: rem(10);
+        }
       }
     }
 
@@ -96,6 +132,7 @@ export default {
 
       .status-blocks {
         @include shadow;
+        padding: rem(10);
         .item-block.status {
           display: none;
         }
@@ -103,11 +140,6 @@ export default {
         .item-block.stable {
           @include flex-container;
           justify-content:flex-end;
-          .meta-label {
-            @include fbox;
-            @include badge($red, $white);
-            text-align: center;
-          }
         }
       }
     }

@@ -52,13 +52,15 @@ export default {
       }
 
       @include mq('sm'){
-        .cncf-logo { width: rem(230) }
+        .cncf-logo { width: rem(120) }
       }
     }
 
     #dashboard-title {
       text-align: right;
       font-size: rem(24);
+
+      @include mq('sm') { display: none; }
 
       span.title { text-transform: uppercase; font-weight: bold; }
     }
@@ -80,6 +82,35 @@ export default {
     .time-updated,
     .icon { display: inline-block; }
     .updated-label { font-weight: bold; }
+  }
+
+  .container {
+    @include mq('sm') {
+      @include flex-container;
+      align-items:baseline;
+      align-content:stretch;
+    }
+    #dashboard-header,
+    #dashboard-updated {
+      @include mq('sm') {
+        @include fbox(1);
+        font-size: rem(14);
+      }
+    }
+
+    #dashboard-updated {
+      @include mq('sm') {
+        text-align: right;
+      }
+    }
+  }
+
+  #page-header {
+    @include mq('sm') {
+      background: $light;
+      margin-bottom: 0;
+      padding: 0 rem(10);
+    }
   }
 
 </style>
