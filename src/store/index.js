@@ -7,6 +7,7 @@ import projects from './modules/projects'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
+console.log(debug)
 
 export default new Vuex.Store({
   actions,

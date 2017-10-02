@@ -1,12 +1,10 @@
-export default {
-	// Functions return fixtures
-	getDashboard: () => {
-		// Timeout to simulate asynchronous
-		setTimeout(() =>{ 
-			return {
-				ok: true,
-				data: require('../../fixtures/dashboard.json')
-			}
-				, 100})
-	}
+module.exports = {
+  getDashboard: function () {
+    setTimeout(function () {
+      return {
+        ok: true,
+        data: require('../../fixtures/dashboard.json')
+      }
+    }, 100)
+  }
 }
