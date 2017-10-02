@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-list-item">
+  <div :class="['dashboard-list-item', isOpen? 'open' : '' ]">
     <div class="status-blocks">
       <div class="item-block project">
         <ProjectFlag
@@ -18,8 +18,12 @@
       </div>
     </div>
 
+    <div class="expander" v-on:click="toggleDeploymentPane()">
+      <i class="fa fa-angle-down"></i>
+    </div>
+
     <div class="deployment-blocks">
-      <div class="item-block ${`deployment`}" v-for="deployment in project.deployments">
+      <div class="item-block" v-for="deployment in project.deployments">
         <StatusBadge :state="demoState3" url="http://google.com"/>
         <StatusBadge :state="demoState1" url="http://google.com"/>
       </div>
@@ -42,7 +46,7 @@ export default {
       demoStateTypes: ['success', 'running', 'failed'],
       windowWidth: 0,
       windowHeight: 0,
-      currentState: this.$props.state
+      isOpen: false
     }
   },
   computed: {
@@ -80,6 +84,9 @@ export default {
     },
     getWindowHeight (event) {
       this.windowHeight = document.documentElement.clientHeight
+    },
+    toggleDeploymentPane (event) {
+      this.isOpen = !this.isOpen
     }
   },
   updated: function () {},
@@ -106,6 +113,15 @@ export default {
       padding: 0;
     }
 
+    .expander {
+      padding: rem(5);
+      text-align: center;
+      background: $light;
+      border-top: 1px solid $ccc;
+      width: 100%;
+      display: none;
+    }
+
     .deployment-blocks,
     .status-blocks {
       @include flex-container;
@@ -123,6 +139,10 @@ export default {
 
     @include mq('sm') {
       .deployment-blocks {
+        overflow: hidden;
+        height: 0;
+        transition:all 0.5s;
+
         flex-wrap:wrap;
         .item-block {
           @include fbox(1);
@@ -130,9 +150,12 @@ export default {
         }
       }
 
+      .expander { display: block; }
+
       .status-blocks {
-        @include shadow;
+        border-bottom: 1px solid $ccc;
         padding: rem(10);
+
         .item-block.status {
           display: none;
         }
@@ -143,5 +166,9 @@ export default {
         }
       }
     }
+  }
+
+  .dashboard-list-item.open {
+    .deployment-blocks { height: auto; }
   }
 </style>

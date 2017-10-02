@@ -14,6 +14,11 @@ export default {
     label: { type: String, required: true, default: '...' },
     url: { type: String, required: true, default: '#' }
   },
+  data () {
+    return {
+      currentState: this.$props.state
+    }
+  },
   components: {ToolTip},
   methods: {
     gotoURL () {
