@@ -77,6 +77,12 @@
 
       </table>
     </div>
+<ul>
+    <li v-for="p in projects">
+{{p}}
+      <br>
+    </li>
+  </ul>
   </div>
 </template>
 
@@ -85,6 +91,7 @@ import array from '../lib/Array'
 import ProjectFlag from './ProjectFlag'
 import MetaLabel from './MetaLabel'
 import StatusBadge from './StatusBadge'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'main-table',
@@ -93,8 +100,14 @@ export default {
     return {
       demoStateTypes: ['success', 'running', 'failed']
     }
-  },
+    },
+  created: function () {
+    this.$store.dispatch('getAllProjects')
+    },
   computed: {
+   products: mapGetters({
+       projects: 'allProjects'
+         }),
     // For Demo
     demoState1: function () {
       return array.random(this.demoStateTypes)
