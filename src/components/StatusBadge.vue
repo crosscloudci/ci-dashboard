@@ -17,7 +17,6 @@
 
       <span class="label">{{ currentState }}</span>
     </div>
-    <ToolTip content="We should be able to render Markdown or HTML in here."/>
   </div>
 </template>
 
@@ -46,9 +45,9 @@ export default {
 @import "../assets/stylesheets/mixins";
 
 .status-badge {
-  width: rem(80);
-  margin: auto;
   position: relative;
+  padding: rem(2) rem(4);
+  width: rem(70);
 
   &.success { @include badge($green, $white); }
   &.running { @include badge($blue, $white); }
@@ -69,7 +68,6 @@ export default {
     }
 
     .label {
-      font-size: rem(12);
       text-transform: uppercase;
       visibility: visible;
     }

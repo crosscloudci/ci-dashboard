@@ -42,14 +42,13 @@ export default {
 
   .project-flag {
     cursor: pointer;
+    @include mq('md') { min-width: rem(240) }
 
     .wrapper {
       @include flex-container;
 
       .icon,
-      .information {
-        @include fbox;
-      }
+      .information { @include fbox; }
 
       .icon {
         width: rem(40);
@@ -72,25 +71,18 @@ export default {
         padding: rem(10);
 
         .title,
-        .caption {
-          display: block;
-        }
+        .caption { display: block; }
 
         .title {
-          font-size: rem(14);
-          @include mq('lg') { font-size: rem(18); }
+          font-size: rem(18);
           font-weight: bold;
         }
 
         .caption {
-          @include mq('lg') { font-size: rem(14); }
-          font-size: rem(12);
+          font-size: rem(14);
           color: $dark;
 
-          @include mq('sm') {
-            display: none;
-          }
-
+          @include mq('sm') { display: none; }
         }
       }
     }

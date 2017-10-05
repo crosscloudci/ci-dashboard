@@ -1,28 +1,23 @@
 <template>
-  <div :class="['dashboard-list-item', isOpen? 'open' : '' ]">
-    <div class="status-blocks">
-      <div class="item-block project">
-        <ProjectFlag
-          url="http://google.com"
-          title="Project name"
-          caption="Caption here"/>
-      </div>
-      <div class="item-block status">
-        <StatusBadge :state="demoState1" url="http://google.com"/>
-        <StatusBadge :state="demoState2" url="http://google.com"/>
-      </div>
-      <div class="item-block stable">
-        <!-- if isMobile? '' : '' -->
-        <MetaLabel label="v1.87" url="http://google.com" :class="[demoState1, respondToBrowser]"/>
-        <MetaLabel label="72jsbg" url="http://google.com" :class="[demoState3, respondToBrowser]"/>
-      </div>
+  <div :class="['tr', isOpen? 'open' : '' ]">
+    <div class="td projects">
+      <ProjectFlag
+        url="http://google.com"
+        title="Project name"
+        caption="Caption here"/>
     </div>
 
-    <div class="expander" v-on:click="toggleDeploymentPane()">
-      <i class="fa fa-angle-down"></i>
+    <div class="td build">
+      <StatusBadge :state="demoState1" url="http://google.com"/>
+      <StatusBadge :state="demoState2" url="http://google.com"/>
     </div>
 
-    <div class="deployment-blocks">
+    <div class="td release">
+      <MetaLabel label="v1.87" url="http://google.com" :class="[demoState1, respondToBrowser]"/>
+      <MetaLabel label="72jsbg" url="http://google.com" :class="[demoState3, respondToBrowser]"/>
+    </div>
+
+    <div class="td deployments">
       <div class="item-block" v-for="deployment in project.deployments">
         <StatusBadge :state="demoState3" url="http://google.com"/>
         <StatusBadge :state="demoState1" url="http://google.com"/>
@@ -45,7 +40,6 @@ export default {
     return {
       demoStateTypes: ['success', 'running', 'failed'],
       windowWidth: 0,
-      windowHeight: 0,
       isOpen: false
     }
   },
@@ -61,7 +55,7 @@ export default {
       return array.random(this.demoStateTypes)
     },
     respondToBrowser: function () {
-      if (this.windowWidth <= '480') {
+      if (this.windowWidth <= '639') {
         return 'mobile'
       } else {
         return ''
@@ -72,18 +66,12 @@ export default {
   mounted: function () {
     this.$nextTick(function () {
       window.addEventListener('resize', this.getWindowWidth)
-      window.addEventListener('resize', this.getWindowHeight)
-
       this.getWindowWidth()
-      this.getWindowHeight()
     })
   },
   methods: {
     getWindowWidth (event) {
       this.windowWidth = document.documentElement.clientWidth
-    },
-    getWindowHeight (event) {
-      this.windowHeight = document.documentElement.clientHeight
     },
     toggleDeploymentPane (event) {
       this.isOpen = !this.isOpen
@@ -92,7 +80,6 @@ export default {
   updated: function () {},
   beforeDestroy: function () {
     window.removeEventListener('resize', this.getWindowWidth)
-    window.removeEventListener('resize', this.getWindowHeight)
   }
 
 }
@@ -107,6 +94,7 @@ export default {
     @include flex-container;
     align-content:stretch;
     padding-top: rem(20);
+    border-bottom: 1px solid $ccc;
 
     @include mq('sm') {
       flex-wrap:wrap;

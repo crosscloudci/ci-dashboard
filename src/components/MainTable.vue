@@ -25,7 +25,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="row in 3">
+          <tr v-for="project in this.$props.projects">
             <td class="project-column">
               <div class="project-box">
 
@@ -42,38 +42,46 @@
               </div>
             </td>
 
-            <td>
+            <td class="build-column">
+              <label>Build Status</label>
               <StatusBadge :state="demoState1" url="http://google.com"/>
               <StatusBadge :state="demoState2" url="http://google.com"/>
             </td>
-            <td>
-              <MetaLabel label="v1.87" url="http://google.com"/>
-              <MetaLabel label="72jsbg" url="http://google.com"/>
+            <td class="release-column">
+              <MetaLabel label="v1.87" url="http://google.com" :class="[demoState1, respondToBrowser]"/>
+              <MetaLabel label="72jsbg" url="http://google.com" :class="[demoState3, respondToBrowser]"/>
             </td>
-            <td>
+
+            <td class="deployment-column" v-for="deployment in project.deployments">
+              <label>{{deployment}}</label>
               <StatusBadge :state="demoState3" url="http://google.com"/>
               <StatusBadge :state="demoState1" url="http://google.com"/>
             </td>
-            <td>
+            <!-- <td class="deployment-column">
+              <label>Service</label>
               <StatusBadge :state="demoState2" url="http://google.com"/>
               <StatusBadge :state="demoState3" url="http://google.com"/>
             </td>
-            <td>
+            <td class="deployment-column">
+              <label>Service</label>
               <StatusBadge :state="demoState1" url="http://google.com"/>
               <StatusBadge :state="demoState2" url="http://google.com"/>
             </td>
-            <td>
+            <td class="deployment-column">
+              <label>Service</label>
               <StatusBadge :state="demoState3" url="http://google.com"/>
               <StatusBadge :state="demoState1" url="http://google.com"/>
             </td>
-            <td>
+            <td class="deployment-column">
+              <label>Service</label>
               <StatusBadge :state="demoState2" url="http://google.com"/>
               <StatusBadge :state="demoState3" url="http://google.com"/>
             </td>
-            <td>
+            <td class="deployment-column">
+              <label>Service</label>
               <StatusBadge :state="demoState1" url="http://google.com"/>
               <StatusBadge :state="demoState2" url="http://google.com"/>
-            </td>
+            </td> -->
           </tr>
         </tbody>
 
@@ -91,9 +99,28 @@ import StatusBadge from './StatusBadge'
 export default {
   name: 'main-table',
   components: {ProjectFlag, StatusBadge, MetaLabel},
+  props: ['projects'],
   data: function () {
     return {
-      demoStateTypes: ['success', 'running', 'failed']
+      demoStateTypes: ['success', 'running', 'failed'],
+      windowWidth: 0
+    }
+  },
+  beforeDestroy: function () {
+    window.removeEventListener('resize', this.getWindowWidth)
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      window.addEventListener('resize', this.getWindowWidth)
+      this.getWindowWidth()
+    })
+  },
+  methods: {
+    getWindowWidth (event) {
+      this.windowWidth = document.documentElement.clientWidth
+    },
+    toggleDeploymentPane (event) {
+      this.isOpen = !this.isOpen
     }
   },
   computed: {
@@ -106,6 +133,13 @@ export default {
     },
     demoState3: function () {
       return array.random(this.demoStateTypes)
+    },
+    respondToBrowser: function () {
+      if (this.windowWidth <= '639') {
+        return 'mobile'
+      } else {
+        return ''
+      }
     }
   }
 }
@@ -179,6 +213,8 @@ export default {
         border-bottom:1px solid $ccc;
         padding: rem(10) 0;
 
+        label { display: none; }
+
         @include mq('sm') { border-bottom: none; }
         &:first-child { @include mq('sm') { border-bottom: 1px solid $ccc; } }
       }
@@ -215,6 +251,78 @@ export default {
           }
         }
       }
+
+      tbody tr td .status-badge,
+      tbody tr td .meta-label {
+        margin: auto;
+        margin-bottom: rem(10);
+      }
+
+      tbody tr td .meta-label { text-align: center; }
     }
   }
+
+  @include mq('sm') {
+    #main-table {
+      margin-top: 0;
+      overflow: hidden;
+    }
+    #main-table table {
+      width: 100%;
+      display: block;
+
+      tbody {
+        display: block;
+
+        tr {
+          width: 100%;
+          display: block;
+          position: relative;
+
+          td.release-column {
+            position: absolute;
+            top: rem(5);
+            right: rem(5);
+
+            .meta-label {
+              display: inline-block;
+              margin-bottom: 0;
+            }
+          }
+
+          td.deployment-column,
+          td.build-column {
+            @include flex-container;
+            background: $light;
+            padding: rem(20);
+            // display: none;
+
+            label,
+            .status-badge {
+              @include fbox(0);
+            }
+
+            label {
+              display: inline-block;
+              @include fbox(1);
+            }
+
+            .status-badge {
+              width: rem(10);
+              height: rem(10);
+              padding: 0;
+              margin: 0 rem(10);
+              display: inline-block;
+              text-align: right;
+              span.icon,
+              span.label {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
 </style>

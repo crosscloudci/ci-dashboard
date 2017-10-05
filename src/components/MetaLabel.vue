@@ -1,7 +1,6 @@
 <template>
   <div class="meta-label" :class="currentState" v-on:click="gotoURL()">
     <span>{{ this.$props.label }}</span>
-    <ToolTip content="We should be able to render Markdown or HTML in here."/>
   </div>
 </template>
 
@@ -37,7 +36,6 @@ export default {
   color: $blue;
   cursor: pointer;
   padding: rem(5);
-  margin-bottom: rem(10);
   position: relative;
 
   &:hover { text-decoration: underline; }
