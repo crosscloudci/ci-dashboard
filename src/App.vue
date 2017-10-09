@@ -10,11 +10,10 @@
 import TopBanner from './components/TopBanner'
 import PageHeader from './components/PageHeader'
 import MainTable from './components/MainTable'
-import DashboardListItem from './components/DashboardListItem'
 
 export default {
   name: 'app',
-  components: {TopBanner, PageHeader, MainTable, DashboardListItem},
+  components: {TopBanner, PageHeader, MainTable},
   data: function () {
     return {
       projects: [

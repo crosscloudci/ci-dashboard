@@ -57,31 +57,6 @@
               <StatusBadge :state="demoState3" url="http://google.com"/>
               <StatusBadge :state="demoState1" url="http://google.com"/>
             </td>
-            <!-- <td class="deployment-column">
-              <label>Service</label>
-              <StatusBadge :state="demoState2" url="http://google.com"/>
-              <StatusBadge :state="demoState3" url="http://google.com"/>
-            </td>
-            <td class="deployment-column">
-              <label>Service</label>
-              <StatusBadge :state="demoState1" url="http://google.com"/>
-              <StatusBadge :state="demoState2" url="http://google.com"/>
-            </td>
-            <td class="deployment-column">
-              <label>Service</label>
-              <StatusBadge :state="demoState3" url="http://google.com"/>
-              <StatusBadge :state="demoState1" url="http://google.com"/>
-            </td>
-            <td class="deployment-column">
-              <label>Service</label>
-              <StatusBadge :state="demoState2" url="http://google.com"/>
-              <StatusBadge :state="demoState3" url="http://google.com"/>
-            </td>
-            <td class="deployment-column">
-              <label>Service</label>
-              <StatusBadge :state="demoState1" url="http://google.com"/>
-              <StatusBadge :state="demoState2" url="http://google.com"/>
-            </td> -->
           </tr>
         </tbody>
 
@@ -103,15 +78,18 @@ export default {
   data: function () {
     return {
       demoStateTypes: ['success', 'running', 'failed'],
-      windowWidth: 0
+      windowWidth: 0,
+      scrolled: false
     }
   },
   beforeDestroy: function () {
     window.removeEventListener('resize', this.getWindowWidth)
+    window.removeEventListener('scroll', this.handleScroll)
   },
   mounted: function () {
     this.$nextTick(function () {
       window.addEventListener('resize', this.getWindowWidth)
+      window.addEventListener('scroll', this.handleScroll)
       this.getWindowWidth()
     })
   },
@@ -121,6 +99,11 @@ export default {
     },
     toggleDeploymentPane (event) {
       this.isOpen = !this.isOpen
+    },
+    handleScroll (event) {
+      this.scrolled = window.scrollY > 0
+      console.log(this.scrolled)
+      console.log(this, this.$el.scrollTop)
     }
   },
   computed: {
@@ -325,4 +308,11 @@ export default {
     }
   }
 
+
+  .fixed {
+    background: red;
+    position: fixed;
+    left: 0;
+    width: 100%;
+  }
 </style>
