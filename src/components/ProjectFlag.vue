@@ -60,8 +60,11 @@ export default {
         }
 
         @include mq('sm') {
-          width: rem(30);
-          height: rem(30);
+          width: rem(25);
+          height: rem(25);
+          position: relative;
+          top: rem(5);
+          left: rem(5);
         }
 
         img { width: inherit; }

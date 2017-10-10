@@ -30,9 +30,10 @@
               <div class="project-box">
 
                 <ProjectFlag
-                  url="http://google.com"
-                  title="Project name"
-                  caption="Caption here"/>
+                  :url="project.url"
+                  :icon="project.icon"
+                  :title="project.title"
+                  :caption="project.caption"/>
 
                 <div class="gfx">
                   <span class="half-circle"></span>
@@ -250,6 +251,7 @@ export default {
       margin-top: 0;
       overflow: hidden;
     }
+
     #main-table table {
       width: 100%;
       display: block;
