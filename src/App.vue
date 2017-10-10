@@ -2,7 +2,7 @@
   <div id="app">
     <TopBanner/>
     <PageHeader/>
-    <!-- <MainTable/> -->
+    <MainTable/> 
 
   </div>
 </template>

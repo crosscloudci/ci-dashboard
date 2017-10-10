@@ -14,9 +14,8 @@ const getters = {
 // actions
 const actions = {
   getAllProjects ({ commit }) {
-    api.getDashboard(projects => {
-      commit(types.RECEIVE_DASHBOARD, { projects })
-    })
+    let projects = api.getDashboard().data.dashboard.projects
+    commit(types.RECEIVE_DASHBOARD, { projects })
   }
 }
 
