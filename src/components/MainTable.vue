@@ -25,7 +25,8 @@
         </thead>
 
         <tbody>
-          <tr v-for="project in this.$props.projects">
+          <!-- <tr v-for="project in this.$props.projects"> -->
+          <tr v-for="project in projects">
             <td class="project-column">
               <div class="project-box">
 
@@ -71,11 +72,13 @@ import array from '../lib/Array'
 import ProjectFlag from './ProjectFlag'
 import MetaLabel from './MetaLabel'
 import StatusBadge from './StatusBadge'
+//  import {mapGetters, mapActions} from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'main-table',
   components: {ProjectFlag, StatusBadge, MetaLabel},
-  props: ['projects'],
+  // props: ['projects'],
   data: function () {
     return {
       demoStateTypes: ['success', 'running', 'failed'],
@@ -124,7 +127,11 @@ export default {
       } else {
         return ''
       }
-    }
+    },
+    ...mapGetters({ projects: 'allProjects' })
+  },
+  created () {
+    this.$store.dispatch('getAllProjects')
   }
 }
 
@@ -245,7 +252,6 @@ export default {
       tbody tr td .meta-label { text-align: center; }
     }
   }
-
   @include mq('sm') {
     #main-table {
       margin-top: 0;
