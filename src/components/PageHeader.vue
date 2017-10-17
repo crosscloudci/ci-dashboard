@@ -3,7 +3,7 @@
     <div class="container">
       <header id="dashboard-header">
         <div id="dashboard-logo">
-          <div class="cncf-logo">
+          <div class="cncf-logo" v-on:click="gotoURL()">
             <img src="../assets/images/logo_cncf.png"/>
           </div>
         </div>
@@ -28,7 +28,13 @@
 export default {
   name: 'page-header',
   props: {
-    last_updated: { type: String, default: '1 min ago' }
+    last_updated: { type: String, default: '1 min ago' },
+    url: { type: String }
+  },
+  methods: {
+    gotoURL () {
+      window.open(this.$props.url, '_blank')
+    }
   }
 }
 </script>
@@ -45,9 +51,10 @@ export default {
     #dashboard-title { @include fbox(1); }
 
     #dashboard-logo {
+
       .cncf-logo {
         width: rem(260);
-
+        cursor: pointer;
         img { width: inherit; }
       }
 

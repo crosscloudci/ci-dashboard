@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TopBanner url="https://www.linuxfoundation.org/projects/"/>
-    <PageHeader/>
+    <PageHeader url="https://cncf.io"/>
     <MainTable :projects="projects"/>
   </div>
 </template>
