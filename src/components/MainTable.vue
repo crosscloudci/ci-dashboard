@@ -106,8 +106,6 @@ export default {
     },
     handleScroll (event) {
       this.scrolled = window.scrollY > 0
-      console.log(this.scrolled)
-      console.log(this, this.$el.scrollTop)
     }
   },
   computed: {
