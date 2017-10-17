@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TopBanner/>
+    <TopBanner url="https://www.linuxfoundation.org/projects/"/>
     <PageHeader/>
     <MainTable :projects="projects"/>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div id="top-banner">
+  <div id="top-banner" v-on:click="gotoURL()">
     <div class="container">
       <div class="linux-foundation-logo">
         <img src="../assets/images/logo_lf_projects_horizontal.png"/>
@@ -10,7 +10,13 @@
 
 <script>
 export default {
-  name: 'top-banner'
+  name: 'top-banner',
+  props: ['url'],
+  methods: {
+    gotoURL () {
+      window.open(this.$props.url, '_blank')
+    }
+  }
 }
 </script>
 
@@ -22,15 +28,15 @@ export default {
     background: $light;
     padding: rem(10) 0 rem(5) 0;
     border-bottom: 1px solid $ccc;
-
-    @include mq('sm') { display: none; }
+    cursor: pointer;
 
     .linux-foundation-logo {
       width: rem(300);
       img { width: inherit; }
 
       @include mq('sm'){
-        width: rem(230);
+        width: rem(200);
+        padding-left:rem(10);
       }
     }
   }
