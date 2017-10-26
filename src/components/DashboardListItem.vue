@@ -8,13 +8,13 @@
     </div>
 
     <div class="td build">
-      <StatusBadge :state="demoState1" url="http://google.com"/>
-      <StatusBadge :state="demoState2" url="http://google.com"/>
+      <StatusBadge :state="demoState1" url="https://gitlab.cncf.ci/kubernetes/kubernetes/-/jobs/25754"/>
+      <StatusBadge :state="demoState2" url="http://github.com/cncf/cross-cloud"/>
     </div>
 
     <div class="td release">
-      <MetaLabel label="v1.87" url="http://google.com" :class="[demoState1, respondToBrowser]"/>
-      <MetaLabel label="72jsbg" url="http://google.com" :class="[demoState3, respondToBrowser]"/>
+      <MetaLabel label="v1.8.2" url="https://github.com/kubernetes/kubernetes/commit/bdaeafa71f6c7c04636251031f93464384d54963" :class="[demoState1, respondToBrowser]"/>
+      <MetaLabel label="1f53329" url="https://github.com/kubernetes/kubernetes/commit/1f53329c674e427264546247da1ae35c0826cbfd" :class="[demoState3, respondToBrowser]"/>
     </div>
 
     <div class="td deployments">
