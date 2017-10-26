@@ -15,7 +15,7 @@
         "project_id":1,
         "title":"Kubernetes", 
         "caption":"Orchestration",
-        "url":"http://kubernetes.io/",
+        "url":"https://github.com/kubernetes/kubernetes",
         "icon":"https://www.cncf.io/wp-content/uploads/2016/09/ico_kubernetes-100x100.png",
         "deployments": ["AWS", "Azure", "Bluemix", "GCE", "GKE", "Packet"],
         "pipelines":[
@@ -64,7 +64,7 @@
         "project_id":2,
         "title":"Prometheus",
         "caption":"Monitoring",
-        "url":"http://prometheus.io/", 
+        "url":"https://github.com/prometheus/prometheus",
         "icon":"https://www.cncf.io/wp-content/uploads/2016/09/ico_prometheus-100x100.png", 
         "deployments": ["AWS", "Azure", "Bluemix", "GCE", "GKE", "Packet"],
         "pipelines":[
@@ -113,7 +113,7 @@
         "project_id":3,
         "title":"OpenTracing", 
         "caption":"Distributed Tracing API", 
-        "url":"http://opentracing.io/", 
+        "url":"https://github.com/opentracing/",
         "icon":"https://www.cncf.io/wp-content/uploads/2016/09/logo_opentracing.png", 
         "deployments": ["AWS", "Azure", "Bluemix", "GCE", "GKE", "Packet"],
         "pipelines":[
@@ -162,7 +162,7 @@
         "project_id":4,
         "title":"Fluentd", 
         "caption":"Logging", 
-        "url":"http://fluentd.org/", 
+        "url":"https://github.com/fluent/fluentd/",
         "icon":"https://www.cncf.io/wp-content/uploads/2016/09/logo_fluentd.png", 
         "deployments": ["AWS", "Azure", "Bluemix", "GCE", "GKE", "Packet"],
         "pipelines":[
@@ -211,7 +211,7 @@
         "project_id":5,
         "title":"linkerd", 
         "caption":"Service Mesh", 
-        "url":"https://www.linkerd.io/", 
+        "url":"https://github.com/linkerd/linkerd",
         "icon":"https://www.cncf.io/wp-content/uploads/2016/09/ico_linkerd5-e1485379975148.png", 
         "deployments": ["AWS", "Azure", "Bluemix", "GCE", "GKE", "Packet"],
         "pipelines":[
@@ -260,7 +260,7 @@
         "project_id":6,
         "title":"gRPC", 
         "caption":"Remote Procedure Call", 
-        "url":"http://www.grpc.io/", 
+        "url":"https://github.com/grpc/grpc",
         "icon":"https://www.cncf.io/wp-content/uploads/2016/09/logo_grpc-1-e1488466098164.png", 
         "deployments": ["AWS", "Azure", "Bluemix", "GCE", "GKE", "Packet"],
         "pipelines":[
