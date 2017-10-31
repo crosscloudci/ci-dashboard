@@ -3,28 +3,28 @@ import * as types from '../mutation-types'
 
 // initial state
 const state = {
-  projects: []
+  clouds: []
 }
 
 // getters
 const getters = {
-  allProjects: state => state.projects
+  allClouds: state => state.clouds
 }
 
 // actions
 const actions = {
-  getAllProjects ({ commit }) {
+  getAllClouds ({ commit }) {
     api.getDashboard().then((response) => {
-      let projects = response.data.dashboard.projects
-      commit(types.RECEIVE_DASHBOARD, { projects })
+      let clouds = response.data.dashboard.clouds
+      commit(types.RECEIVE_CLOUDS, { clouds })
     })
   }
 }
 
 // mutations
 const mutations = {
-  [types.RECEIVE_DASHBOARD] (state, { projects }) {
-    state.projects = projects
+  [types.RECEIVE_CLOUDS] (state, { clouds }) {
+    state.clouds = clouds
   }
 }
 
