@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 import * as getters from './getters'
 import projects from './modules/projects'
+import pipelines from './modules/pipelines'
+import clouds from './modules/clouds'
+import session from './modules/session'
 
 Vue.use(Vuex)
 
@@ -13,6 +16,9 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
-    projects
+    projects,
+    pipelines,
+    clouds,
+    session
   }
 })
