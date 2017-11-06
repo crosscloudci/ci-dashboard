@@ -92,6 +92,9 @@ export default {
     window.removeEventListener('resize', this.getWindowWidth)
     window.removeEventListener('scroll', this.handleScroll)
   },
+  beforeMount: function () {
+    // this.$store.dispatch('connectToChannel', this.session)
+  },
   mounted: function () {
     this.$nextTick(function () {
       window.addEventListener('resize', this.getWindowWidth)
@@ -131,9 +134,10 @@ export default {
     ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds' })
   },
   created () {
-    this.$store.dispatch('getAllProjects')
+    this.$store.dispatch('connectToSocket')
+    // this.$store.dispatch('getAllProjects')
     this.$store.dispatch('getAllClouds')
-    this.$store.dispatch('getAllPipelines')
+    // this.$store.dispatch('getAllPipelines')
   }
 }
 

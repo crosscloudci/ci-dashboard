@@ -5,6 +5,7 @@ import * as getters from './getters'
 import projects from './modules/projects'
 import pipelines from './modules/pipelines'
 import clouds from './modules/clouds'
+import session from './modules/session'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   modules: {
     projects,
     pipelines,
-    clouds
+    clouds,
+    session
   }
 })
