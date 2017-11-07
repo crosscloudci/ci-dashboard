@@ -59,7 +59,7 @@ export default {
       }
 
       @include mq('sm'){
-        .cncf-logo { width: rem(120) }
+        .cncf-logo { width: rem(180) }
       }
     }
 
@@ -108,6 +108,15 @@ export default {
     #dashboard-updated {
       @include mq('sm') {
         text-align: right;
+        position: relative;
+        top: rem(-15);
+
+        .icon { display: none; }
+        .updated-label,
+        .time-updated {
+          display: block;
+          text-align: right;
+        }
       }
     }
   }

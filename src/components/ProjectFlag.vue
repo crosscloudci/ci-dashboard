@@ -51,12 +51,12 @@ export default {
       .information { @include fbox; }
 
       .icon {
-        width: rem(40);
-        height: rem(40);
+        width: rem(35);
+        height: rem(35);
 
         @include mq('lg') {
-          width: rem(60);
-          height: rem(60);
+          width: rem(50);
+          height: rem(50);
         }
 
         @include mq('sm') {

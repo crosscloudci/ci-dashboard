@@ -14,7 +14,7 @@
           <tr class="subheader">
             <th></th>
             <th><span>Status</span></th>
-            <th ><span>Stable Head</span></th>
+            <th ><span>Stable<br/>Head</span></th>
             <th><span>AWS</span></th>
             <th><span>Azure</span></th>
             <th><span>Bluemix</span></th>
@@ -162,7 +162,7 @@ export default {
         th {
           padding: rem(10);
           color: $white;
-          text-align: center;
+          text-align: left;
         }
       }
 
@@ -180,7 +180,7 @@ export default {
             position: absolute;
             height: 1px;
             z-index: -1;
-            top: rem(15);
+            top: rem(25);
             width: 100%;
 
             @include mq('lg') { border-bottom: 1px solid $ccc; }
@@ -284,7 +284,7 @@ export default {
             @include flex-container;
             background: $light;
             padding: rem(20);
-            // display: none;
+            display: none;
 
             label,
             .status-badge {
@@ -312,13 +312,5 @@ export default {
         }
       }
     }
-  }
-
-
-  .fixed {
-    background: red;
-    position: fixed;
-    left: 0;
-    width: 100%;
   }
 </style>
