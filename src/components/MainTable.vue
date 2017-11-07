@@ -14,8 +14,11 @@
           <tr class="subheader">
             <th></th>
             <th><span>Status</span></th>
+
             <th ><span>Stable<br/>Head</span></th>
-            <th><span>AWS</span></th>
+            <th  v-for="cloud in clouds">
+              <span>{{cloud.name}}</span>
+            </th>
             <th><span>Azure</span></th>
             <th><span>Bluemix</span></th>
             <th><span>GCE</span></th>
@@ -90,6 +93,9 @@ export default {
     window.removeEventListener('resize', this.getWindowWidth)
     window.removeEventListener('scroll', this.handleScroll)
   },
+  beforeMount: function () {
+    // this.$store.dispatch('connectToChannel', this.session)
+  },
   mounted: function () {
     this.$nextTick(function () {
       window.addEventListener('resize', this.getWindowWidth)
@@ -126,10 +132,13 @@ export default {
         return ''
       }
     },
-    ...mapGetters({ projects: 'allProjects' })
+    ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds' })
   },
   created () {
-    this.$store.dispatch('getAllProjects')
+    this.$store.dispatch('connectToSocket')
+    // this.$store.dispatch('getAllProjects')
+    this.$store.dispatch('getAllClouds')
+    // this.$store.dispatch('getAllPipelines')
   }
 }
 
