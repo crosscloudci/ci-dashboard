@@ -38,19 +38,23 @@
                   :icon="project.icon"
                   :title="project.title"
                   :caption="project.caption"/>
-
-                <div class="gfx">
-                  <span class="half-circle"></span>
-                  <span class="h-line"></span>
-                </div>
-
               </div>
             </td>
 
             <td :class="['build-column', isOpen? 'open' : '' ]">
-              <label>Build Status</label>
-              <StatusBadge :state="demoState1" url="https://gitlab.cncf.ci/kubernetes/kubernetes/-/jobs/25754"/>
-              <StatusBadge :state="demoState2" url="http://github.com/cncf/cross-cloud"/>
+
+              <div class="build-links mobile-only">
+                <span>github link</span>
+                <span>Stable</span>
+                <span>HEAD</span>
+              </div>
+
+              <div class="build-details">
+                <label>Build Status</label>
+                <StatusBadge :state="demoState1" url="https://gitlab.cncf.ci/kubernetes/kubernetes/-/jobs/25754"/>
+                <StatusBadge :state="demoState2" url="http://github.com/cncf/cross-cloud"/>
+              </div>
+
             </td>
             <td class="release-column">
               <MetaLabel label="v1.8.2" url="https://github.com/kubernetes/kubernetes/commit/bdaeafa71f6c7c04636251031f93464384d54963" :class="[demoState1, respondToBrowser]"/>
@@ -75,13 +79,11 @@ import array from '../lib/Array'
 import ProjectFlag from './ProjectFlag'
 import MetaLabel from './MetaLabel'
 import StatusBadge from './StatusBadge'
-//  import {mapGetters, mapActions} from 'vuex'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'main-table',
   components: {ProjectFlag, StatusBadge, MetaLabel},
-  // props: ['projects'],
   data: function () {
     return {
       demoStateTypes: ['success', 'running', 'failed'],
@@ -95,7 +97,6 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   beforeMount: function () {
-    // this.$store.dispatch('connectToChannel', this.session)
   },
   mounted: function () {
     this.$nextTick(function () {
@@ -108,11 +109,7 @@ export default {
     getWindowWidth (event) {
       this.windowWidth = document.documentElement.clientWidth
     },
-    toggleDeploymentPane () {
-      // this.isOpen = !this.isOpen
 
-      // console.log('djkjs ', event.currentTarget.toggle('open'))
-    },
     handleScroll (event) {
       this.scrolled = window.scrollY > 0
     }
@@ -156,179 +153,179 @@ export default {
     margin-top: rem(20);
     position: relative;
 
-    table {
-      width: 100%;
-      // border-collapse: collapse;
-
-      @include mq('sm') {
-        width: auto;
-        thead { display: none; }
-        tbody td { display: block; }
-      }
-
-      thead tr.header {
-        @include border-radius;
-        text-align: left;
-        background: $blue;
-
-        th {
-          padding: rem(10);
-          color: $white;
-          text-align: left;
-        }
-      }
-
-      thead tr.subheader {
-        text-align: left;
-
-        th {
-          padding: rem(10);
-          text-align: center;
-          position: relative;
-
-          &:before {
-            content: '';
-            display: block;
-            position: absolute;
-            height: 1px;
-            z-index: -1;
-            top: rem(25);
-            width: 100%;
-
-            @include mq('lg') { border-bottom: 1px solid $ccc; }
-          }
-
-          &:last-child:before {
-            border:0;
-          }
-
-          span {
-            background: $white;
-            display: block;
-
-          }
-        }
-      }
-
-      tbody tr td {
-        border-bottom:1px solid $ccc;
-        padding: rem(10) 0;
-
-        label { display: none; }
-
-        @include mq('sm') { border-bottom: none; }
-        &:first-child { @include mq('sm') { border-bottom: 1px solid $ccc; } }
-      }
-
-      tbody .project-box {
-        position: relative;
-
-        .gfx {
-          visibility: hidden;
-          @include mq('lg') { visibility: visible; }
-          position: absolute;
-          top: 0;
-          right: rem(-90);
-          z-index: -1;
-
-          .half-circle {
-            display: block;
-            width: rem(100);
-            height: rem(50);
-            @include border-radius($round);
-            border-top: 1px solid $ccc;
-            border-bottom: 1px solid $ccc;
-            border-left: 1px solid $ccc;
-          }
-
-          .h-line {
-            display: block;
-            width: rem(20);
-            height: 1px;
-            border-bottom: 1px solid $ccc;
-            top: rem(25);
-            left: rem(-20);
-            position: inherit;
-          }
-        }
-      }
-
-      tbody tr td .status-badge,
-      tbody tr td .meta-label {
-        margin: auto;
-        margin-bottom: rem(10);
-      }
-
-      tbody tr td .meta-label { text-align: center; }
-    }
-  }
-  @include mq('sm') {
-    #main-table {
+    @include mq('sm') {
       margin-top: 0;
       overflow: hidden;
     }
 
-    #main-table table {
+    table {
       width: 100%;
-      display: block;
 
-      tbody {
+      @include mq('sm') {
+        width: 100%;
         display: block;
+      }
+
+      thead {
+        @include mq('sm') { display: none; }
 
         tr {
-          width: 100%;
-          display: block;
-          position: relative;
 
-          td.release-column {
-            position: absolute;
-            top: rem(5);
-            right: rem(5);
+          th {
+            padding: rem(10);
 
-            .meta-label {
-              display: inline-block;
-              margin-bottom: 0;
-            }
+            text-align: left;
           }
 
-          td.deployment-column,
-          td.build-column {
-            @include flex-container;
-            background: $light;
-            padding: rem(20);
-            display: none;
+          &.header {
+            @include border-radius;
+            text-align: left;
+            background: $blue;
+            color: $white;
+          }
 
-            label,
-            .status-badge {
-              @include fbox(0);
-            }
+          &.subheader {
+            text-align: left;
 
-            label {
-              display: inline-block;
-              @include fbox(1);
-            }
+            th {
+              padding: rem(10);
+              text-align: center;
+              position: relative;
 
-            .status-badge {
-              width: rem(10);
-              height: rem(10);
-              padding: 0;
-              margin: 0 rem(10);
-              display: inline-block;
-              text-align: right;
-              span.icon,
-              span.label {
-                display: none;
+              &:before {
+                content: '';
+                display: block;
+                position: absolute;
+                height: 1px;
+                z-index: -1;
+                top: rem(25);
+                width: 100%;
+                @include mq('lg') { border-bottom: 1px solid $ccc; }
+              }
+
+              &:last-child:before { border:0; }
+
+              span {
+                background: $white;
+                display: block;
               }
             }
           }
         }
       }
-    }
 
-    #main-table table tbody tr.open {
-      td.build-column,
-      td.deployment-column {
-        display: block;
+      tbody {
+        @include mq('sm') { display: block; }
+
+        tr {
+
+          @include mq('sm') {
+            width: 100%;
+            display: block;
+            position: relative;
+          }
+
+          td {
+            border-bottom:1px solid $ccc;
+            padding: rem(10) 0;
+
+            @include mq('sm') { display: block; }
+
+            label { display: none; }
+
+            @include mq('sm') { border-bottom: none; }
+            &:first-child { @include mq('sm') { border-bottom: 1px solid $ccc; } }
+
+            &.project-column {
+              .project-box {
+                position: relative;
+              }
+            }
+
+            &.build-column {
+
+              .build-details {
+                @include mq('sm') {
+                  padding-top: rem(20);
+                  padding-bottom: rem(10);
+                  margin-top: rem(20);
+                  border-top: 1px solid $ccc;
+                  border-bottom: 1px solid $ccc;
+                }
+              }
+
+
+
+              .build-links {
+                @include mq('sm') {
+
+                }
+              }
+
+              label {
+                @include mq('sm') {
+                  width: 60%;
+                  display: inline-block;
+                }
+              }
+              .status-badge {
+                margin: auto;
+                margin-bottom: rem(10);
+
+                @include mq('sm') {
+                  display: inline-block;
+                }
+
+              }
+
+              label,
+              .status-badge {
+                @include mq('sm') {
+                  @include fbox(1);
+                }
+              }
+            }
+
+            &.deployment-column {}
+
+            &.build-column,
+            &.deployment-column {
+              @include mq('sm') {
+                @include flex-container;
+                background: $light;
+                padding: rem(20);
+                display: none;
+              }
+            }
+
+            &.release-column {
+
+              @include mq('sm') {
+                position: absolute;
+                top: rem(5);
+                right: rem(5);
+              }
+
+              .meta-label {
+                margin: auto;
+                margin-bottom: rem(10);
+                text-align: center;
+
+                @include mq('sm') {
+                  display: inline-block;
+                  margin-bottom: 0;
+                }
+              }
+            }
+          }
+
+          &.open {
+            td.build-column,
+            td.deployment-column {
+              display: block;
+            }
+          }
+        }
       }
     }
   }
