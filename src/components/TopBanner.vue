@@ -30,14 +30,11 @@ export default {
     border-bottom: 1px solid $ccc;
     cursor: pointer;
 
+    @include mq('sm'){ display: none; }
+
     .linux-foundation-logo {
       width: rem(300);
       img { width: inherit; }
-
-      @include mq('sm'){
-        width: rem(200);
-        padding-left:rem(10);
-      }
     }
   }
 </style>

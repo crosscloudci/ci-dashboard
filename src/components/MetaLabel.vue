@@ -1,6 +1,7 @@
 <template>
-  <div class="meta-label" :class="currentState" v-on:click="gotoURL()">
-    <span>{{ this.$props.label }}</span>
+  <div class="meta-label" :class="currentState">
+    <div class="click-zone" v-on:click="gotoURL()"></div>
+    <span><i class="mobile-only fa fa-circle"></i>{{ this.$props.label }}</span>
   </div>
 </template>
 
@@ -38,7 +39,6 @@ export default {
   padding: rem(5);
   position: relative;
 
-  &:hover { text-decoration: underline; }
   &:hover .tool-tip { display: block; }
 
   &.mobile {
@@ -48,25 +48,15 @@ export default {
       text-align: center;
       margin: 0;
       margin-left: rem(5);
+      font-size: rem(14);
+      color: $black;
 
-      &.success {
-        background: $green;
-        color: $white;
-        padding: rem(5) rem(10);
-        font-size: rem(14);
-      }
-      &.running {
-        background: $blue;
-        color: $white;
-        padding: rem(5) rem(10);
-        font-size: rem(14);
-      }
-      &.failed {
-        background: $red;
-        color: $white;
-        padding: rem(5) rem(10);
-        font-size: rem(14);
-      }
+      i.fa { display: inline-block; margin-right: rem(5)}
+
+      &.success i.fa { color: $green; }
+      &.failed i.fa { color: $red; }
+      &.running i.fa { color: $blue; }
+
     }
   }
 }

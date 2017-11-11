@@ -37,6 +37,23 @@ body {
   .fbox { @include fbox(1); }
 }
 
+.mobile-only {
+  display: none;
+  @include mq('sm') { display: block; }
+}
+
+.click-zone {
+  position: absolute;
+  background: $trans;
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  @include mq('sm') {
+    display: none;
+  }
+}
+
 // Typography
 .bold { font-weight: bold }
 .italic { font-style: italic; }

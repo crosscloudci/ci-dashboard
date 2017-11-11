@@ -1,5 +1,6 @@
 <template>
-  <div class="project-flag" v-on:click="gotoURL()">
+  <div class="project-flag">
+    <div class="click-zone" v-on:click="gotoURL()"></div>
     <div class="wrapper">
       <div class="icon">
         <img :src="this.$props.icon"/>
@@ -43,6 +44,7 @@ export default {
   .project-flag {
     cursor: pointer;
     @include mq('md') { min-width: rem(240) }
+    position: relative;
 
     .wrapper {
       @include flex-container;
@@ -63,8 +65,9 @@ export default {
           width: rem(25);
           height: rem(25);
           position: relative;
-          top: rem(5);
-          left: rem(5);
+          top: rem(8);
+          left: rem(10);
+          margin-right: rem(10);
         }
 
         img { width: inherit; }

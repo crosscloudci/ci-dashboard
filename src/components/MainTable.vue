@@ -29,7 +29,7 @@
 
         <tbody>
           <!-- <tr v-for="project in this.$props.projects"> -->
-          <tr v-for="project in projects">
+          <tr v-for="project in projects" v-on:click="$event.currentTarget.classList.toggle('open')">
             <td class="project-column">
               <div class="project-box">
 
@@ -47,7 +47,7 @@
               </div>
             </td>
 
-            <td class="build-column">
+            <td :class="['build-column', isOpen? 'open' : '' ]">
               <label>Build Status</label>
               <StatusBadge :state="demoState1" url="https://gitlab.cncf.ci/kubernetes/kubernetes/-/jobs/25754"/>
               <StatusBadge :state="demoState2" url="http://github.com/cncf/cross-cloud"/>
@@ -86,7 +86,8 @@ export default {
     return {
       demoStateTypes: ['success', 'running', 'failed'],
       windowWidth: 0,
-      scrolled: false
+      scrolled: false,
+      isOpen: false
     }
   },
   beforeDestroy: function () {
@@ -107,8 +108,10 @@ export default {
     getWindowWidth (event) {
       this.windowWidth = document.documentElement.clientWidth
     },
-    toggleDeploymentPane (event) {
-      this.isOpen = !this.isOpen
+    toggleDeploymentPane () {
+      // this.isOpen = !this.isOpen
+
+      // console.log('djkjs ', event.currentTarget.toggle('open'))
     },
     handleScroll (event) {
       this.scrolled = window.scrollY > 0
@@ -289,6 +292,7 @@ export default {
           }
 
           td.deployment-column,
+
           td.build-column {
             @include flex-container;
             background: $light;
@@ -320,6 +324,10 @@ export default {
           }
         }
       }
+    }
+
+    #main-table table tbody tr.open td.build-column {
+      display: block;
     }
   }
 </style>
