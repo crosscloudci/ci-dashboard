@@ -61,10 +61,12 @@
               <MetaLabel label="1f53329" url="https://github.com/kubernetes/kubernetes/commit/1f53329c674e427264546247da1ae35c0826cbfd" :class="[demoState3, respondToBrowser]"/>
             </td>
 
-            <td class="deployment-column" v-for="deployment in project.deployments">
-              <label>{{deployment}}</label>
-              <StatusBadge :state="demoState3" url="https://gitlab.cncf.ci/cncf/cross-cloud/-/jobs/25463"/>
-              <StatusBadge :state="demoState1" url="http://google.com"/>
+            <td class="build-column" v-for="deployment in project.deployments">
+              <div class="deployment-details">
+                <label>{{deployment}}</label>
+                <StatusBadge :state="demoState3" url="https://gitlab.cncf.ci/cncf/cross-cloud/-/jobs/25463"/>
+                <StatusBadge :state="demoState1" url="http://google.com"/>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -244,8 +246,17 @@ export default {
 
             &.build-column {
 
-              .build-details {
+              @include mq('sm') {
+                @include flex-container;
+                background: $light;
+                padding: rem(10);
+                display: none;
+              }
+
+              .build-details,
+              .deployment-details {
                 @include mq('sm') {
+                  @include flex-container;
                   padding-top: rem(20);
                   padding-bottom: rem(10);
                   margin-top: rem(20);
@@ -254,7 +265,15 @@ export default {
                 }
               }
 
-
+              .deployment-details {
+                @include mq('sm') {
+                  padding-top: 0;
+                  padding-bottom: 0;
+                  margin-top: 0;
+                  border-top: none;
+                  border-bottom: none;
+                }
+              }
 
               .build-links {
                 @include mq('sm') {
@@ -264,16 +283,20 @@ export default {
 
               label {
                 @include mq('sm') {
+                  display: block;
                   width: 60%;
-                  display: inline-block;
                 }
               }
+
               .status-badge {
                 margin: auto;
                 margin-bottom: rem(10);
 
                 @include mq('sm') {
                   display: inline-block;
+                  width: rem(70);
+                  margin: 0 0 0 rem(5);
+
                 }
 
               }
@@ -281,22 +304,11 @@ export default {
               label,
               .status-badge {
                 @include mq('sm') {
-                  @include fbox(1);
+                  @include fbox();
                 }
               }
             }
 
-            &.deployment-column {}
-
-            &.build-column,
-            &.deployment-column {
-              @include mq('sm') {
-                @include flex-container;
-                background: $light;
-                padding: rem(20);
-                display: none;
-              }
-            }
 
             &.release-column {
 
@@ -320,8 +332,7 @@ export default {
           }
 
           &.open {
-            td.build-column,
-            td.deployment-column {
+            td.build-column {
               display: block;
             }
           }
