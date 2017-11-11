@@ -292,7 +292,6 @@ export default {
           }
 
           td.deployment-column,
-
           td.build-column {
             @include flex-container;
             background: $light;
@@ -326,8 +325,11 @@ export default {
       }
     }
 
-    #main-table table tbody tr.open td.build-column {
-      display: block;
+    #main-table table tbody tr.open {
+      td.build-column,
+      td.deployment-column {
+        display: block;
+      }
     }
   }
 </style>
