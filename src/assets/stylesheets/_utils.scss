@@ -49,9 +49,9 @@ body {
   height: 100%;
   display: block;
 
-  @include mq('sm') {
-    display: none;
-  }
+  // @include mq('sm') {
+  //   display: none;
+  // }
 }
 
 // Typography

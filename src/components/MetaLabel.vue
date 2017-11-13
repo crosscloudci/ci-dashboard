@@ -51,7 +51,11 @@ export default {
       font-size: rem(14);
       color: $black;
 
-      i.fa { display: inline-block; margin-right: rem(5)}
+      i.fa {
+        display: inline-block;
+        margin-right: rem(5);
+        font-size: rem(15);
+      }
 
       &.success i.fa { color: $green; }
       &.failed i.fa { color: $red; }

@@ -44,9 +44,9 @@
             <td :class="['build-column', isOpen? 'open' : '' ]">
 
               <div class="build-links mobile-only">
-                <span>github link</span>
-                <span>Stable</span>
-                <span>HEAD</span>
+                <span>Github <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
+                <span>Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
+                <span>HEAD <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
               </div>
 
               <div class="build-details">
@@ -77,72 +77,72 @@
 </template>
 
 <script>
-import array from '../lib/Array'
-import ProjectFlag from './ProjectFlag'
-import MetaLabel from './MetaLabel'
-import StatusBadge from './StatusBadge'
-import {mapGetters} from 'vuex'
+  import array from '../lib/Array'
+  import ProjectFlag from './ProjectFlag'
+  import MetaLabel from './MetaLabel'
+  import StatusBadge from './StatusBadge'
+  import {mapGetters} from 'vuex'
 
-export default {
-  name: 'main-table',
-  components: {ProjectFlag, StatusBadge, MetaLabel},
-  data: function () {
-    return {
-      demoStateTypes: ['success', 'running', 'failed'],
-      windowWidth: 0,
-      scrolled: false,
-      isOpen: false
-    }
-  },
-  beforeDestroy: function () {
-    window.removeEventListener('resize', this.getWindowWidth)
-    window.removeEventListener('scroll', this.handleScroll)
-  },
-  beforeMount: function () {
-  },
-  mounted: function () {
-    this.$nextTick(function () {
-      window.addEventListener('resize', this.getWindowWidth)
-      window.addEventListener('scroll', this.handleScroll)
-      this.getWindowWidth()
-    })
-  },
-  methods: {
-    getWindowWidth (event) {
-      this.windowWidth = document.documentElement.clientWidth
-    },
-
-    handleScroll (event) {
-      this.scrolled = window.scrollY > 0
-    }
-  },
-  computed: {
-    // For Demo
-    demoState1: function () {
-      return array.random(this.demoStateTypes)
-    },
-    demoState2: function () {
-      return array.random(this.demoStateTypes)
-    },
-    demoState3: function () {
-      return array.random(this.demoStateTypes)
-    },
-    respondToBrowser: function () {
-      if (this.windowWidth <= '639') {
-        return 'mobile'
-      } else {
-        return ''
+  export default {
+    name: 'main-table',
+    components: {ProjectFlag, StatusBadge, MetaLabel},
+    data: function () {
+      return {
+        demoStateTypes: ['success', 'running', 'failed'],
+        windowWidth: 0,
+        scrolled: false,
+        isOpen: false
       }
     },
-    ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds' })
-  },
-  created () {
-    this.$store.dispatch('connectToSocket')
-    // this.$store.dispatch('getAllProjects')
-    this.$store.dispatch('getAllClouds')
-    // this.$store.dispatch('getAllPipelines')
+    beforeDestroy: function () {
+      window.removeEventListener('resize', this.getWindowWidth)
+      window.removeEventListener('scroll', this.handleScroll)
+    },
+    beforeMount: function () {
+    },
+    mounted: function () {
+      this.$nextTick(function () {
+        window.addEventListener('resize', this.getWindowWidth)
+        window.addEventListener('scroll', this.handleScroll)
+        this.getWindowWidth()
+      })
+    },
+    methods: {
+      getWindowWidth (event) {
+        this.windowWidth = document.documentElement.clientWidth
+      },
+
+      handleScroll (event) {
+        this.scrolled = window.scrollY > 0
+      }
+    },
+    computed: {
+      // For Demo
+      demoState1: function () {
+        return array.random(this.demoStateTypes)
+      },
+      demoState2: function () {
+        return array.random(this.demoStateTypes)
+      },
+      demoState3: function () {
+        return array.random(this.demoStateTypes)
+      },
+      respondToBrowser: function () {
+        if (this.windowWidth <= '639') {
+          return 'mobile'
+        } else {
+          return ''
+        }
+      },
+      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds' })
+    },
+    created () {
+      this.$store.dispatch('connectToSocket')
+      // this.$store.dispatch('getAllProjects')
+      this.$store.dispatch('getAllClouds')
+      // this.$store.dispatch('getAllPipelines')
+    }
   }
-}
 
 </script>
 
@@ -241,6 +241,16 @@ export default {
             &.project-column {
               .project-box {
                 position: relative;
+
+                @include mq('sm') {
+                  .project-flag {
+                    .click-zone {
+                      top: rem(50);
+                      width: 25%;
+                      display: none;
+                    }
+                  }
+                }
               }
             }
 
@@ -257,27 +267,39 @@ export default {
               .deployment-details {
                 @include mq('sm') {
                   @include flex-container;
-                  padding-top: rem(20);
-                  padding-bottom: rem(10);
-                  margin-top: rem(20);
+
+                }
+                .status-badge {
+                  min-width: rem(70);
+                }
+              }
+
+              .build-details {
+                @include mq('sm') {
                   border-top: 1px solid $ccc;
                   border-bottom: 1px solid $ccc;
+                  padding-top: rem(20);
+                  padding-bottom: rem(10);
                 }
               }
 
               .deployment-details {
                 @include mq('sm') {
-                  padding-top: 0;
-                  padding-bottom: 0;
-                  margin-top: 0;
-                  border-top: none;
-                  border-bottom: none;
+
                 }
               }
 
               .build-links {
                 @include mq('sm') {
-
+                  @include flex-container;
+                  padding: rem(10) 0;
+                  margin-bottom: rem(10);
+                  span {
+                    @include fbox(1);
+                    &:first-child { width: 55% }
+                    &:nth-child(2) { width: rem(75) }
+                    &:nth-child(3) { width: rem(75) }
+                  }
                 }
               }
 
@@ -326,12 +348,29 @@ export default {
                 @include mq('sm') {
                   display: inline-block;
                   margin-bottom: 0;
+                  width: rem(75);
+                  text-align: left;
+
+                  .click-zone {
+                    top: rem(50);
+                    width: rem(75);
+                    display: none;
+                  }
                 }
               }
             }
           }
 
           &.open {
+            td.release-column
+            .meta-label
+            .click-zone { display: block; }
+
+            td.project-column
+            .project-box
+            .project-flag
+            .click-zone { display: block; }
+
             td.build-column {
               display: block;
             }
