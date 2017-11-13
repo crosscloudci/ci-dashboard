@@ -162,6 +162,8 @@
 
     table {
       width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
 
       @include mq('sm') {
         width: 100%;
@@ -175,15 +177,31 @@
 
           th {
             padding: rem(10);
-
             text-align: left;
           }
 
           &.header {
-            @include border-radius;
             text-align: left;
             background: $blue;
             color: $white;
+
+            th:first-child {
+              @include border-radius(15px 0 0 15px);
+              text-indent: rem(50);
+            }
+            th:last-child {
+              @include border-radius(0 15px 15px 0);
+            }
+
+            th:nth-child(2) {
+              text-indent: rem(20);
+            }
+            th:nth-child(3) {
+              text-indent: rem(50);
+            }
+            th:nth-child(4) {
+              text-indent: rem(20);
+            }
           }
 
           &.subheader {
