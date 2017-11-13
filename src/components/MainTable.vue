@@ -36,6 +36,8 @@
                   :icon="project.icon"
                   :title="project.title"
                   :caption="project.caption"/>
+
+                <img class="pipe-gfx" src="../assets/images/pipe-gfx.svg">
               </div>
             </td>
 
@@ -258,7 +260,16 @@
               .project-box {
                 position: relative;
 
+                .pipe-gfx {
+                  position: absolute;
+                  top: rem(-15);
+                  right: rem(-40);
+                  width: rem(80);
+                  height: rem(80);
+                }
+
                 @include mq('sm') {
+                  .pipe-gfx { display: none; }
                   .project-flag {
                     .click-zone {
                       top: rem(50);
