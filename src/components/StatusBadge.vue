@@ -52,6 +52,8 @@ export default {
   padding: rem(2) rem(4);
   width: rem(70);
   @include badge($ccc, $dark);
+  &:hover { background: $ccc; color: $dark; cursor: not-allowed; }
+
   &.success { @include badge($green, $white); }
   &.running { @include badge($blue, $white); }
   &.failed { @include badge($red, $white); }

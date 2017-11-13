@@ -391,6 +391,10 @@
 
             td.build-column {
               display: block;
+
+              @include mq('lg') {
+                display: table-cell;
+              }
             }
           }
         }
