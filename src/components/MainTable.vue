@@ -88,7 +88,7 @@
     components: {ProjectFlag, StatusBadge, MetaLabel},
     data: function () {
       return {
-        demoStateTypes: ['success', 'running', 'failed'],
+        demoStateTypes: ['success', 'running', 'failed', '', null],
         windowWidth: 0,
         scrolled: false,
         isOpen: false

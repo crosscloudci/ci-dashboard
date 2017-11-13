@@ -11,8 +11,11 @@
       <span class="icon" v-else-if="currentState === 'failed'">
         <i class="fa fa-exclamation-circle"></i>
       </span>
+      <span class="icon" v-else-if="currentState === 'N/A'">
+        <i class="fa fa-ellipsis-h"></i>
+      </span>
       <span class="icon" v-else>
-        <i class="fa fa-check"></i>
+        <i class="fa fa-ellipsis-h"></i>
       </span>
 
       <span class="label">{{ currentState }}</span>
@@ -48,11 +51,11 @@ export default {
   position: relative;
   padding: rem(2) rem(4);
   width: rem(70);
-
+  @include badge($ccc, $dark);
   &.success { @include badge($green, $white); }
   &.running { @include badge($blue, $white); }
   &.failed { @include badge($red, $white); }
-  &:hover .tool-tip { display: block; }
+  // &:hover .tool-tip { display: block; }
 
   .badge {
     .icon,
