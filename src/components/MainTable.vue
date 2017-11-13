@@ -19,11 +19,9 @@
             <th  v-for="cloud in clouds">
               <span>{{cloud.name}}</span>
             </th>
-            <th><span>Azure</span></th>
-            <th><span>Bluemix</span></th>
-            <th><span>GCE</span></th>
-            <th><span>GKE</span></th>
-            <th><span>Packet</span></th>
+
+            <th v-for="project in projects[0]['deployments']"><span>{{project}}</span></th>
+
           </tr>
         </thead>
 
@@ -393,6 +391,9 @@
               display: block;
 
               @include mq('lg') {
+                display: table-cell;
+              }
+              @include mq('md') {
                 display: table-cell;
               }
             }
