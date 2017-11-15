@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function usage() {
+  echo "$(basename $0)"
+}
+
+if [ -z "$API_URL" ] ; then
+  echo "Set API_URL environment variable, then run:"
+  usage
+  exit 1
+fi
+
+dev_config_file="config/dev.env.js"
+prod_config_file="config/prod.env.js"
+
+if [ ! -f "$dev_config_file" ] ; then
+  cat <<-EOF> $dev_config_file
+var merge = require('webpack-merge')
+var prodEnv = require('./prod.env')
+
+module.exports = merge(prodEnv, {
+  NODE_ENV: '"development"',
+    API_URL: '"$API_URL"'
+  })
+EOF
+elif [ ! -f "$prod_config_file" ] ; then
+  cat <<-EOF> $prod_config_file
+module.exports = {
+  NODE_ENV: '"production"',
+    API_URL: '"$API_URL"'
+    }
+EOF
+fi
