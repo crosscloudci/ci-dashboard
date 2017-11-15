@@ -16,14 +16,14 @@ const actions = {
   getAllProjects ({ commit }) {
     api.getDashboard().then((response) => {
       let projects = response.data.dashboard.projects
-      commit(types.RECEIVE_DASHBOARD, { projects })
+      commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
     })
   }
 }
 
 // mutations
 const mutations = {
-  [types.RECEIVE_DASHBOARD] (state, { projects }) {
+  [types.RECEIVE_DASHBOARD_PROJECTS] (state, { projects }) {
     state.projects = projects
   }
 }

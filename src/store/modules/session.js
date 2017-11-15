@@ -29,7 +29,9 @@ const actions = {
     .receive('ok', (response) => {
       (response) => { console.log('channel tings' + response) }
       let projects = response.reply.projects
-      commit(types.RECEIVE_DASHBOARD, { projects })
+      let clouds = response.reply.clouds
+      commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
+      commit(types.RECEIVE_CLOUDS, { clouds })
       // commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { response })
     })
   },
