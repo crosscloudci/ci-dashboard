@@ -36,9 +36,17 @@ COPY test/  /dashboard/test/
 
 COPY vendor/  /dashboard/vendor/
 
+COPY bin/ /dashboard/bin
+RUN chmod +x /dashboard/bin/create_env_js
+
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
 WORKDIR /dashboard
 
 RUN npm install
 
-CMD ["npm", "run", "dev"]
+#CMD ["npm", "run", "dev"]
+
+ENTRYPOINT ["/entrypoint.sh"]
 

@@ -8,6 +8,19 @@ Dashboard front-end for the [CNCF CI Project](https://github.com/cncf/cross-clou
 # install dependencies
 npm install
 
+# Create environment configuration 
+
+Set the environment var API_URL.  (use .env or set manually).  
+
+Use an .env
+ 1. Create .env with `export API_URL=http://<API_SERVER>:<API_PORT>/api"`
+ 1. Load .env with `. .env`
+
+Create config/dev.env.js and config/prod.env.js by running
+```
+./bin/create_env_js
+```
+
 # serve with hot reload at localhost:8080
 npm run dev
 
