@@ -31,7 +31,7 @@
                 <ProjectFlag
                   :url="project.url"
                   :icon="project.icon"
-                  :title="project.title"
+                  :title="project.display_name"
                   :caption="project.caption"/>
 
                 <img class="pipe-gfx" src="../assets/images/pipe-gfx.svg">
