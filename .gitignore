@@ -18,3 +18,4 @@ config/test.env.js
 *.ntvs*
 *.njsproj
 *.sln
+.env
