@@ -1,7 +1,7 @@
 <template>
   <div class="meta-label" :class="currentState">
     <div class="click-zone" v-on:click="gotoURL()"></div>
-    <span><i class="mobile-only fa fa-circle"></i>{{ this.$props.label }}</span>
+    <span><i class="mobile-only fa fa-circle"></i>{{ truncateLabel(this.$props.label) }}</span>
   </div>
 </template>
 
@@ -23,7 +23,13 @@ export default {
   methods: {
     gotoURL () {
       window.open(this.$props.url, '_blank')
+    },
+    truncateLabel (value) {
+      return value.substring(0, 8)
     }
+  },
+  computed: {
+
   }
 }
 </script>
