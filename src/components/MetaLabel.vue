@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import ToolTip from './ToolTip'
 
 export default {
   name: 'meta-label',
@@ -19,13 +18,13 @@ export default {
       currentState: this.$props.state
     }
   },
-  components: {ToolTip},
+  components: { },
   methods: {
     gotoURL () {
       window.open(this.$props.url, '_blank')
     },
     truncateLabel (value) {
-      return value.substring(0, 8)
+      return value.substring(0, 7)
     }
   },
   computed: {

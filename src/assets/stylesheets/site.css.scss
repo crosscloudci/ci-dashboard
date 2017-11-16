@@ -3,16 +3,3 @@
 @import "mixins";
 @import "utils";
 @import "animations";
-
-// Media Query test
-// @include mq('sm') {
-//   body { border-top:5px solid $red; }
-// }
-
-// @include mq('md') {
-//   body { border-top:5px solid $yellow; }
-// }
-
-// @include mq('lg') {
-//   body { border-top:5px solid $green; }
-// }

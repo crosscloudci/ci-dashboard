@@ -1,5 +1,7 @@
 <template>
   <div id="top-banner" v-on:click="gotoURL()">
+    <span>daddy likes tacos</span>
+
     <div class="container">
       <div class="linux-foundation-logo">
         <img src="../assets/images/logo_lf_projects_horizontal.png"/>
