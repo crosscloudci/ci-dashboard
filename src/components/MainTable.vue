@@ -48,8 +48,8 @@
 
               <div class="build-details">
                 <label>Build Status</label>
-                <StatusBadge :state="demoState1" url="https://gitlab.cncf.ci/kubernetes/kubernetes/-/jobs/25754"/>
-                <StatusBadge :state="demoState2" url="http://github.com/cncf/cross-cloud"/>
+                <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/>
+                <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/>
               </div>
 
             </td>
@@ -91,7 +91,61 @@
     beforeDestroy: function () {},
     beforeMount: function () {},
     mounted: function () {},
-    methods: {},
+    methods: {
+      StableStatus: function (arg) {
+        var status = 'N/A'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) { status = j.status }
+            })
+          }
+        })
+
+        return status
+      },
+      HeadStatus: function (arg) {
+        var status = 'N/A'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) { status = j.status }
+            })
+          }
+        })
+
+        return status
+      },
+      StableURL: function (arg) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) {
+                url = j.url
+                console.log(url)
+              }
+            })
+          }
+        })
+        return url
+      },
+      HeadURL: function (arg) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'head') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) {
+                url = j.url
+                console.log(url)
+              }
+            })
+          }
+        })
+
+        return url
+      }
+    },
     computed: {
       // For Demo
       demoState1: function () {
