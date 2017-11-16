@@ -38,7 +38,7 @@
               </div>
             </td>
 
-            <td :class="['build-column', isOpen? 'open' : '' ]">
+            <td class="build-column">
 
               <div class="build-links mobile-only">
                 <span>Github <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
@@ -60,7 +60,7 @@
 
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
-                <label>{{deployment}}</label>
+                <label>{{deployment.cloud_name}}</label>
                 <StatusBadge :state="demoState3" url="https://gitlab.cncf.ci/cncf/cross-cloud/-/jobs/25463"/>
                 <StatusBadge :state="demoState1" url="http://google.com"/>
               </div>
@@ -85,34 +85,13 @@
     components: {ProjectFlag, StatusBadge, MetaLabel},
     data: function () {
       return {
-        demoStateTypes: ['success', 'running', 'failed', '', null],
-        windowWidth: 0,
-        scrolled: false,
-        isOpen: false
+        demoStateTypes: ['success', 'running', 'failed', '', null]
       }
     },
-    beforeDestroy: function () {
-      window.removeEventListener('resize', this.getWindowWidth)
-      window.removeEventListener('scroll', this.handleScroll)
-    },
-    beforeMount: function () {
-    },
-    mounted: function () {
-      this.$nextTick(function () {
-        window.addEventListener('resize', this.getWindowWidth)
-        window.addEventListener('scroll', this.handleScroll)
-        this.getWindowWidth()
-      })
-    },
-    methods: {
-      getWindowWidth (event) {
-        this.windowWidth = document.documentElement.clientWidth
-      },
-
-      handleScroll (event) {
-        this.scrolled = window.scrollY > 0
-      }
-    },
+    beforeDestroy: function () {},
+    beforeMount: function () {},
+    mounted: function () {},
+    methods: {},
     computed: {
       // For Demo
       demoState1: function () {
@@ -123,13 +102,6 @@
       },
       demoState3: function () {
         return array.random(this.demoStateTypes)
-      },
-      respondToBrowser: function () {
-        if (this.windowWidth <= '639') {
-          return 'mobile'
-        } else {
-          return ''
-        }
       },
       ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds' })
     },

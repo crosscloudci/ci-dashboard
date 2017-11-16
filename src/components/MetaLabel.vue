@@ -41,27 +41,25 @@ export default {
 
   &:hover .tool-tip { display: block; }
 
-  &.mobile {
-    @include mq('sm') {
-      @include fbox;
-      @include border-radius;
-      text-align: center;
-      margin: 0;
-      margin-left: rem(5);
-      font-size: rem(14);
-      color: $black;
+  @include mq('sm') {
+    @include fbox;
+    @include border-radius;
+    text-align: center;
+    margin: 0;
+    margin-left: rem(5);
+    font-size: rem(14);
+    color: $black;
 
-      i.fa {
-        display: inline-block;
-        margin-right: rem(5);
-        font-size: rem(15);
-      }
-
-      &.success i.fa { color: $green; }
-      &.failed i.fa { color: $red; }
-      &.running i.fa { color: $blue; }
-
+    i.fa {
+      display: inline-block;
+      margin-right: rem(5);
+      font-size: rem(15);
     }
+
+    &.success i.fa { color: $green; }
+    &.failed i.fa { color: $red; }
+    &.running i.fa { color: $blue; }
+
   }
 }
 </style>
