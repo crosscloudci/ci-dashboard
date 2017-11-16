@@ -20,9 +20,9 @@ COPY package.json  /dashboard/
 
 COPY config/  /dashboard/config/
 
-COPY Dockerfiles/prod.env  /dashboard/config/
+#COPY Dockerfiles/prod.env  /dashboard/config/
 
-COPY Dockerfiles/dev.env  /dashboard/config/
+#COPY Dockerfiles/dev.env  /dashboard/config/
 
 COPY build/  /dashboard/build/
 
