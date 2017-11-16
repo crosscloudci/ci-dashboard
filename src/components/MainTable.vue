@@ -16,11 +16,8 @@
             <th><span>Status</span></th>
 
             <th ><span>Stable<br/>Head</span></th>
-            <th  v-for="cloud in clouds">
-              <span>{{cloud.name}}</span>
-            </th>
 
-            <th v-for="project in projects[0]['deployments']"><span>{{project}}</span></th>
+            <th v-for="cloud in clouds"><span>{{cloud.cloud_name}}</span></th>
 
           </tr>
         </thead>
@@ -61,7 +58,7 @@
               <MetaLabel label="1f53329" url="https://github.com/kubernetes/kubernetes/commit/1f53329c674e427264546247da1ae35c0826cbfd" :class="[demoState3, respondToBrowser]"/>
             </td>
 
-            <td class="build-column" v-for="deployment in project.deployments">
+            <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
                 <label>{{deployment}}</label>
                 <StatusBadge :state="demoState3" url="https://gitlab.cncf.ci/cncf/cross-cloud/-/jobs/25463"/>
