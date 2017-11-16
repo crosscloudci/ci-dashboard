@@ -41,3 +41,21 @@ npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+### docker
+
+```
+. .env
+docker build -t $DOCKER_IMAGE .
+```
+
+Then use docker
+```
+ docker run -p $PORT:$PORT -e API_URL=$API_URL -e PORT=$PORT -ti cncf-ci-dashboard
+```
+
+or docker-compose
+
+```
+. .env ; docker-compose -p Frontend up 
+```

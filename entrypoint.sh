@@ -3,4 +3,4 @@
 cd /dashboard
 ./bin/create_env_js
 
-HOST=0.0.0.0 PORT=8080 npm run dev
+HOST=$NODE_HOST PORT=$NODE_PORT npm run dev
