@@ -24,11 +24,10 @@
 </template>
 
 <script>
-import ToolTip from './ToolTip'
 export default {
   name: 'status-badge',
   props: ['url', 'state'],
-  components: {ToolTip},
+  components: {},
   data () {
     return {
       currentState: this.$props.state
