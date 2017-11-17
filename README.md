@@ -59,3 +59,8 @@ or docker-compose
 ```
 . .env ; docker-compose -p Frontend up 
 ```
+
+# Deploy using Helm 
+```
+helm install --name frontend cncf/frontend --set imagePullSecrets=regsecret --set ingress.host=staging.cncf.ci --set ingress.port=8080 --set api.url=http://backend:4001/api --set node.port=8080 --set node.host=0.0.0.0
+```

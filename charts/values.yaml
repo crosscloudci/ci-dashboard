@@ -1,0 +1,41 @@
+# Default values for backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+name: frontend
+
+image:
+  repository: registry.cncf.ci/cncf/cncf-ci-dashboard
+  tag: "latest"
+  secret: SET DOCKER SECRET
+  pullPolicy: Always
+  imagePullSecrets: SET NAME FOR PRIVATE REG
+
+ingress:
+  host: Set External Domain
+  port: Set Forwarding port
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2028Mi
+  requests:
+    cpu: 2000m
+    memory: 2028Mi
+
+# isClusterService specifies whether chart should be deployed as cluster-service or normal k8s app.
+isClusterService: true
+
+# serviceType specifies type of service to be created for this chart.
+serviceType: "ClusterIP"
+
+api:
+  url: SET URL TO API/BACKEND
+
+node:
+  port: SET PORT
+  host: SET HOST
+
+

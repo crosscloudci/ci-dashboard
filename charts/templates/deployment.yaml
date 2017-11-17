@@ -1,0 +1,62 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    {{- if .Values.isClusterService }}
+    k8s-app: {{ .Chart.Name | quote }}
+    kubernetes.io/cluster-service: "true"
+    kubernetes.io/name: "Frontend"
+    {{- else }}
+    app: {{ .Values.name }}
+    {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- if .Values.isClusterService }}
+      k8s-app: {{ .Chart.Name | quote }}
+      {{- else }}
+      app: {{ .Values.name }}
+      {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- if .Values.isClusterService }}
+        k8s-app: {{ .Chart.Name | quote }}
+        {{- else }}
+        app: {{ .Values.name }}
+        {{- end }}
+        release: {{ .Release.Name | quote }}
+      annotations:
+        {{- if .Values.isClusterService }}
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+        scheduler.alpha.kubernetes.io/tolerations: '[{"key":"CriticalAddonsOnly", "operator":"Exists"}]'
+        {{- end }}
+    spec:
+      containers:
+      - name: "{{ .Values.name }}"
+        env:
+        - name: API_URL
+          value: {{ .Values.api.url }}
+        - name: NODE_PORT
+          value: "{{ .Values.node.port }}"
+        - name: NODE_HOST
+          value: "{{ .Values.node.host }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 8080
+          name: frontend
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 180
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 10
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets }}
