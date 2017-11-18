@@ -13,7 +13,7 @@
         </div>
       </header>
 
-      <div id="dashboard-updated">
+      <div id="dashboard-updated" style="display: none;">
         <span class="icon">
           <i class="fa fa-clock-o"></i>
         </span>
