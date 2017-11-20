@@ -54,8 +54,8 @@
 
             </td>
             <td class="release-column">
-              <MetaLabel :label="StableReleaseTag(project)" url="https://github.com/kubernetes/kubernetes/commit/bdaeafa71f6c7c04636251031f93464384d54963" :class="demoState1"/>
-              <MetaLabel :label="HeadReleaseTag(project)" url="https://github.com/kubernetes/kubernetes/commit/1f53329c674e427264546247da1ae35c0826cbfd" :class="demoState3"/>
+              <MetaLabel :label="StableReleaseTag(project)" :url="StableReleaseURL(project)"/>
+              <MetaLabel :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)"/>
             </td>
 
             <td class="build-column" v-for="deployment in clouds">
@@ -158,6 +158,24 @@
           }
         })
 
+        return url
+      },
+      StableReleaseURL: function (arg) {
+        let url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            url = arg.repository_url + `/commit/${pl.head_commit}`
+          }
+        })
+        return url
+      },
+      HeadReleaseURL: function (arg) {
+        let url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'head') {
+            url = arg.repository_url + `/commit/${pl.head_commit}`
+          }
+        })
         return url
       },
       StableReleaseTag: function (arg) {
