@@ -15,7 +15,7 @@
             <th></th>
             <th><span>Status</span></th>
 
-            <th ><span>Stable<br/>Head</span></th>
+            <th><span>Stable</span><span>Head</span></th>
 
             <th v-for="cloud in clouds"><span>{{cloud.cloud_name}}</span></th>
 
@@ -228,11 +228,11 @@
           }
 
           &.subheader {
-            text-align: left;
 
             th {
               padding: rem(10);
-              text-align: center;
+              text-align: left;
+              text-indent: rem(20);
               position: relative;
 
               &:before {
@@ -247,6 +247,7 @@
               }
 
               &:last-child:before { border:0; }
+              &:nth-child(3) { text-indent: rem(50); }
 
               span {
                 background: $white;
@@ -361,7 +362,7 @@
               }
 
               .status-badge {
-                margin: auto;
+                margin-left: rem(20);
                 margin-bottom: rem(10);
 
                 @include mq('sm') {
@@ -393,8 +394,11 @@
               .meta-label {
                 margin: auto;
                 margin-bottom: rem(10);
-                text-align: center;
+                text-align: left;
 
+                @include mq('lg') {
+                  text-indent: rem(55);
+                }
                 @include mq('sm') {
                   display: inline-block;
                   margin-bottom: 0;
