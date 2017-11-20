@@ -23,7 +23,8 @@ module.exports = merge(prodEnv, {
     API_URL: '"$API_URL"'
   })
 EOF
-elif [ ! -f "$prod_config_file" ] ; then
+fi
+if [ ! -f "$prod_config_file" ] ; then
   cat <<-EOF> $prod_config_file
 module.exports = {
   NODE_ENV: '"production"',
