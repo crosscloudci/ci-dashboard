@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function usage() {
-  echo "$(basename $0)"
+  echo "$(basename $0) [-f]"
 }
 
 if [ -z "$API_URL" ] ; then
@@ -10,10 +10,16 @@ if [ -z "$API_URL" ] ; then
   exit 1
 fi
 
+OVERWRITE_CONF=0
+
+if [ "$1" = "-f" ] ; then
+  OVERWRITE_CONF=1
+fi
+
 dev_config_file="config/dev.env.js"
 prod_config_file="config/prod.env.js"
 
-if [ ! -f "$dev_config_file" ] ; then
+if [ ! -f "$dev_config_file" -a "$OVERWRITE_CONF" = 1 ] ; then
   cat <<-EOF> $dev_config_file
 var merge = require('webpack-merge')
 var prodEnv = require('./prod.env')
@@ -24,7 +30,8 @@ module.exports = merge(prodEnv, {
   })
 EOF
 fi
-if [ ! -f "$prod_config_file" ] ; then
+
+if [ ! -f "$prod_config_file" -a "$OVERWRITE_CONF" = 1 ] ; then
   cat <<-EOF> $prod_config_file
 module.exports = {
   NODE_ENV: '"production"',
