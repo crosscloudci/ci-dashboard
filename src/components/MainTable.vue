@@ -54,8 +54,8 @@
 
             </td>
             <td class="release-column">
-              <MetaLabel label="v1.8.2" url="https://github.com/kubernetes/kubernetes/commit/bdaeafa71f6c7c04636251031f93464384d54963" :class="demoState1"/>
-              <MetaLabel label="1f53329" url="https://github.com/kubernetes/kubernetes/commit/1f53329c674e427264546247da1ae35c0826cbfd" :class="demoState3"/>
+              <MetaLabel :label="StableReleaseTag(project)" url="https://github.com/kubernetes/kubernetes/commit/bdaeafa71f6c7c04636251031f93464384d54963" :class="demoState1"/>
+              <MetaLabel :label="HeadReleaseTag(project)" url="https://github.com/kubernetes/kubernetes/commit/1f53329c674e427264546247da1ae35c0826cbfd" :class="demoState3"/>
             </td>
 
             <td class="build-column" v-for="deployment in clouds">
@@ -160,35 +160,27 @@
 
         return url
       },
-      stableReleaseTag: function (arg) {
-        var url = '#'
+      StableReleaseTag: function (arg) {
+        let ref = '#'
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            pl.jobs.forEach(function (j) {
-              if (j.order === 1) {
-                url = j.url
-                console.log(url)
-              }
-            })
+          if (pl.release_type === 'stable') {
+            ref = pl.ref
           }
         })
 
-        return url
+        return ref
       },
-      headReleaseTag: function (arg) {
-        var url = '#'
+      HeadReleaseTag: function (arg) {
+        let headCommit = '#'
         arg.pipelines.forEach(function (pl) {
+          // debugger
           if (pl.release_type === 'head') {
-            pl.jobs.forEach(function (j) {
-              if (j.order === 1) {
-                url = j.url
-                console.log(url)
-              }
-            })
+            // debugger
+            headCommit = pl.head_commit
           }
         })
 
-        return url
+        return headCommit
       }
     },
     computed: {

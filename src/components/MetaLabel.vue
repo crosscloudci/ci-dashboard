@@ -1,5 +1,5 @@
 <template>
-  <div class="meta-label" :class="currentState">
+  <div class="meta-label" :class="this.$props.state">
     <div class="click-zone" v-on:click="gotoURL()"></div>
     <span><i class="mobile-only fa fa-circle"></i>{{ truncateLabel(this.$props.label) }}</span>
   </div>
@@ -10,7 +10,7 @@
 export default {
   name: 'meta-label',
   props: {
-    label: { type: String, required: true, default: '...' },
+    label: { type: String, required: true, default: 'N/A' },
     url: { type: String, required: true, default: '#' }
   },
   data () {
