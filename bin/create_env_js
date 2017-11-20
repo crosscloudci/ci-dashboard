@@ -19,7 +19,8 @@ fi
 dev_config_file="config/dev.env.js"
 prod_config_file="config/prod.env.js"
 
-if [ ! -f "$dev_config_file" -a "$OVERWRITE_CONF" = 1 ] ; then
+if [ ! -f "$dev_config_file" -o "$OVERWRITE_CONF" = 1 ] ; then
+  echo "Creating $dev_config_file"
   cat <<-EOF> $dev_config_file
 var merge = require('webpack-merge')
 var prodEnv = require('./prod.env')
@@ -31,7 +32,8 @@ module.exports = merge(prodEnv, {
 EOF
 fi
 
-if [ ! -f "$prod_config_file" -a "$OVERWRITE_CONF" = 1 ] ; then
+if [ ! -f "$prod_config_file" -o "$OVERWRITE_CONF" = 1 ] ; then
+  echo "Creating $prod_config_file"
   cat <<-EOF> $prod_config_file
 module.exports = {
   NODE_ENV: '"production"',
