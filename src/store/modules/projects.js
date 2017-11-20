@@ -58,7 +58,11 @@ const mutations = {
   },
   [types.RECEIVE_DASHBOARD_PROJECTS] (state, { projects }) {
   // state.projects = Object.assign({}, state.projects, newGroups);
-    state.projects = projects
+    let newProjects = projects
+    newProjects.sort(function (a, b) {
+      return a.order - b.order
+    })
+    state.projects = newProjects
     // the good stuff for later
     // let projectArray = []
     // let projectArray = state.projects.slice()
