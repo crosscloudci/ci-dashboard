@@ -1,0 +1,46 @@
+#!/bin/bash
+
+
+if [ -z "$API_HOST" ] ; then
+  export API_HOST=dev.vulk.co:4019
+fi
+
+echo -e "\nCoreDNS head" ;  curl -qL -H 'Content-Type: application/json' -X POST -d '{
+  "source_key_project_monitor":
+    {
+      "source_project_id":"9",
+      "source_pipeline_id":"2988",
+      "pipeline_release_type":"head",
+      "source_pipeline_job_id":"31967"
+    }
+}' http://$API_HOST/api/source_key_project_monitor
+
+echo -e "\nPrometheus head" ; curl -qL -H 'Content-Type: application/json' -X POST -d '{                                      
+  "source_key_project_monitor":
+    {
+      "source_project_id":"20",
+      "source_pipeline_id":"2990",
+      "pipeline_release_type":"head",
+      "source_pipeline_job_id":"31973"
+    }
+}' http://$API_HOST/api/source_key_project_monitor
+
+echo -e "\nKubernetes head" ; curl -qL -H 'Content-Type: application/json' -X POST -d '{                                      
+  "source_key_project_monitor":
+    {
+      "source_project_id":"14",
+      "source_pipeline_id":"2989",
+      "pipeline_release_type":"head",                                                                                                              
+      "source_pipeline_job_id":"31970"
+    }
+}' http://$API_HOST/api/source_key_project_monitor 
+
+echo -e '\nKubernetes stable' ;  curl -qL -H 'Content-Type: application/json' -X POST -d '{
+  "source_key_project_monitor":
+    {
+      "source_project_id":"14",
+      "source_pipeline_id":"2993",
+      "pipeline_release_type":"stable",
+      "source_pipeline_job_id":"31982"
+    }
+}' http://$API_HOST/api/source_key_project_monitor
