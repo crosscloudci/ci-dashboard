@@ -24,7 +24,7 @@
 
         <tbody>
           <!-- <tr v-for="project in this.$props.projects"> -->
-          <tr v-for="project in projects" v-on:click="$event.currentTarget.classList.toggle('open')">
+          <tr v-for="project in projects" :key="project.order" v-on:click="$event.currentTarget.classList.toggle('open')">
             <td class="project-column">
               <div class="project-box">
 
@@ -90,9 +90,29 @@
     },
     beforeDestroy: function () {},
     beforeMount: function () {},
-    mounted: function () {},
+    mounted: function () {
+      const channel = this.$store.getters.socket.channel('dashboard:*', {})
+      channel.on('new_cross_cloud_call', payload => {
+        this.$store.dispatch('updateDashboard', { payload })
+        // let projects = payload.reply.dashboard.projects
+        // let clouds = payload.reply.dashboard.clouds
+        // debugger
+        // this.$store.dispatch('RECEIVE_DASHBOARD_PROJECTS', { projects })
+        // this.$store.dispatch('RECEIVE_CLOUDS', { clouds })
+       // commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
+       // commit(types.RECEIVE_CLOUDS, { clouds })
+        this.$forceUpdate()
+      })
+    },
+    watch: {
+      projects: function (val, oldVal) {
+        console.log('new: %s, old: %s', val, oldVal)
+      }
+      // projects: {function () { return this.projects }, deep: true}
+    },
     methods: {
       StableStatus: function (arg) {
+        // debugger
         var status = 'N/A'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
@@ -106,14 +126,16 @@
       },
       HeadStatus: function (arg) {
         var status = 'N/A'
+        console.log('watch out for this the second time' + JSON.stringify(arg))
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
+          if (pl.release_type === 'head') {
+            console.log('watch out for this the second time for the HEAD pipeline' + pl)
             pl.jobs.forEach(function (j) {
               if (j.order === 1) { status = j.status }
             })
           }
         })
-
+        console.log('head status:' + status)
         return status
       },
       StableURL: function (arg) {
@@ -144,6 +166,36 @@
         })
 
         return url
+      },
+      stableReleaseTag: function (arg) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'head') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) {
+                url = j.url
+                console.log(url)
+              }
+            })
+          }
+        })
+
+        return url
+      },
+      headReleaseTag: function (arg) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'head') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) {
+                url = j.url
+                console.log(url)
+              }
+            })
+          }
+        })
+
+        return url
       }
     },
     computed: {
@@ -157,7 +209,7 @@
       demoState3: function () {
         return array.random(this.demoStateTypes)
       },
-      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds' })
+      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket' })
     },
     created () {
       this.$store.dispatch('connectToSocket')

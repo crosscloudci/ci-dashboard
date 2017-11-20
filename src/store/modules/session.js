@@ -34,7 +34,16 @@ const actions = {
       commit(types.RECEIVE_CLOUDS, { clouds })
       // commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { response })
     })
+    // channel.on('new_cross_cloud_call', (payload) => {
+    //   (payload) => { console.log('channel tings' + payload) }
+    //   let projects = payload.reply.dashboard.projects
+    //   let clouds = payload.reply.dashboard.clouds
+    //   commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
+    //   commit(types.RECEIVE_CLOUDS, { clouds })
+    //   // commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { payload })
+    // })
   },
+
   connectToChannel ({ commit, socket }) {
     if (!socket) { return false }
     const channel = socket.channel('dashboard:*')
