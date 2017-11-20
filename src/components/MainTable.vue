@@ -104,15 +104,8 @@
         this.$forceUpdate()
       })
     },
-    watch: {
-      projects: function (val, oldVal) {
-        console.log('new: %s, old: %s', val, oldVal)
-      }
-      // projects: {function () { return this.projects }, deep: true}
-    },
     methods: {
       StableStatus: function (arg) {
-        // debugger
         var status = 'N/A'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {

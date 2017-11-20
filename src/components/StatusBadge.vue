@@ -1,24 +1,24 @@
 <template>
-  <div class="status-badge" :class="currentState" v-on:click="gotoURL()">
+  <div class="status-badge" :class="this.$props.state" v-on:click="gotoURL()">
     <div class="badge">
 
-      <span class="icon" v-if="currentState === 'success'">
+      <span class="icon" v-if="this.$props.state === 'success'">
         <i class="fa fa-check-circle"></i>
       </span>
-      <span class="icon" v-else-if="currentState === 'running'">
+      <span class="icon" v-else-if="this.$props.state === 'running'">
         <i class="fa fa-circle-o-notch fa-spin"></i>
       </span>
-      <span class="icon" v-else-if="currentState === 'failed'">
+      <span class="icon" v-else-if="this.$props.state === 'failed'">
         <i class="fa fa-exclamation-circle"></i>
       </span>
-      <span class="icon" v-else-if="currentState === 'N/A'">
+      <span class="icon" v-else-if="this.$props.state === 'N/A'">
         <i class="fa fa-ellipsis-h"></i>
       </span>
       <span class="icon" v-else>
         <i class="fa fa-ellipsis-h"></i>
       </span>
 
-      <span class="label">{{ currentState }}</span>
+      <span class="label">{{ this.$props.state }}</span>
     </div>
   </div>
 </template>
@@ -26,7 +26,10 @@
 <script>
 export default {
   name: 'status-badge',
-  props: ['url', 'state'],
+  props: {
+    state: { type: String, required: true, default: '...' },
+    url: { type: String, required: true, default: '#' }
+  },
   components: {},
   data () {
     return {

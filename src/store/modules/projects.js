@@ -59,6 +59,43 @@ const mutations = {
   [types.RECEIVE_DASHBOARD_PROJECTS] (state, { projects }) {
   // state.projects = Object.assign({}, state.projects, newGroups);
     state.projects = projects
+    // the good stuff for later
+    // let projectArray = []
+    // let projectArray = state.projects.slice()
+    // for (var i = 0; i < projects.length; i++) {
+    //   let ary = {
+    //     project_name: projects[i].display_name,
+    //     caption: projects[i].caption,
+    //     url: projects[i].url,
+    //     icon: projects[i].icon,
+    //     build: {
+    //       head: {
+    //         label: projects[i].head_commit,
+    //         status: projects[i].pipelines[1].jobs[0].status,
+    //         url: projects[i].pipelines[1].jobs[0].url
+    //       },
+    //       stable: {
+    //         label: projects[i].head_commit,
+    //         status: projects[i].pipelines[0].jobs[0].status,
+    //         url: projects[i].pipelines[0].jobs[0].url
+    //       }
+    //     },
+    //     release: {
+    //       head: {
+    //         label: projects[i].head_commit,
+    //         status: projects[i].pipelines[0].jobs[0].status,
+    //         url: projects[i].pipelines[0].jobs[0].url
+    //       },
+    //       stable: {
+    //         label: projects[i].head_commit,
+    //         status: projects[i].pipelines[0].jobs[0].status,
+    //         url: projects[i].pipelines[0].jobs[0].url
+    //       }
+    //     }
+    //   }
+    //   projectArray = projectArray.concat(ary)
+    // }
+    // state.projects = projectArray
   }
 }
 
