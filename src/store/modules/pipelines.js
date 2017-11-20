@@ -29,9 +29,9 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.RECEIVE_PIPELINES] (state, { pipelines }) {
-    state.pipelines = pipelines
-  }
+  // [types.RECEIVE_PIPELINES] (state, { pipelines }) {
+  //   state.pipelines = pipelines
+  // }
 }
 
 export default {
