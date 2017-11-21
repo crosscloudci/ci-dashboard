@@ -19,6 +19,6 @@ Deploy-Frontend:
     - helm init
     - helm repo add cncf http://cncf.gitlab.io/stable
     - helm upgrade front-staging cncf/frontend --install --force --set imagePullSecrets=devsecret --set ingress.host=staging.cncf.ci --set ingress.port=8080 --set api.url=http://stagingapi.cncf.ci/api --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-staging" --set image.tag="$CI_COMMIT_SHA" 
-    - sleep 2 #Wait for old Deployment to start terminating.
+    - sleep 6 #Wait for old Deployment to start terminating.
     - until [ ! -e $(kubectl get pods -l k8s-app=front-staging -o jsonpath='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status}' | grep "Ready=True") ] ; do echo waiting for deployment ; done
 
