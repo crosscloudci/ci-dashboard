@@ -18,6 +18,5 @@ Deploy-Frontend:
     - export KUBECONFIG=/kubeconfig
     - helm init
     - helm repo add cncf http://cncf.gitlab.io/stable
-    - helm upgrade front-staging cncf/frontend --install --force --set imagePullSecrets=regsecret --set ingress.host=staging.cncf.ci --set ingress.port=8080 --set api.url=http://stagingapi.cncf.ci/api --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-staging" --set image.tag="$CI_COMMIT_SHA" 
-    - echo "$CI_REGISTRY_IMAGE/frontend-staging"
+    - helm upgrade front-staging cncf/frontend --install --force --set imagePullSecrets=devsecret --set ingress.host=staging.cncf.ci --set ingress.port=8080 --set api.url=http://stagingapi.cncf.ci/api --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-staging" --set image.tag="$CI_COMMIT_SHA" 
 
