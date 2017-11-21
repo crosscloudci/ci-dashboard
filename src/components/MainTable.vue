@@ -375,6 +375,8 @@
 
               .build-details,
               .deployment-details {
+                position: relative;
+                left: rem(10);
                 @include mq('sm') {
                   @include flex-container;
 
@@ -444,10 +446,20 @@
 
             &.release-column {
 
+              @include mq('md') {
+                position: relative;
+                left: rem(55);
+              }
+
               @include mq('sm') {
                 position: absolute;
                 top: rem(5);
                 right: rem(5);
+              }
+
+              @include mq('lg') {
+                position: relative;
+                left: 0;
               }
 
               .meta-label {
