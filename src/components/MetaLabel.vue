@@ -59,6 +59,7 @@ export default {
       display: inline-block;
       margin-right: rem(5);
       font-size: rem(15);
+      color: $ccc;
     }
 
     &.success i.fa { color: $green; }
