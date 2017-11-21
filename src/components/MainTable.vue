@@ -53,15 +53,15 @@
 
             </td>
             <td class="release-column">
-              <MetaLabel :label="StableReleaseTag(project)" :url="StableReleaseURL(project)" :class="StableStatus(project)"/>
-              <MetaLabel :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)" :class="HeadStatus(project)"/>
+              <MetaLabel :branch="BranchName(project)" :label="StableReleaseTag(project)" :url="StableReleaseURL(project)" :class="StableStatus(project)"/>
+              <MetaLabel :branch="BranchName(project)" :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)" :class="HeadStatus(project)"/>
             </td>
 
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
                 <label>{{deployment.cloud_name}}</label>
-                <StatusBadge :state="demoState3" url="https://gitlab.cncf.ci/cncf/cross-cloud/-/jobs/25463"/>
-                <StatusBadge :state="demoState1" url="http://google.com"/>
+                <StatusBadge :state="null" url="https://gitlab.cncf.ci/cncf/cross-cloud/-/jobs/25463"/>
+                <StatusBadge :state="null" url="http://google.com"/>
               </div>
             </td>
           </tr>
@@ -203,6 +203,13 @@
         })
 
         return headCommit
+      },
+      BranchName: function (arg) {
+        let type = ''
+        arg.pipelines.forEach(function (pl) {
+          type = pl.release_type
+        })
+        return type
       }
     },
     computed: {

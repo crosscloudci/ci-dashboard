@@ -15,7 +15,7 @@
         <i class="fa fa-ellipsis-h"></i>
       </span>
       <span class="icon" v-else>
-        <i class="fa fa-ellipsis-h"></i>
+        <i class="fa fa-ellipsis-h"> N/A</i>
       </span>
 
       <span class="label">{{ this.$props.state }}</span>
