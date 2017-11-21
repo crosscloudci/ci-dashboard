@@ -9,7 +9,6 @@ Dashboard-Frontend:
     - docker build --pull -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA"
 
-
 Deploy-Frontend:
   stage: Deploy
   image: registry.dev.cncf.ci/cncf/cncf-ci-dashboard:helm
