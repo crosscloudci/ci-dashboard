@@ -23,7 +23,6 @@
         </thead>
 
         <tbody>
-          <!-- <tr v-for="project in this.$props.projects"> -->
           <tr v-for="project in projects" :key="project.order" v-on:click="$event.currentTarget.classList.toggle('open')">
             <td class="project-column">
               <div class="project-box">
@@ -94,6 +93,10 @@
       const channel = this.$store.getters.socket.channel('dashboard:*', {})
       channel.on('new_cross_cloud_call', payload => {
         this.$store.dispatch('updateDashboard', { payload })
+        let lastCheckDt = payload.reply.dashboard.last_check_dt
+        console.log('new_cross_cloud_call event date' + lastCheckDt)
+        this.$store.dispatch('updateNewTime', lastCheckDt)
+        // v.dispatch('updateNewTime', response.reply.last_check_dt)
         // let projects = payload.reply.dashboard.projects
         // let clouds = payload.reply.dashboard.clouds
         // debugger
@@ -109,20 +112,21 @@
         var status = 'N/A'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
+            console.log('Stable pipeline' + pl)
             pl.jobs.forEach(function (j) {
               if (j.order === 1) { status = j.status }
             })
           }
         })
 
+        console.log('stable status:' + status)
         return status
       },
       HeadStatus: function (arg) {
         var status = 'N/A'
-        console.log('watch out for this the second time' + JSON.stringify(arg))
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
-            console.log('watch out for this the second time for the HEAD pipeline' + pl)
+            console.log('HEAD pipeline' + pl)
             pl.jobs.forEach(function (j) {
               if (j.order === 1) { status = j.status }
             })
@@ -212,7 +216,7 @@
       demoState3: function () {
         return array.random(this.demoStateTypes)
       },
-      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket' })
+      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket', timer: 'updateTime' })
     },
     created () {
       this.$store.dispatch('connectToSocket')

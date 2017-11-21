@@ -18,30 +18,29 @@ const getters = {
 
 // actions
 const actions = {
-  connectToSocket ({ commit }) {
+  connectToSocket ({ commit, store }) {
     const socket = new Socket(`${WEBSOCKET_URL}/socket`, {
       logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
     })
     socket.connect()
     commit(types.SOCKET_CONNECTED, { socket })
     const channel = socket.channel('dashboard:*')
+    let v = this
     channel.join()
     .receive('ok', (response) => {
-      (response) => { console.log('channel tings' + response) }
+      // let pipelines = []
       let projects = response.reply.projects
       let clouds = response.reply.clouds
+      var lastCheckDt = response.reply.last_check_dt
+      // pipelines = projects.pipelines
       commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
       commit(types.RECEIVE_CLOUDS, { clouds })
+      // commit(types.RECEIVE_PIPELINES, { pipelines })
+      console.log('channel join event date' + lastCheckDt)
+      v.dispatch('updateNewTime', lastCheckDt)
+      // commit(types.UPDATE_TIME, { lastCheckDt })
       // commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { response })
     })
-    // channel.on('new_cross_cloud_call', (payload) => {
-    //   (payload) => { console.log('channel tings' + payload) }
-    //   let projects = payload.reply.dashboard.projects
-    //   let clouds = payload.reply.dashboard.clouds
-    //   commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
-    //   commit(types.RECEIVE_CLOUDS, { clouds })
-    //   // commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { payload })
-    // })
   },
 
   connectToChannel ({ commit, socket }) {

@@ -13,30 +13,43 @@
         </div>
       </header>
 
-      <div id="dashboard-updated" style="display: none;">
+      <div id="dashboard-updated">
         <span class="icon">
           <i class="fa fa-clock-o"></i>
         </span>
         <span class="updated-label">Last updated</span>
-        <span class="time-updated">{{this.$props.last_updated}}</span>
+        <span class="time-updated">{{ this.$props.last_updated | moment("from", "now") }} </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'page-header',
-  props: {
-    last_updated: { type: String, default: '1 min ago' },
-    url: { type: String }
-  },
-  methods: {
-    gotoURL () {
-      window.open(this.$props.url, '_blank')
+  // import {maps} from 'vuex'
+
+  export default {
+    name: 'page-header',
+    props: {
+      last_updated: { type: Date, default: '' },
+      url: { type: String }
+    },
+    mounted: function () {
+      let v = this
+      setInterval(() => {
+        console.log('PageHeader mounted: ' + v.$props.last_updated)
+        v.$store.dispatch('updateNewTime', v.$props.last_updated)
+      }, 1000 * 30
+    )
+    },
+    methods: {
+      gotoURL () {
+        window.open(this.$props.url, '_blank')
+      }
+    },
+    computed: {
+      // ...mapGetters({ timer: 'updateTime' })
     }
   }
-}
 </script>
 
 <style lang="scss">
