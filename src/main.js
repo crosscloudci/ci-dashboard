@@ -6,7 +6,8 @@ import router from './router'
 
 import './assets/stylesheets/site.css.scss'
 import store from './store'
-
+// import vuemoment from 'vue-moment'
+Vue.use(require('vue-moment'))
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TopBanner url="https://www.linuxfoundation.org/projects/"/>
-    <PageHeader url="https://cncf.io"/>
+    <PageHeader :last_updated="timer" url="https://cncf.io"/>
     <MainTable/>
   </div>
 </template>
@@ -10,6 +10,7 @@
 import TopBanner from './components/TopBanner'
 import PageHeader from './components/PageHeader'
 import MainTable from './components/MainTable'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'app',
@@ -17,6 +18,9 @@ export default {
   data: function () {
     return {
     }
+  },
+  computed: {
+    ...mapGetters({ timer: 'updateTime' })
   }
 }
 </script>

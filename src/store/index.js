@@ -6,6 +6,7 @@ import projects from './modules/projects'
 import pipelines from './modules/pipelines'
 import clouds from './modules/clouds'
 import session from './modules/session'
+import time from './modules/timeTracker'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     projects,
     pipelines,
     clouds,
-    session
+    session,
+    time
   }
 })
