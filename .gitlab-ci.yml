@@ -1,5 +1,6 @@
 stages:
   - Build
+  - Deploy
 
 Dashboard-Frontend:
   stage: Build
@@ -7,3 +8,13 @@ Dashboard-Frontend:
     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
     - docker build --pull -t "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG" .
     - docker push "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG"
+
+
+Deploy-Frontend:
+  stage: Deploy
+  image: registry.dev.cncf.ci/cncf/cncf-ci-dashboard:helm
+  script:
+    - /helm/entrypoint.sh
+    - export KUBECONFIG=/kubeconfig
+    - helm init
+
