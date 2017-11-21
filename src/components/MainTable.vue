@@ -40,9 +40,9 @@
             <td class="build-column">
 
               <div class="build-links mobile-only">
-                <span>Github <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
-                <span>Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
-                <span>HEAD <i class="fa fa-external-link-square" aria-hidden="true"></i></span>
+                <span><a :href="project.url">Github <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a :href="StableReleaseURL(project)">HEAD <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
               </div>
 
               <div class="build-details">
