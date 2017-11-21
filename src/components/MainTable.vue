@@ -53,8 +53,8 @@
 
             </td>
             <td class="release-column">
-              <MetaLabel :label="StableReleaseTag(project)" :url="StableReleaseURL(project)"/>
-              <MetaLabel :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)"/>
+              <MetaLabel :label="StableReleaseTag(project)" :url="StableReleaseURL(project)" :class="StableStatus(project)"/>
+              <MetaLabel :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)" :class="HeadStatus(project)"/>
             </td>
 
             <td class="build-column" v-for="deployment in clouds">
