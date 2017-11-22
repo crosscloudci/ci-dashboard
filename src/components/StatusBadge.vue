@@ -15,6 +15,7 @@
         <i class="fa fa-ban"></i>
       </span>
       <span class="icon" v-else>
+        {{ this.$props.state = 'N/A' }}
         <i class="fa fa-ban"></i>
       </span>
 
