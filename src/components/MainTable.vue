@@ -40,9 +40,9 @@
             <td class="build-column">
 
               <div class="build-links mobile-only">
-                <span><a :href="project.url">Github <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
-                <span><a :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
-                <span><a :href="StableReleaseURL(project)">HEAD <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a target="_blank" :href="project.url">GitHub <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a target="_blank" :href="StableReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
               </div>
 
               <div class="build-details">
@@ -401,7 +401,8 @@
               @include mq('sm') {
                 @include flex-container;
                 background: $light;
-                padding: rem(10);
+                padding: rem(10) rem(5);
+                padding-right: rem(20);
                 display: none;
               }
 
@@ -411,7 +412,7 @@
                 left: rem(10);
                 @include mq('sm') {
                   @include flex-container;
-
+                  justify-content: flex-end;
                 }
                 .status-badge {
                   min-width: rem(70);
@@ -438,11 +439,29 @@
                   @include flex-container;
                   padding: rem(10) 0;
                   margin-bottom: rem(10);
+                  margin-left: rem(10);
+                  justify-content:flex-end;
+
                   span {
                     @include fbox(1);
-                    &:first-child { width: 55% }
-                    &:nth-child(2) { width: rem(75) }
-                    &:nth-child(3) { width: rem(75) }
+                    a {
+                      text-decoration: none;
+                      color: $black;
+                      display: block;
+                    }
+                    &:first-child {
+                      width: 100%;
+                    }
+                    &:nth-child(2) {
+                      text-align: center;
+                      width: rem(120);
+
+                    }
+                    &:nth-child(3) {
+                      text-align: center;
+                      width: rem(120);
+                      margin-left: rem(10)
+                    }
                   }
                 }
               }
@@ -450,7 +469,7 @@
               label {
                 @include mq('sm') {
                   display: block;
-                  width: 60%;
+                  width: 100%;
                 }
               }
 
@@ -462,7 +481,6 @@
                   display: inline-block;
                   width: rem(70);
                   margin: 0 0 0 rem(5);
-
                 }
 
               }
@@ -505,8 +523,9 @@
                 @include mq('sm') {
                   display: inline-block;
                   margin-bottom: 0;
-                  width: rem(75);
+                  width: rem(76);
                   text-align: left;
+                  i.fa { margin-right: rem(10) }
 
                   .click-zone {
                     top: rem(50);
@@ -521,12 +540,12 @@
           &.open {
             td.release-column
             .meta-label
-            .click-zone { display: block; }
+            .click-zone { display: none; }
 
             td.project-column
             .project-box
             .project-flag
-            .click-zone { display: block; }
+            .click-zone { display: none; }
 
             td.build-column {
               display: block;
