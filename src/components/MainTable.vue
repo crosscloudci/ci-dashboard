@@ -53,15 +53,15 @@
 
             </td>
             <td class="release-column">
-              <MetaLabel :label="StableReleaseTag(project)" :url="StableReleaseURL(project)" :class="StableStatus(project)"/>
-              <MetaLabel :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)" :class="HeadStatus(project)"/>
+              <MetaLabel :branch="StableBranchName(project)" :label="StableReleaseTag(project)" :url="StableReleaseURL(project)" :class="StableStatus(project)"/>
+              <MetaLabel :branch="HeadBranchName(project)" :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)" :class="HeadStatus(project)"/>
             </td>
 
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
                 <label>{{deployment.cloud_name}}</label>
-                <StatusBadge :state="demoState3" url="https://gitlab.cncf.ci/cncf/cross-cloud/-/jobs/25463"/>
-                <StatusBadge :state="demoState1" url="http://google.com"/>
+                <StatusBadge :state="null" url="#"/>
+                <StatusBadge :state="null" url="#"/>
               </div>
             </td>
           </tr>
@@ -141,8 +141,12 @@
           if (pl.release_type === 'stable') {
             pl.jobs.forEach(function (j) {
               if (j.order === 1) {
-                url = j.url
-                console.log(url)
+                if (!(j.url === null)) {
+                  url = j.url
+                }
+                if (j.url === null) {
+                  url = '#'
+                }
               }
             })
           }
@@ -168,7 +172,12 @@
         let url = '#'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
-            url = arg.repository_url + `/commit/${pl.head_commit}`
+            if (pl.head_commit === 'N/A') {
+              url = '#'
+            }
+            if (!(pl.head_commit === 'N/A')) {
+              url = arg.repository_url + `/commit/${pl.head_commit}`
+            }
           }
         })
         return url
@@ -177,7 +186,12 @@
         let url = '#'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
-            url = arg.repository_url + `/commit/${pl.head_commit}`
+            if (pl.head_commit === 'N/A') {
+              url = '#'
+            }
+            if (!(pl.head_commit === 'N/A')) {
+              url = arg.repository_url + `/commit/${pl.head_commit}`
+            }
           }
         })
         return url
@@ -203,6 +217,24 @@
         })
 
         return headCommit
+      },
+      HeadBranchName: function (arg) {
+        let type = ''
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'head') {
+            type = pl.release_type
+          }
+        })
+        return type
+      },
+      StableBranchName: function (arg) {
+        let type = ''
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            type = pl.release_type
+          }
+        })
+        return type
       }
     },
     computed: {

@@ -27,7 +27,7 @@
 export default {
   name: 'status-badge',
   props: {
-    state: { type: String, required: true, default: '...' },
+    state: { required: true, default: '...' },
     url: { type: String, required: true, default: '#' }
   },
   components: {},
@@ -38,7 +38,12 @@ export default {
   },
   methods: {
     gotoURL () {
-      window.open(this.$props.url, '_blank')
+      if (this.$props.url === '#') {
+        return
+      }
+      if (!(this.$props.url === '#')) {
+        window.open(this.$props.url, '_blank')
+      }
     }
   }
 }
