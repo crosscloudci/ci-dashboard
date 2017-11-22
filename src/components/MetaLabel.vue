@@ -71,7 +71,7 @@ export default {
     i.fa {
       display: inline-block;
       margin-right: rem(5);
-      font-size: rem(15);
+      font-size: rem(13);
       color: $ccc;
     }
 
