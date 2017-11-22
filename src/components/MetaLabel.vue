@@ -1,9 +1,8 @@
 <template>
   <div class="meta-label" :class="this.$props.state">
     <div class="click-zone" v-on:click="gotoURL()"></div>
-    <span v-show='this.$props.branch === "head"'><i  class="mobile-only fa fa-circle"></i>{{ truncateHeadLabel(this.$props.label) }}</span>
-    <span v-if='this.$props.branch === "stable"' ><i class="fa fa-circle"></i>{{ truncateDesktopStableLabel(this.$props.label) }}</span>
-    <span v-if='this.$props.branch === "stable"' ><i class="mobile-only fa fa-circle"></i>{{ truncateMobileStableLabel(this.$props.label) }}</span>
+    <span v-show='this.$props.branch === "head"'><i class="mobile-only fa fa-circle"></i>{{ truncateHeadLabel(this.$props.label) }}</span>
+    <span v-if='this.$props.branch === "stable"'><i class="mobile-only fa fa-circle"></i>{{ truncateMobileStableLabel(this.$props.label) }}</span>
     <span v-else-if='this.$props.branch === "N/A"'><i class="mobile-only fa fa-circle"></i>N/A</span>
   </div>
 </template>
@@ -24,7 +23,12 @@ export default {
   components: { },
   methods: {
     gotoURL () {
-      window.open(this.$props.url, '_blank')
+      if (this.$props.url === '#') {
+        return
+      }
+      if (!(this.$props.url === '#')) {
+        window.open(this.$props.url, '_blank')
+      }
     },
     truncateMobileStableLabel (value) {
       return value.substring(0, 10)

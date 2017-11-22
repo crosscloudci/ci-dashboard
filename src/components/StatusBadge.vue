@@ -38,7 +38,12 @@ export default {
   },
   methods: {
     gotoURL () {
-      window.open(this.$props.url, '_blank')
+      if (this.$props.url === '#') {
+        return
+      }
+      if (!(this.$props.url === '#')) {
+        window.open(this.$props.url, '_blank')
+      }
     }
   }
 }
