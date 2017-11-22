@@ -12,10 +12,10 @@
         <i class="fa fa-exclamation-circle"></i>
       </span>
       <span class="icon" v-else-if="this.$props.state === 'N/A'">
-        <i class="fa fa-ellipsis-h"></i>
+        <i class="fa fa-ban"></i>
       </span>
       <span class="icon" v-else>
-        <i class="fa fa-ellipsis-h"></i>
+        <i class="fa fa-ban"></i>
       </span>
 
       <span class="label">{{ this.$props.state }}</span>
