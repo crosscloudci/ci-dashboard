@@ -27,7 +27,7 @@
 export default {
   name: 'status-badge',
   props: {
-    state: { type: String, required: true, default: '...' },
+    state: { required: true, default: '...' },
     url: { type: String, required: true, default: '#' }
   },
   components: {},
