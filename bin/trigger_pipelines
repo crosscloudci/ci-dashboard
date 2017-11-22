@@ -1,0 +1,31 @@
+#!/bin/bash
+
+curl -X POST \
+     -F token=847158173aa6d627d42371c4af9511 \
+     -F ref=ci-master \
+     https://gitlab.dev.cncf.ci/api/v4/projects/9/trigger/pipeline
+
+curl -X POST \
+     -F token=847158173aa6d627d42371c4af9511 \
+     -F ref=ci-v008 \
+     https://gitlab.dev.cncf.ci/api/v4/projects/9/trigger/pipeline
+
+curl -X POST \
+     -F token=9ae6c57804133e3ccadea02608bef8 \
+     -F ref=ci-master \
+     https://gitlab.dev.cncf.ci/api/v4/projects/20/trigger/pipeline
+
+curl -X POST \
+     -F token=9ae6c57804133e3ccadea02608bef8 \
+     -F ref=ci-v1.7.1 \
+     https://gitlab.dev.cncf.ci/api/v4/projects/20/trigger/pipeline
+
+curl -X POST \
+     -F token=6e00343d071643c518e01bc69d9021 \
+     -F ref=ci-master \
+     https://gitlab.dev.cncf.ci/api/v4/projects/14/trigger/pipeline
+
+curl -X POST \
+     -F token=6e00343d071643c518e01bc69d9021 \
+     -F ref=ci-v1.6.6 \
+     https://gitlab.dev.cncf.ci/api/v4/projects/14/trigger/pipeline
