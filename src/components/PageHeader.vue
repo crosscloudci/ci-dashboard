@@ -30,7 +30,7 @@
   export default {
     name: 'page-header',
     props: {
-      last_updated: { type: Date, default: '' },
+      last_updated: { default: '' },
       url: { type: String }
     },
     mounted: function () {
