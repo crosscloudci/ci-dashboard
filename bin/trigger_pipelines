@@ -5,36 +5,45 @@ if [ -z "$DASHBOARD_API_HOST_PORT" ] ; then
 fi
 #DASHBOARD_API_HOST_PORT=stagingapi.cncf.ci
 
+echo "Using API server: $DASHBOARD_API_HOST_PORT"
+
+echo -e "\nCoreDNS master"
 curl -X POST \
      -F token=847158173aa6d627d42371c4af9511 \
      -F ref=ci-master \
      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
      https://gitlab.dev.cncf.ci/api/v4/projects/9/trigger/pipeline
 
+
+echo -e "\nCoreDNS stable"
 curl -X POST \
      -F token=847158173aa6d627d42371c4af9511 \
      -F ref=ci-v008 \
      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
      https://gitlab.dev.cncf.ci/api/v4/projects/9/trigger/pipeline
 
+echo -e "\nPrometheus master"
 curl -X POST \
      -F token=9ae6c57804133e3ccadea02608bef8 \
      -F ref=ci-master \
      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
      https://gitlab.dev.cncf.ci/api/v4/projects/20/trigger/pipeline
 
+echo -e "\nPrometheus stable"
 curl -X POST \
      -F token=9ae6c57804133e3ccadea02608bef8 \
      -F ref=ci-v1.7.1 \
      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
      https://gitlab.dev.cncf.ci/api/v4/projects/20/trigger/pipeline
 
+echo -e "\nKubernetes master"
 curl -X POST \
      -F token=6e00343d071643c518e01bc69d9021 \
      -F ref=ci-master \
      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
      https://gitlab.dev.cncf.ci/api/v4/projects/14/trigger/pipeline
 
+echo -e "\nKubernetes head"
 curl -X POST \
      -F token=6e00343d071643c518e01bc69d9021 \
      -F ref=ci-v1.6.6 \
