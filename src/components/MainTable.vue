@@ -42,7 +42,7 @@
               <div class="build-links mobile-only">
                 <span><a target="_blank" :href="project.url">GitHub <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
                 <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
-                <span><a target="_blank" :href="StableReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
               </div>
 
               <div class="build-details">
@@ -177,6 +177,8 @@
             }
             if (!(pl.head_commit === 'N/A')) {
               url = arg.repository_url + `/commit/${pl.head_commit}`
+              var rturl = pl.release_type + ': ' + url
+              console.log(rturl)
             }
           }
         })
@@ -191,6 +193,8 @@
             }
             if (!(pl.head_commit === 'N/A')) {
               url = arg.repository_url + `/commit/${pl.head_commit}`
+              var rturl = pl.release_type + ': ' + url
+              console.log(rturl)
             }
           }
         })
