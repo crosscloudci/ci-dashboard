@@ -43,10 +43,18 @@ curl -X POST \
      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
      https://gitlab.dev.cncf.ci/api/v4/projects/14/trigger/pipeline
 
-echo -e "\nKubernetes head"
+# echo -e "\nKubernetes stable"
+# curl -X POST \
+#      -F token=6e00343d071643c518e01bc69d9021 \
+#      -F ref=ci-v1.6.6 \
+#      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
+#      https://gitlab.dev.cncf.ci/api/v4/projects/14/trigger/pipeline
+ 
+
+echo -e "\nKubernetes stable"
 curl -X POST \
      -F token=6e00343d071643c518e01bc69d9021 \
-     -F ref=ci-v1.6.6 \
+     -F ref=ci-v1.8.2 \
      -F "variables[DASHBOARD_API_HOST_PORT]=$DASHBOARD_API_HOST_PORT" \
      https://gitlab.dev.cncf.ci/api/v4/projects/14/trigger/pipeline
  
