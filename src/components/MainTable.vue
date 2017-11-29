@@ -14,12 +14,10 @@
           <tr class="subheader">
             <th></th>
             <th><span>Status</span></th>
-
             <th><span>Stable</span><span>Head</span></th>
-
             <th v-for="cloud in clouds"><span>{{cloud.cloud_name}}</span></th>
-
           </tr>
+
         </thead>
 
         <tbody>

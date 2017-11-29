@@ -58,6 +58,7 @@
 
   #dashboard-header {
     @include flex-container;
+    margin-top: rem(30);
     padding: rem(40) 0;
 
     #dashboard-logo,
