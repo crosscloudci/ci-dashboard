@@ -15,8 +15,8 @@
         <i class="fa fa-ban"></i>
       </span>
       <span class="icon" v-else>
-        {{ this.$props.state = 'N/A' }}
         <i class="fa fa-ban"></i>
+        {{ this.$props.state || 'N/A' }}
       </span>
 
       <span class="label">{{ this.$props.state }}</span>
@@ -34,15 +34,13 @@ export default {
   components: {},
   data () {
     return {
-      currentState: this.$props.state
     }
   },
   methods: {
     gotoURL () {
       if (this.$props.url === '#') {
         return
-      }
-      if (!(this.$props.url === '#')) {
+      } else {
         window.open(this.$props.url, '_blank')
       }
     }

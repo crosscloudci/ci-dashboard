@@ -1,5 +1,5 @@
 <template>
-  <div id="top-banner" :style="{width: width+'px'}">
+  <div id="top-banner" >
     <div class="container">
       <div class="linux-foundation-logo">
         <img v-on:click="gotoURL()" src="../assets/images/logo_lf_projects_horizontal.png"/>
@@ -9,25 +9,18 @@
 </template>
 
 <script>
+
 export default {
   name: 'top-banner',
   props: ['url'],
   data: function () {
     return {
-      width: document.documentElement.clientWidth
+      windowWidth: 0
     }
-  },
-  mounted () {
-    this.$nextTick(function () {
-      window.addEventListener('resize', this.getWindowWidth())
-    })
   },
   methods: {
     gotoURL () {
       window.open(this.$props.url, '_blank')
-    },
-    getWindowWidth (event) {
-      return document.documentElement.clientWidth
     }
   }
 }
@@ -42,11 +35,12 @@ export default {
     padding: rem(10) 0 rem(5) 0;
     border-bottom: 1px solid $ccc;
     cursor: pointer;
-    position: absolute;
+    width: 100%;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-
+    z-index: 1000;
     @include mq('sm'){ display: none; }
 
     .linux-foundation-logo {

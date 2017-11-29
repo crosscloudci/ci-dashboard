@@ -8,7 +8,7 @@
             <th>Project</th>
             <th>Build</th>
             <th>Release</th>
-            <th colspan="6">Deployments</th>
+            <th :colspan="clouds.length">Deployments</th>
           </tr>
 
           <tr class="subheader">
@@ -92,7 +92,7 @@
       channel.on('new_cross_cloud_call', payload => {
         this.$store.dispatch('updateDashboard', { payload })
         let lastCheckDt = payload.reply.dashboard.last_check_dt
-        console.log('new_cross_cloud_call event date' + lastCheckDt)
+        // console.log('new_cross_cloud_call event date' + lastCheckDt)
         this.$store.dispatch('updateNewTime', lastCheckDt)
         // v.dispatch('updateNewTime', response.reply.last_check_dt)
         // let projects = payload.reply.dashboard.projects
@@ -110,7 +110,7 @@
         var status = 'N/A'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
-            console.log('Stable pipeline' + pl)
+            // console.log('Stable pipeline' + pl)
             pl.jobs.forEach(function (j) {
               if (j.order === 1) { status = j.status }
             })
@@ -124,7 +124,7 @@
         var status = 'N/A'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
-            console.log('HEAD pipeline' + pl)
+            // console.log('HEAD pipeline' + pl)
             pl.jobs.forEach(function (j) {
               if (j.order === 1) { status = j.status }
             })
@@ -175,8 +175,8 @@
             }
             if (!(pl.head_commit === 'N/A')) {
               url = arg.repository_url + `/commit/${pl.head_commit}`
-              var rturl = pl.release_type + ': ' + url
-              console.log(rturl)
+              // var rturl = pl.release_type + ': ' + url
+              // console.log(rturl)
             }
           }
         })
@@ -191,8 +191,8 @@
             }
             if (!(pl.head_commit === 'N/A')) {
               url = arg.repository_url + `/commit/${pl.head_commit}`
-              var rturl = pl.release_type + ': ' + url
-              console.log(rturl)
+              // var rturl = pl.release_type + ': ' + url
+              // console.log(rturl)
             }
           }
         })
