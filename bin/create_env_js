@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function usage() {
-  echo "$(basename $0) [-f]"
+  echo "$(basename $0) [-noclobber]"
 }
 
 if [ -z "$API_URL" ] ; then
@@ -10,10 +10,10 @@ if [ -z "$API_URL" ] ; then
   exit 1
 fi
 
-OVERWRITE_CONF=0
+OVERWRITE_CONF=1
 
-if [ "$1" = "-f" ] ; then
-  OVERWRITE_CONF=1
+if [ "$1" = "-nc" -o "$1" = "-noclobber" ] ; then
+  OVERWRITE_CONF=0
 fi
 
 dev_config_file="config/dev.env.js"
@@ -30,6 +30,8 @@ module.exports = merge(prodEnv, {
     API_URL: '"$API_URL"'
   })
 EOF
+else
+  echo "$dev_config_file exists - not overwiting"
 fi
 
 if [ ! -f "$prod_config_file" -o "$OVERWRITE_CONF" = 1 ] ; then
@@ -40,4 +42,6 @@ module.exports = {
     API_URL: '"$API_URL"'
     }
 EOF
+else
+  echo "$prod_config_file exists - not overwiting"
 fi
