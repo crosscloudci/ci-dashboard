@@ -35,7 +35,7 @@
               </div>
             </td>
 
-            <td class="build-column">
+            <td class="build-column top">
 
               <div class="build-links mobile-only">
                 <span><a target="_blank" :href="project.url">GitHub <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
@@ -340,11 +340,15 @@
               }
 
               &:last-child:before { border:0; }
-              &:nth-child(3) { text-indent: rem(50); }
+              &:nth-child(3) {
+                text-indent: rem(50);
+                span:first-child { padding-bottom: rem(5) }
+              }
 
               span {
                 background: $white;
                 display: block;
+                font-size: rem(12);
               }
             }
           }
@@ -371,9 +375,15 @@
             label { display: none; }
 
             @include mq('sm') { border-bottom: none; }
-            &:first-child { @include mq('sm') { border-bottom: 1px solid $ccc; } }
+
+            &:first-child {
+              @include mq('sm') {
+                border-bottom: 1px solid $ccc;
+              }
+            }
 
             &.project-column {
+
               .project-box {
                 position: relative;
 
@@ -399,13 +409,15 @@
             }
 
             &.build-column {
-
               @include mq('sm') {
                 @include flex-container;
                 background: $light;
+
                 padding: rem(10) rem(5);
                 padding-right: rem(20);
                 display: none;
+
+                &:last-child {border-bottom: 1px solid $ccc;}
               }
 
               .build-details,
@@ -432,7 +444,9 @@
 
               .deployment-details {
                 @include mq('sm') {
-
+                  label {
+                    margin-top: rem(5)
+                  }
                 }
               }
 
@@ -505,7 +519,7 @@
 
               @include mq('sm') {
                 position: absolute;
-                top: rem(5);
+                top: rem(9);
                 right: rem(5);
               }
 
@@ -540,6 +554,7 @@
           }
 
           &.open {
+
             td.release-column
             .meta-label
             .click-zone { display: none; }
@@ -551,6 +566,12 @@
 
             td.build-column {
               display: block;
+
+              @include mq('sm') {
+                &.top {
+                  @include shadow(inset 0 1px 1px 0 $ccc);
+                }
+              }
 
               @include mq('lg') {
                 display: table-cell;

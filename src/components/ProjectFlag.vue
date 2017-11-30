@@ -43,7 +43,7 @@ export default {
 
   .project-flag {
     cursor: pointer;
-    @include mq('md') { min-width: rem(240) }
+    @include mq('md') { min-width: rem(200) }
     position: relative;
 
     .wrapper {
@@ -55,16 +55,12 @@ export default {
       .icon {
         width: rem(35);
         height: rem(35);
-
-        @include mq('lg') {
-          width: rem(50);
-          height: rem(50);
-        }
-
+        position: relative;
+        top: rem(10);
         @include mq('sm') {
           width: rem(25);
           height: rem(25);
-          position: relative;
+
           top: rem(8);
           left: rem(10);
           margin-right: rem(10);
