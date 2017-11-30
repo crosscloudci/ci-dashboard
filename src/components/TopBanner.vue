@@ -34,7 +34,6 @@ export default {
     background: $light;
     padding: rem(10) 0 rem(5) 0;
     border-bottom: 1px solid $ccc;
-    cursor: pointer;
     width: 100%;
     position: fixed;
     top: 0;
@@ -45,7 +44,7 @@ export default {
 
     .linux-foundation-logo {
       width: rem(300);
-      img { width: inherit; }
+      img { width: inherit; cursor: pointer; }
     }
   }
 </style>
