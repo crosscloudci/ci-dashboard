@@ -24,6 +24,8 @@ Dashboard-Frontend-Dev:
 Deploy-Frontend-Dev:
   stage: Deploy
   image: registry.dev.cncf.ci/cncf/cncf-ci-dashboard:helm
+  only:
+    - master
   script:
     - >
       if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ]; then
