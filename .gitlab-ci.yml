@@ -2,17 +2,72 @@ stages:
   - Build
   - Deploy
 
-Dashboard-Frontend:
+before_script:
+  - export BASE_URL=${BASE_URL:-$(echo $CI_PROJECT_URL |  cut -d'/' -f1-3)}
+
+Dashboard-Frontend-Dev:
   stage: Build
+  only:
+    - master
   script:
+    - >
+      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ]; then
+        continue
+      else
+        echo 'wrong environment'
+        exit 1
+      fi
     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
     - docker build --pull -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA"
 
-Deploy-Frontend:
+Deploy-Frontend-Dev:
   stage: Deploy
   image: registry.dev.cncf.ci/cncf/cncf-ci-dashboard:helm
   script:
+    - >
+      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ]; then
+        continue
+      else
+        echo 'Wrong Environment'
+        exit 1
+      fi
+    - /helm/entrypoint.sh
+    - export KUBECONFIG=/kubeconfig
+    - helm init
+    - helm repo add cncf http://cncf.gitlab.io/stable
+    - helm upgrade front-"$CI_COMMIT_REF_NAME" cncf/frontend --install --force --wait --timeout 3600 --set imagePullSecrets=devsecret --set ingress.host="$CI_COMMIT_REF_NAME".cncf.ci --set ingress.port=8080 --set api.url=http://"$CI_COMMIT_REF_NAME"api.cncf.ci/api --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME" --set image.tag="$CI_COMMIT_SHA"
+
+
+Dashboard-Frontend-Staging:
+  stage: Build
+  only:
+    - staging
+  script:
+    - >
+      if [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ]; then
+        continue
+      else
+        echo 'wrong environment'
+        exit 1
+      fi
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
+    - docker push "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA"
+
+Deploy-Frontend-Staging:
+  stage: Deploy
+  image: registry.staging.cncf.ci/cncf/cncf-ci-dashboard:helm
+  only:
+    - staging
+  script:
+    - >
+      if [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ]; then
+        continue
+      else
+        echo 'Wrong Environment'
+        exit 1
+      fi
     - /helm/entrypoint.sh
     - export KUBECONFIG=/kubeconfig
     - helm init
