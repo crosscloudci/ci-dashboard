@@ -18,7 +18,7 @@ Dashboard-Frontend-Dev:
         exit 1
       fi
     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build --pull -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
+    - docker build --pull --no-cache -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA"
 
 Deploy-Frontend-Dev:
@@ -54,7 +54,7 @@ Dashboard-Frontend-Staging:
         exit 1
       fi
     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build --pull -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
+    - docker build --pull --no-cache -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA"
 
 Deploy-Frontend-Staging:
