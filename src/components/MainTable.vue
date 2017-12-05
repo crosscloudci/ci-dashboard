@@ -58,8 +58,8 @@
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
                 <label>{{deployment.cloud_name}}</label>
-                <StatusBadge :state="null" url="#"/>
-                <StatusBadge :state="null" url="#"/>
+                <StatusBadge :state="StableCloudStatus(project, deployment.cloud_id)" url="#"/>
+                <StatusBadge :state="HeadCloudStatus(project, deployment.cloud_id)" url="#"/>
               </div>
             </td>
           </tr>
@@ -237,6 +237,42 @@
           }
         })
         return type
+      },
+      HeadCloudStatus: function (arg, cloudId) {
+        var status = 'N/A'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'head') {
+            // console.log('Stable pipeline' + pl)
+            // let jobs = pl.jobs
+            // jobs.sort(function (a, b) {
+            //   return a.order - b.order
+            // })
+            pl.jobs.forEach(function (j) {
+              if (j.cloud_id === cloudId) { status = j.status }
+            })
+          }
+        })
+
+        console.log('stable status:' + status)
+        return status
+      },
+      StableCloudStatus: function (arg, cloudId) {
+        var status = 'N/A'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            // console.log('Stable pipeline' + pl)
+            // let jobs = pl.jobs
+            // jobs.sort(function (a, b) {
+            //   return a.order - b.order
+            // })
+            pl.jobs.forEach(function (j) {
+              if (j.cloud_id === cloudId) { status = j.status }
+            })
+          }
+        })
+
+        console.log('stable status:' + status)
+        return status
       }
     },
     computed: {

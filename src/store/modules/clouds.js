@@ -24,7 +24,11 @@ const actions = {
 // mutations
 const mutations = {
   [types.RECEIVE_CLOUDS] (state, { clouds }) {
-    state.clouds = clouds
+    let newClouds = clouds
+    newClouds.sort(function (a, b) {
+      return a.order - b.order
+    })
+    state.clouds = newClouds
   }
 }
 
