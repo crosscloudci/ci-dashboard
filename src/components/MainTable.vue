@@ -607,6 +607,10 @@
                 &.top {
                   @include shadow(inset 0 1px 1px 0 $ccc);
                 }
+
+                .build-details .status-badge {
+                  top: rem(-5);
+                }
               }
 
               @include mq('lg') {
