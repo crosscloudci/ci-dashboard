@@ -577,7 +577,7 @@
                   margin-bottom: 0;
                   width: rem(76);
                   text-align: left;
-                  i.fa { margin-right: rem(10) }
+                  i.fa { margin-right: rem(5) }
 
                   .click-zone {
                     top: rem(50);
