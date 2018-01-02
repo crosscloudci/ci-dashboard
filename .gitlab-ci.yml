@@ -5,73 +5,53 @@ stages:
 before_script:
   - export BASE_URL=${BASE_URL:-$(echo $CI_PROJECT_URL |  cut -d'/' -f1-3)}
 
-Dashboard-Frontend-Dev:
+Dashboard-Frontend:
   stage: Build
-  only:
-    - master
   script:
     - >
-      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ]; then
-        continue
+      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+      elif [ "$BASE_URL" == "https://gitlab.cidev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "intergration" ]; then 
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+      elif [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "staging" ]; then 
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+      elif [ "$BASE_URL" == "https://gitlab.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "production" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
       else
-        echo 'wrong environment'
+        echo "No Matching Environment Could Be Found"
         exit 1
       fi
     - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
     - docker build --pull --no-cache -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA"
 
-Deploy-Frontend-Dev:
+Deploy-Frontend:
   stage: Deploy
-  image: registry.dev.cncf.ci/cncf/cncf-ci-dashboard:helm
-  only:
-    - master
+  image: crosscloudci/helm:latest
   script:
     - >
-      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ]; then
-        continue
+      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+        export BACKEND_INGRESS="devapi.cncf.ci"
+        export FRONTEND_INGRESS="dev.cncf.ci"
+      elif [ "$BASE_URL" == "https://gitlab.cidev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "intergration" ]; then 
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+        export BACKEND_INGRESS="cidevapi.cncf.ci"
+        export FRONTEND_INGRESS="cidev.cncf.ci"
+      elif [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "staging" ]; then 
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+        export BACKEND_INGRESS="stagingapi.cncf.ci"
+        export FRONTEND_INGRESS="staging.cncf.ci"
+      elif [ "$BASE_URL" == "https://gitlab.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "production" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+        export BACKEND_INGRESS="api.cncf.ci"
+        export FRONTEND_INGRESS="cncf.ci"
       else
-        echo 'Wrong Environment'
+        echo "No Matching Environment Could Be Found"
         exit 1
       fi
     - /helm/entrypoint.sh
     - export KUBECONFIG=/kubeconfig
     - helm init
     - helm repo add cncf http://cncf.gitlab.io/stable
-    - helm upgrade front-"$CI_COMMIT_REF_NAME" cncf/frontend --install --force --wait --timeout 3600 --set imagePullSecrets="$CI_COMMIT_REF_NAME"secret --set ingress.host="$CI_COMMIT_REF_NAME".cncf.ci --set ingress.port=8080 --set api.url=http://"$CI_COMMIT_REF_NAME"api.cncf.ci/api --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME" --set image.tag="$CI_COMMIT_SHA"
-
-
-Dashboard-Frontend-Staging:
-  stage: Build
-  only:
-    - staging
-  script:
-    - >
-      if [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ]; then
-        continue
-      else
-        echo 'wrong environment'
-        exit 1
-      fi
-    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - docker build --pull --no-cache -t "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA" .
-    - docker push "$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME:$CI_COMMIT_SHA"
-
-Deploy-Frontend-Staging:
-  stage: Deploy
-  image: registry.staging.cncf.ci/cncf/cncf-ci-dashboard:helm
-  only:
-    - staging
-  script:
-    - >
-      if [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ]; then
-        continue
-      else
-        echo 'Wrong Environment'
-        exit 1
-      fi
-    - /helm/entrypoint.sh
-    - export KUBECONFIG=/kubeconfig
-    - helm init
-    - helm repo add cncf http://cncf.gitlab.io/stable
-    - helm upgrade front-"$CI_COMMIT_REF_NAME" cncf/frontend --install --force --wait --timeout 3600 --set imagePullSecrets="$CI_COMMIT_REF_NAME"secret --set ingress.host="$CI_COMMIT_REF_NAME".cncf.ci --set ingress.port=8080 --set api.url=http://"$CI_COMMIT_REF_NAME"api.cncf.ci/api --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME" --set image.tag="$CI_COMMIT_SHA"
+    - helm upgrade front-"$CI_COMMIT_REF_NAME" cncf/frontend --install --force --wait --timeout 3600 --set imagePullSecrets="$CI_COMMIT_REF_NAME"secret --set ingress.host="$FRONTEND_INGRESS" --set ingress.port=8080 --set api.url=http://"$BACKEND_INGRESS"/api --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME" --set image.tag="$CI_COMMIT_SHA"
