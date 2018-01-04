@@ -19,3 +19,4 @@ config/test.env.js
 *.njsproj
 *.sln
 .env
+.byebug_history

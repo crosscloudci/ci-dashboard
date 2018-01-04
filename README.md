@@ -69,3 +69,37 @@ helm install --name frontend cncf/frontend --set imagePullSecrets=regsecret --se
 ```
 helm upgrade frontend cncf/frontend --install --force --set imagePullSecrets=regsecret --set ingress.host=staging.cncf.ci --set ingress.port=8080 --set api.url=http://backend:4001/api --set node.port=8080 --set node.host=0.0.0.0
 ```
+
+# install chrome dependencies
+see: https://github.com/karma-runner/karma-chrome-launcher
+```
+sudo apt-get install -y xvfb fluxbox x11vnc dbus libqt4-dbus                                                                            
+libqt4-network libqtcore4 libqtgui4 libxss1 libpython2.7 libqt4-xml                                                                     
+libaudio2 fontconfig liblcms1 lib32stdc++6 libc6-i386 nano                                                                              
+lib32z1                                                                                                                                 
+                                                                                                                                        
+sudo apt-get install -y python-gobject-2                                                                                                
+                                                                                                                                        
+sudo apt-get install -y curl git                                                                                                        
+                                                                                                                                        
+npm install                                                                                                                             
+                                                                                                                                        
+./node_modules/karma/bin/karma start --single-run --browsers ChromeHeadless karma.conf.js  
+```
+
+
+# install ruby 2.3.3
+see: https://rvm.io/rvm/install
+
+# install ruby application dependencies
+```
+bundle install
+```
+
+# to run the test suite:
+```
+bundle exec cucumber
+```
+
+
+
