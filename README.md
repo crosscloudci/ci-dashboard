@@ -81,10 +81,21 @@ lib32z1
 sudo apt-get install -y python-gobject-2                                                                                                
                                                                                                                                         
 sudo apt-get install -y curl git                                                                                                        
+
+sudo apt install libnss3
+
+# check if google-chrome installed with 
+google-chrome-stable --headless
                                                                                                                                         
 npm install                                                                                                                             
-                                                                                                                                        
-./node_modules/karma/bin/karma start --single-run --browsers ChromeHeadless karma.conf.js  
+sudo curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
+sudo su -c "echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google-chrome.list"
+sudo apt-get -y update
+sudo apt-get -y install google-chrome-stable
+
+# make sure .env file has test_url=<servername>
+
+. .env; bundle exec cucumber
 ```
 
 
