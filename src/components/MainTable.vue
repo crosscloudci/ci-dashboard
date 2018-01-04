@@ -58,8 +58,8 @@
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
                 <label>{{deployment.cloud_name}}</label>
-                <StatusBadge :state="StableCloudStatus(project, deployment.cloud_id)" url="#"/>
-                <StatusBadge :state="HeadCloudStatus(project, deployment.cloud_id)" url="#"/>
+                <StatusBadge :state="StableCloudStatus(project, deployment.cloud_id)" :url="StableCloudURL(project, deployment.cloud_id)"/>
+                <StatusBadge :state="HeadCloudStatus(project, deployment.cloud_id)" :url="HeadCloudURL(project, deployment.cloud_id)"/>
               </div>
             </td>
           </tr>
@@ -273,6 +273,39 @@
 
         console.log('stable status:' + status)
         return status
+      },
+      HeadCloudURL: function (arg, cloudId) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'head') {
+            pl.jobs.forEach(function (j) {
+              if (j.cloud_id === cloudId) {
+                if (j.status === 'N/A') { url = '#' }
+                if (!(j.status === 'N/A')) { url = j.url }
+              }
+            })
+          }
+        })
+        return url
+      },
+      StableCloudURL: function (arg, cloudId) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            pl.jobs.forEach(function (j) {
+              if (j.cloud_id === cloudId) {
+                if (j.status === 'N/A') { url = '#' }
+                if (!(j.status === 'N/A')) { url = j.url }
+              // console.log('cloud name =' + cloudName)
+              // console.log('cloud id =' + j.cloud_id)
+              // console.log('real cloud id =' + cloudId)
+              // console.log('status=' + j.status)
+              // console.log('url =' + j.url)
+              }
+            })
+          }
+        })
+        return url
       }
     },
     computed: {
