@@ -6,6 +6,7 @@ end
 
 When /the user clicks on The Linux Foundation Projects logo on tablet/ do
   visit ENV["TEST_URL"]
+  sleep 1
   #size for ipad screen
 	page.driver.browser.manage.window.resize_to(1024, 768)
 	 @cncf_projects_window_on_tablet = window_opened_by do

@@ -6,6 +6,7 @@ end
 
 When /the user clicks on The Linux Foundation Projects logo/ do
   visit ENV["TEST_URL"]
+  sleep 1
 	 @cncf_projects_window = window_opened_by do
 		page.find("#top-banner").find(".linux-foundation-logo").click
 	 end

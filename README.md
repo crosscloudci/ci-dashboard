@@ -99,7 +99,7 @@ sudo apt-get -y install google-chrome-stable
 ```
 
 
-# install ruby 2.3.3
+# install ruby 2.4.1
 see: https://rvm.io/rvm/install
 
 # install ruby application dependencies

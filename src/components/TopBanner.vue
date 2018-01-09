@@ -1,5 +1,5 @@
 <template>
-  <div id="top-banner" >
+  <div id="top-banner">
     <div class="container">
       <div class="linux-foundation-logo">
         <img v-on:click="gotoURL()" src="../assets/images/logo_lf_projects_horizontal.png"/>
