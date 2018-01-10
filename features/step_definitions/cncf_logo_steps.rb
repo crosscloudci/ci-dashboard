@@ -14,6 +14,6 @@ end
 
 Then /a new tab will open for https\:\/\/cncf\.io/ do
 	within_window @cncf_projects_window do
-		expect(page).to have_content('Cloud Native Computing Foundation')
+		expect(page).to have_content('CLOUD NATIVE COMPUTING FOUNDATION')
 	end 
 end

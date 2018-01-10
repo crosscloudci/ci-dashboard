@@ -11,3 +11,7 @@ Then /the user should not be able to see the Linux Foundation Projects logo/ do
   page.driver.browser.manage.window.resize_to('375', '667')
   page.find("#top-banner", visible: false).has_content?  
 end
+
+After do
+  page.driver.browser.manage.window.resize_to('1050', '1004')
+end
