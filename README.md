@@ -69,8 +69,11 @@ helm install --name frontend cncf/frontend --set imagePullSecrets=regsecret --se
 ```
 helm upgrade frontend cncf/frontend --install --force --set imagePullSecrets=regsecret --set ingress.host=staging.cncf.ci --set ingress.port=8080 --set api.url=http://backend:4001/api --set node.port=8080 --set node.host=0.0.0.0
 ```
+---
 
-# install chrome dependencies
+# How to Install Integration Tests
+
+## 1. Install chrome dependencies
 see: https://github.com/karma-runner/karma-chrome-launcher
 ```
 sudo apt-get install -y xvfb fluxbox x11vnc dbus libqt4-dbus                                                                            
@@ -99,15 +102,15 @@ sudo apt-get -y install google-chrome-stable
 ```
 
 
-# install ruby 2.4.1
+## 2. install ruby 2.4.1
 see: https://rvm.io/rvm/install
 
-# install ruby application dependencies
+## 3. install ruby application dependencies
 ```
 bundle install
 ```
 
-# to run the test suite:
+# How to run the test suite:
 ```
 bundle exec cucumber
 ```
