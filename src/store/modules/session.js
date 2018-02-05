@@ -4,7 +4,8 @@ import * as types from '../mutation-types'
 // const API_URL = 'http://dev.vulk.co:4000/api'
 const API_URL = process.env.API_URL
 
-const WEBSOCKET_URL = API_URL.replace(/(https|http)/, 'ws').replace('/api', '') // new line
+// const WEBSOCKET_URL = API_URL.replace(/(https|http)/, 'ws').replace('/api', '') // new line
+const WEBSOCKET_URL = API_URL.replace(/(https)/, 'wss').replace(/(http)/, 'ws').replace('/api', '')
 
 const state = {
   socket: null,
