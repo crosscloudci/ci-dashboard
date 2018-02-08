@@ -47,9 +47,4 @@ export default {
     flex: 1;
     height: 100%;
   }
-
-  #app-footer {
-    background: $light;
-    padding: rem(10);
-  }
 </style>

@@ -46,6 +46,11 @@
   @import "../assets/stylesheets/variables";
   @import "../assets/stylesheets/mixins";
 
+  #app-footer {
+    background: $light;
+    padding: rem(10);
+  }
+
   #app-footer a {
     text-decoration: none; }
 

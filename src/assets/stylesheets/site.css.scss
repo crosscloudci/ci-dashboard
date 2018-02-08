@@ -3,13 +3,3 @@
 @import "mixins";
 @import "utils";
 @import "animations";
-
-.foo {
-  display: flex;
-  flex-direction: column;
-
-  #main-table {
-    background: red;
-    flex: 1;
-  }
-}
