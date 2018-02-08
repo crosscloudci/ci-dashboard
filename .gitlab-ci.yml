@@ -37,14 +37,14 @@ Deploy-Frontend:
         export TLS="true"
       elif [ "$BASE_URL" == "https://gitlab.cidev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "integration" ]; then 
         echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-        export BACKEND_INGRESS="http://cidevapi.cncf.ci/api"
+        export BACKEND_INGRESS="https://cidevapi.cncf.ci/api"
         export FRONTEND_INGRESS="cidev.cncf.ci"
-        export TLS="false"
+        export TLS="true"
       elif [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "staging" ]; then 
         echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-        export BACKEND_INGRESS="http://stagingapi.cncf.ci/api"
+        export BACKEND_INGRESS="https://stagingapi.cncf.ci/api"
         export FRONTEND_INGRESS="staging.cncf.ci"
-        export TLS="false"
+        export TLS="true"
       elif [ "$BASE_URL" == "https://gitlab.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "production" ]; then
         echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
         export BACKEND_INGRESS="http://productionapi.cncf.ci/api"
