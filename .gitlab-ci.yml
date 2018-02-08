@@ -47,9 +47,9 @@ Deploy-Frontend:
         export TLS="true"
       elif [ "$BASE_URL" == "https://gitlab.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "production" ]; then
         echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-        export BACKEND_INGRESS="http://productionapi.cncf.ci/api"
+        export BACKEND_INGRESS="https://productionapi.cncf.ci/api"
         export FRONTEND_INGRESS="cncf.ci"
-        export TLS="false"
+        export TLS="true"
       else
         echo "No Matching Environment Could Be Found"
         exit 1
