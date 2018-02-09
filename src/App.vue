@@ -32,19 +32,27 @@ export default {
   @import "assets/stylesheets/variables";
   @import "assets/stylesheets/mixins";
 
-  body,html {
-    height: 100%;
+  @include mq('md') {
+    body,html {
+      height: 100%;
+    }
+
+    #app {
+      height: 100%;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #main-table {
+      flex: 1;
+      height: 100%;
+    }
   }
 
-  #app {
-    height: 100%;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
+  @include mq('sm') {
+    body { background: $light; }
+    #app { background: $white; }
   }
 
-  #main-table {
-    flex: 1;
-    height: 100%;
-  }
 </style>

@@ -50,7 +50,7 @@
     background: $light;
     border-top: 1px solid $ccc;
     padding: rem(10);
-    margin-top: rem(10);
+    margin-top: rem(20);
   }
 
   #app-footer a {
