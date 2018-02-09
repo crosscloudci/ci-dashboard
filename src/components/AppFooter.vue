@@ -3,7 +3,7 @@
     <div class="container">
       <div class="footer-content">
         <div class="built-by">
-          <span>Created by</span>
+          <span>Created for</span>
           <a href="http://cncf.io" target="_blank">CNCF</a>
           <span>by</span>
           <a href="http://crosscloud.ci" target="_blank">Cross-Cloud CI</a>
