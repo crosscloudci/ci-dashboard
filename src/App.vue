@@ -55,4 +55,10 @@ export default {
     #app { background: $white; }
   }
 
+  @media (orientation: landscape) {
+    body,html {
+      height: auto;
+    }
+  }
+
 </style>
