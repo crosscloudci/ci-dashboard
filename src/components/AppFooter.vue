@@ -34,7 +34,9 @@
     created: function () {
 
     },
-    mounted: function () {},
+    mounted: function () {
+
+    },
     updated: function () {},
     destroyed: function () {}
 
