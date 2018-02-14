@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" ref="app">
     <TopBanner url="https://www.linuxfoundation.org/projects/"/>
     <PageHeader :last_updated="timer" url="https://cncf.io"/>
     <MainTable/>
@@ -19,6 +19,7 @@ export default {
   components: {TopBanner, PageHeader, MainTable, AppFooter},
   data: function () {
     return {
+      windowHeight: 0
     }
   },
   computed: {
@@ -51,8 +52,22 @@ export default {
   }
 
   @include mq('sm') {
-    body { background: $light; }
-    #app { background: $white; }
+    body,html {
+      height: auto;
+      background: $light;
+    }
+
+    #app {
+      background: $white;
+      height: auto;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+
+      #main-table {
+        min-height: rem(460);
+      }
+    }
   }
 
   @media (orientation: landscape) {
