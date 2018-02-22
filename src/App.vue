@@ -2,7 +2,7 @@
   <div id="app" ref="app">
     <TopBanner url="https://www.linuxfoundation.org/projects/"/>
     <PageHeader :last_updated="timer" url="https://cncf.io"/>
-    <MainTable/>
+    <router-view/>
     <AppFooter/>
   </div>
 </template>
@@ -10,13 +10,12 @@
 <script>
 import TopBanner from './components/TopBanner'
 import PageHeader from './components/PageHeader'
-import MainTable from './components/MainTable'
 import AppFooter from './components/AppFooter'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'app',
-  components: {TopBanner, PageHeader, MainTable, AppFooter},
+  components: {TopBanner, PageHeader, AppFooter},
   data: function () {
     return {
       windowHeight: 0
