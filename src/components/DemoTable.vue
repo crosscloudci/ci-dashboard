@@ -239,8 +239,7 @@
         return url
       },
       demoState: function (path) {
-        console.log('path', path)
-        if (path === '/success') {
+        if (path === '/success' || path === '/success/') {
           return 'success'
         } else {
           return 'running'

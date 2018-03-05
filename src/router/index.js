@@ -15,12 +15,12 @@ export default new Router({
       component: MainTable
     },
     {
-      path: '/running',
+      path: '/running*',
       name: 'demo-running',
       component: DemoTable
     },
     {
-      path: '/success',
+      path: '/success*',
       name: 'demo-success',
       component: DemoTable
     }
