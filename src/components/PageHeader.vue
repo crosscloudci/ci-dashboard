@@ -35,11 +35,14 @@
     },
     mounted: function () {
       let v = this
-      setInterval(() => {
-        console.log('PageHeader mounted: ' + v.$props.last_updated)
-        v.$store.dispatch('updateNewTime', v.$props.last_updated)
-      }, 1000 * 30
-    )
+
+      if (this.$route.path === '/') {
+        setInterval(() => {
+          console.log('PageHeader mounted: ' + v.$props.last_updated)
+          v.$store.dispatch('updateNewTime', v.$props.last_updated)
+        }, 1000 * 30
+        )
+      }
     },
     methods: {
       gotoURL () {
