@@ -18,7 +18,7 @@
           <i class="fa fa-clock-o"></i>
         </span>
         <span class="updated-label">Last updated</span>
-        <span class="time-updated">{{ this.$props.last_updated | moment("from", "now") }} </span>
+        <span class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
       </div>
     </div>
   </div>
@@ -35,11 +35,14 @@
     },
     mounted: function () {
       let v = this
-      setInterval(() => {
-        console.log('PageHeader mounted: ' + v.$props.last_updated)
-        v.$store.dispatch('updateNewTime', v.$props.last_updated)
-      }, 1000 * 30
-    )
+
+      if (this.$route.path === '/') {
+        setInterval(() => {
+          console.log('PageHeader mounted: ' + v.$props.last_updated)
+          v.$store.dispatch('updateNewTime', v.$props.last_updated)
+        }, 1000 * 30
+        )
+      }
     },
     methods: {
       gotoURL () {
