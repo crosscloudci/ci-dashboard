@@ -1,24 +1,22 @@
 <template>
-  <div id="app">
-    <TopBanner url="https://www.linuxfoundation.org/projects/"/>
+  <div id="app" ref="app">
     <PageHeader :last_updated="timer" url="https://cncf.io"/>
-    <MainTable/>
+    <router-view/>
     <AppFooter/>
   </div>
 </template>
 
 <script>
-import TopBanner from './components/TopBanner'
 import PageHeader from './components/PageHeader'
-import MainTable from './components/MainTable'
 import AppFooter from './components/AppFooter'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'app',
-  components: {TopBanner, PageHeader, MainTable, AppFooter},
+  components: {PageHeader, AppFooter},
   data: function () {
     return {
+      windowHeight: 0
     }
   },
   computed: {
@@ -51,14 +49,31 @@ export default {
   }
 
   @include mq('sm') {
-    body { background: $light; }
-    #app { background: $white; }
-  }
-
-  @media (orientation: landscape) {
     body,html {
       height: auto;
+      background: $light;
+    }
+
+    #app {
+      background: $white;
+      height: auto;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+
+      #main-table {
+        min-height: rem(460);
+      }
     }
   }
 
+  @media (min-width: 650px) and (orientation: landscape)   {
+    body,html {
+      height: auto;
+    }
+    #app { display: block; }
+    #main-table {
+      min-height: rem(500);
+    }
+  }
 </style>

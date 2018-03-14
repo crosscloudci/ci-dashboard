@@ -31,7 +31,7 @@
                   :title="project.display_name"
                   :caption="project.caption"/>
 
-                <img class="pipe-gfx" src="../assets/images/pipe-gfx.svg">
+                <img class="pipe-gfx" src="../../assets/images/pipe-gfx.svg">
               </div>
             </td>
 
@@ -45,8 +45,10 @@
 
               <div class="build-details">
                 <label>Build Status</label>
-                <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/>
-                <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/>
+                 <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/> 
+                 <StatusBadge :state='HeadStatus(project)' :url="HeadURL(project)"/> 
+                <!-- <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/> -->
+                <!-- <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/> -->
               </div>
 
             </td>
@@ -71,67 +73,34 @@
 </template>
 
 <script>
-  import array from '../lib/Array'
-  import ProjectFlag from './ProjectFlag'
-  import MetaLabel from './MetaLabel'
-  import StatusBadge from './StatusBadge'
-  import {mapGetters} from 'vuex'
+  import demodata from '../../lib/demo-data.json'
+  import ProjectFlag from '../ProjectFlag'
+  import MetaLabel from '../MetaLabel'
+  import StatusBadge from '../StatusBadge'
+  // import {mapGetters} from 'vuex'
 
   export default {
     name: 'main-table',
     components: {ProjectFlag, StatusBadge, MetaLabel},
     data: function () {
       return {
-        demoStateTypes: ['success', 'running', 'failed', '', null]
+        projects: [],
+        clouds: []
       }
     },
     beforeDestroy: function () {},
     beforeMount: function () {},
     mounted: function () {
-      const channel = this.$store.getters.socket.channel('dashboard:*', {})
-      channel.on('new_cross_cloud_call', payload => {
-        this.$store.dispatch('updateDashboard', { payload })
-        let lastCheckDt = payload.reply.dashboard.last_check_dt
-        // console.log('new_cross_cloud_call event date' + lastCheckDt)
-        this.$store.dispatch('updateNewTime', lastCheckDt)
-        // v.dispatch('updateNewTime', response.reply.last_check_dt)
-        // let projects = payload.reply.dashboard.projects
-        // let clouds = payload.reply.dashboard.clouds
-        // debugger
-        // this.$store.dispatch('RECEIVE_DASHBOARD_PROJECTS', { projects })
-        // this.$store.dispatch('RECEIVE_CLOUDS', { clouds })
-       // commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
-       // commit(types.RECEIVE_CLOUDS, { clouds })
-        this.$forceUpdate()
-      })
+
     },
     methods: {
       StableStatus: function (arg) {
-        var status = 'N/A'
-        arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            // console.log('Stable pipeline' + pl)
-            pl.jobs.forEach(function (j) {
-              if (j.order === 1) { status = j.status }
-            })
-          }
-        })
-
-        console.log('stable status:' + status)
-        return status
+        return 'success'
+        /* return this.demoState(this.$route.path) */
       },
       HeadStatus: function (arg) {
-        var status = 'N/A'
-        arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            // console.log('HEAD pipeline' + pl)
-            pl.jobs.forEach(function (j) {
-              if (j.order === 1) { status = j.status }
-            })
-          }
-        })
-        console.log('head status:' + status)
-        return status
+        return 'success'
+        /* return this.demoState(this.$route.path) */
       },
       StableURL: function (arg) {
         var url = '#'
@@ -158,7 +127,7 @@
             pl.jobs.forEach(function (j) {
               if (j.order === 1) {
                 url = j.url
-                console.log(url)
+                // console.log(url)
               }
             })
           }
@@ -239,40 +208,18 @@
         return type
       },
       HeadCloudStatus: function (arg, cloudId) {
-        var status = 'N/A'
-        arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            // console.log('Stable pipeline' + pl)
-            // let jobs = pl.jobs
-            // jobs.sort(function (a, b) {
-            //   return a.order - b.order
-            // })
-            pl.jobs.forEach(function (j) {
-              if (j.cloud_id === cloudId) { status = j.status }
-            })
-          }
-        })
-
-        console.log('stable status:' + status)
-        return status
+        if (arg.display_name === 'Kubernetes') {
+          return 'success'
+        } else {
+          return 'running'
+        }
       },
       StableCloudStatus: function (arg, cloudId) {
-        var status = 'N/A'
-        arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            // console.log('Stable pipeline' + pl)
-            // let jobs = pl.jobs
-            // jobs.sort(function (a, b) {
-            //   return a.order - b.order
-            // })
-            pl.jobs.forEach(function (j) {
-              if (j.cloud_id === cloudId) { status = j.status }
-            })
-          }
-        })
-
-        console.log('stable status:' + status)
-        return status
+        if (arg.display_name === 'Kubernetes') {
+          return 'success'
+        } else {
+          return 'running'
+        }
       },
       HeadCloudURL: function (arg, cloudId) {
         var url = '#'
@@ -296,45 +243,33 @@
               if (j.cloud_id === cloudId) {
                 if (j.status === 'N/A') { url = '#' }
                 if (!(j.status === 'N/A')) { url = j.url }
-              // console.log('cloud name =' + cloudName)
-              // console.log('cloud id =' + j.cloud_id)
-              // console.log('real cloud id =' + cloudId)
-              // console.log('status=' + j.status)
-              // console.log('url =' + j.url)
               }
             })
           }
         })
         return url
+      },
+      demoState: function (path) {
+        if (path === '/success' || path === '/success/') {
+          return 'success'
+        } else {
+          return 'running'
+        }
       }
     },
-    computed: {
-      // For Demo
-      demoState1: function () {
-        return array.random(this.demoStateTypes)
-      },
-      demoState2: function () {
-        return array.random(this.demoStateTypes)
-      },
-      demoState3: function () {
-        return array.random(this.demoStateTypes)
-      },
-      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket', timer: 'updateTime' })
-    },
+    computed: { },
     created () {
-      this.$store.dispatch('connectToSocket')
-      // this.$store.dispatch('getAllProjects')
-      this.$store.dispatch('getAllClouds')
-      // this.$store.dispatch('getAllPipelines')
+      this.projects = demodata.dashboard.projects
+      this.clouds = demodata.dashboard.clouds
     }
   }
 
 </script>
 
 <style lang="scss">
-  @import "../assets/stylesheets/colors";
-  @import "../assets/stylesheets/variables";
-  @import "../assets/stylesheets/mixins";
+  @import "../../assets/stylesheets/colors";
+  @import "../../assets/stylesheets/variables";
+  @import "../../assets/stylesheets/mixins";
 
   #main-table {
     margin-top: rem(20);
@@ -392,7 +327,9 @@
           &.subheader {
 
             th {
+              padding: rem(10);
               text-align: left;
+              text-indent: rem(20);
               position: relative;
 
               &:before {
@@ -406,27 +343,16 @@
                 @include mq('lg') { border-bottom: 1px solid $ccc; }
               }
 
-              // &:last-child {
-              //   text-indent: 0;
-              //   padding-left: rem(30);
-              // }
-
               &:last-child:before { border:0; }
               &:nth-child(3) {
-
-                span {
-                  padding-bottom: rem(5);
-                  position: relative;
-                  left: rem(24);
-                }
+                text-indent: rem(50);
+                span:first-child { padding-bottom: rem(5) }
               }
 
               span {
                 background: $white;
                 display: block;
-                font-size: rem(11);
-                padding-left: rem(21);
-                width: rem(70);
+                font-size: rem(12);
               }
             }
           }

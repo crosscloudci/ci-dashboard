@@ -18,7 +18,8 @@
           <i class="fa fa-clock-o"></i>
         </span>
         <span class="updated-label">Last updated</span>
-        <span class="time-updated">{{ this.$props.last_updated | moment("from", "now") }} </span>
+          <span v-if="this.$props.last_updated === ''" class="time-updated">{{ LastUpdatedChecker() }} </span>
+          <span v-else class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
       </div>
     </div>
   </div>
@@ -35,15 +36,32 @@
     },
     mounted: function () {
       let v = this
-      setInterval(() => {
-        console.log('PageHeader mounted: ' + v.$props.last_updated)
-        v.$store.dispatch('updateNewTime', v.$props.last_updated)
-      }, 1000 * 30
-    )
+
+      if (this.$route.path === '/') {
+        setInterval(() => {
+          console.log('PageHeader mounted: ' + v.$props.last_updated)
+          v.$store.dispatch('updateNewTime', v.$props.last_updated)
+        }, 1000 * 30
+        )
+      }
     },
     methods: {
       gotoURL () {
         window.open(this.$props.url, '_blank')
+      },
+      LastUpdatedChecker () {
+        if (this.$props.last_updated === '') {
+          return this.demoTime(this.$route.path)
+        } else {
+          return this.$props.last_updated
+        }
+      },
+      demoTime (path) {
+        if (path === '/deploy' || path === '/deploy/') {
+          return '1 minute ago'
+        } else {
+          return '5 minutes ago'
+        }
       }
     },
     computed: {
@@ -59,7 +77,7 @@
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
-    margin-top: rem(30);
+    // margin-top: rem(30);
 
     @include mq('sm'){ margin-top: 0; }
 
