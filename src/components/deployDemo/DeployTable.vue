@@ -31,7 +31,7 @@
                   :title="project.display_name"
                   :caption="project.caption"/>
 
-                <img class="pipe-gfx" src="../assets/images/pipe-gfx.svg">
+                <img class="pipe-gfx" src="../../assets/images/pipe-gfx.svg">
               </div>
             </td>
 
@@ -45,8 +45,10 @@
 
               <div class="build-details">
                 <label>Build Status</label>
-                <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/>
-                <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/>
+                 <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/> 
+                 <StatusBadge :state='HeadStatus(project)' :url="HeadURL(project)"/> 
+                <!-- <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/> -->
+                <!-- <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/> -->
               </div>
 
             </td>
@@ -71,10 +73,10 @@
 </template>
 
 <script>
-  import demodata from '../lib/demo-data.json'
-  import ProjectFlag from './ProjectFlag'
-  import MetaLabel from './MetaLabel'
-  import StatusBadge from './StatusBadge'
+  import demodata from '../../lib/demo-data.json'
+  import ProjectFlag from '../ProjectFlag'
+  import MetaLabel from '../MetaLabel'
+  import StatusBadge from '../StatusBadge'
   // import {mapGetters} from 'vuex'
 
   export default {
@@ -93,10 +95,12 @@
     },
     methods: {
       StableStatus: function (arg) {
-        return this.demoState(this.$route.path)
+        return 'success'
+        /* return this.demoState(this.$route.path) */
       },
       HeadStatus: function (arg) {
-        return this.demoState(this.$route.path)
+        return 'success'
+        /* return this.demoState(this.$route.path) */
       },
       StableURL: function (arg) {
         var url = '#'
@@ -204,12 +208,19 @@
         return type
       },
       HeadCloudStatus: function (arg, cloudId) {
-        return this.demoState(this.$route.path)
+        if (arg.display_name === 'Kubernetes') {
+          return 'success'
+        } else {
+          return 'running'
+        }
       },
       StableCloudStatus: function (arg, cloudId) {
-        return this.demoState(this.$route.path)
+        if (arg.display_name === 'Kubernetes') {
+          return 'success'
+        } else {
+          return 'running'
+        }
       },
-
       HeadCloudURL: function (arg, cloudId) {
         var url = '#'
         arg.pipelines.forEach(function (pl) {
@@ -256,9 +267,9 @@
 </script>
 
 <style lang="scss">
-  @import "../assets/stylesheets/colors";
-  @import "../assets/stylesheets/variables";
-  @import "../assets/stylesheets/mixins";
+  @import "../../assets/stylesheets/colors";
+  @import "../../assets/stylesheets/variables";
+  @import "../../assets/stylesheets/mixins";
 
   #main-table {
     margin-top: rem(20);
@@ -330,11 +341,6 @@
                 top: rem(25);
                 width: 100%;
                 @include mq('lg') { border-bottom: 1px solid $ccc; }
-              }
-
-              &:last-child {
-                text-indent: 0;
-                padding-left: rem(30);
               }
 
               &:last-child:before { border:0; }

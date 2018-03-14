@@ -408,6 +408,11 @@
                 @include mq('lg') { border-bottom: 1px solid $ccc; }
               }
 
+              &:last-child {
+                text-indent: 0;
+                padding-left: rem(30);
+              }
+
               &:last-child:before { border:0; }
               &:nth-child(3) {
                 text-indent: rem(50);
