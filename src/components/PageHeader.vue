@@ -18,8 +18,8 @@
           <i class="fa fa-clock-o"></i>
         </span>
         <span class="updated-label">Last updated</span>
-        <span class="time-updated">{{ LastUpdatedChecker() }} </span>
-       <!-- <span class="time-updated">{{ LastUpdatedChecker(this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span> --> 
+          <span v-if="this.$props.last_updated === ''" class="time-updated">{{ LastUpdatedChecker() }} </span>
+          <span v-else class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
       </div>
     </div>
   </div>
