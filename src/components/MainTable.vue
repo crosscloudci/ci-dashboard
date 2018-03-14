@@ -392,9 +392,7 @@
           &.subheader {
 
             th {
-              padding: rem(10);
               text-align: left;
-              text-indent: rem(20);
               position: relative;
 
               &:before {
@@ -408,21 +406,27 @@
                 @include mq('lg') { border-bottom: 1px solid $ccc; }
               }
 
-              &:last-child {
-                text-indent: 0;
-                padding-left: rem(30);
-              }
+              // &:last-child {
+              //   text-indent: 0;
+              //   padding-left: rem(30);
+              // }
 
               &:last-child:before { border:0; }
               &:nth-child(3) {
-                text-indent: rem(50);
-                span:first-child { padding-bottom: rem(5) }
+
+                span {
+                  padding-bottom: rem(5);
+                  position: relative;
+                  left: rem(24);
+                }
               }
 
               span {
                 background: $white;
                 display: block;
-                font-size: rem(12);
+                font-size: rem(11);
+                padding-left: rem(21);
+                width: rem(70);
               }
             }
           }
