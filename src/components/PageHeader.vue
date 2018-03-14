@@ -18,7 +18,8 @@
           <i class="fa fa-clock-o"></i>
         </span>
         <span class="updated-label">Last updated</span>
-        <span class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
+        <span class="time-updated">{{ LastUpdatedChecker() }} </span>
+       <!-- <span class="time-updated">{{ LastUpdatedChecker(this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span> --> 
       </div>
     </div>
   </div>
@@ -47,6 +48,20 @@
     methods: {
       gotoURL () {
         window.open(this.$props.url, '_blank')
+      },
+      LastUpdatedChecker () {
+        if (this.$props.last_updated === '') {
+          return this.demoTime(this.$route.path)
+        } else {
+          return this.$props.last_updated
+        }
+      },
+      demoTime (path) {
+        if (path === '/deploy' || path === '/deploy/') {
+          return '1 minute ago'
+        } else {
+          return '5 minutes ago'
+        }
       }
     },
     computed: {
