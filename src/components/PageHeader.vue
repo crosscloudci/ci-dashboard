@@ -62,7 +62,7 @@
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
-    margin-top: rem(30);
+    // margin-top: rem(30);
 
     @include mq('sm'){ margin-top: 0; }
 
