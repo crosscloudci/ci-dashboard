@@ -57,6 +57,9 @@
         }
       },
       demoTime (path) {
+        if (path === '/') {
+          return this.$props.last_updated
+        }
         if (path === '/deploy' || path === '/deploy/') {
           return '1 minute ago'
         } else {
