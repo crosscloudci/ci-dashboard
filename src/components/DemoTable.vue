@@ -248,7 +248,13 @@
         if ((path === '/provisioning' || path === '/provisioning/') && !(project.display_name === 'Kubernetes')) {
           return 'success'
         }
-        if ((path === '/deploy' || path === '/deploy/') && (project.display_name === 'Kubernetes')) {
+        if ((path === '/deploy' || path === '/deploy/') && !(project.display_name === 'ONAP')) {
+          return 'success'
+        }
+        if ((path === '/deploy' || path === '/deploy/') && (project.display_name === 'ONAP')) {
+          return 'running'
+        }
+        if (path === '/home' || path === '/home/') {
           return 'success'
         }
         if (path === '/success' || path === '/success/') {
@@ -267,6 +273,9 @@
           return 'success'
         }
         if (path === '/provisioning' || path === '/provisioning/') {
+          return 'success'
+        }
+        if (path === '/home' || path === '/home/') {
           return 'success'
         }
         if (path === '/success' || path === '/success/') {

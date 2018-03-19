@@ -37,6 +37,11 @@ export default new Router({
       component: DemoTable
     },
     {
+      path: '/home*',
+      name: 'demo-home',
+      component: DemoTable
+    },
+    {
       path: '/success*',
       name: 'demo-success',
       component: DemoTable
