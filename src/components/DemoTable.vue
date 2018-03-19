@@ -93,10 +93,10 @@
     },
     methods: {
       StableStatus: function (arg) {
-        return this.demoState(this.$route.path)
+        return this.demoState(this.$route.path, arg)
       },
       HeadStatus: function (arg) {
-        return this.demoState(this.$route.path)
+        return this.demoState(this.$route.path, arg)
       },
       StableURL: function (arg) {
         var url = '#'
@@ -204,10 +204,10 @@
         return type
       },
       HeadCloudStatus: function (arg, cloudId) {
-        return this.demoState(this.$route.path)
+        return this.demoCloudState(this.$route.path, arg)
       },
       StableCloudStatus: function (arg, cloudId) {
-        return this.demoState(this.$route.path)
+        return this.demoCloudState(this.$route.path, arg)
       },
 
       HeadCloudURL: function (arg, cloudId) {
@@ -238,11 +238,39 @@
         })
         return url
       },
-      demoState: function (path) {
+      demoCloudState: function (path, project) {
+        if (path === '/build' || path === '/build/') {
+          return 'success'
+        }
+        if ((path === '/provisioning' || path === '/provisioning/') && (project.display_name === 'Kubernetes')) {
+          return 'running'
+        }
+        if ((path === '/provisioning' || path === '/provisioning/') && !(project.display_name === 'Kubernetes')) {
+          return 'success'
+        }
+        if ((path === '/deploy' || path === '/deploy/') && (project.display_name === 'Kubernetes')) {
+          return 'success'
+        }
         if (path === '/success' || path === '/success/') {
           return 'success'
-        } else {
-          return 'running'
+        }
+      },
+      demoState: function (path, project) {
+        if (path === '/build' || path === '/build/') {
+          if (project.display_name === 'ONAP') {
+            return 'running'
+          } else {
+            return 'success'
+          }
+        }
+        if (path === '/deploy' || path === '/deploy/') {
+          return 'success'
+        }
+        if (path === '/provisioning' || path === '/provisioning/') {
+          return 'success'
+        }
+        if (path === '/success' || path === '/success/') {
+          return 'success'
         }
       }
     },

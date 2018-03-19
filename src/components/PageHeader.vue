@@ -60,6 +60,9 @@
         if (path === '/') {
           return this.$props.last_updated
         }
+        if (path === '/build' || path === '/build/') {
+          return '1 minute ago'
+        }
         if (path === '/deploy' || path === '/deploy/') {
           return '1 minute ago'
         } else {

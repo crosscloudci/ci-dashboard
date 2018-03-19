@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import MainTable from '@/components/MainTable'
 import DemoTable from '@/components/DemoTable'
-import DeployTable from '@/components/deployDemo/DeployTable'
+// import DeployTable from '@/components/deployDemo/DeployTable'
 
 Vue.use(Router)
 
@@ -18,11 +18,22 @@ export default new Router({
     {
       path: '/deploy*',
       name: 'demo-deploy',
-      component: DeployTable
+      component: DemoTable
+      // component: DeployTable
     },
     {
       path: '/running*',
       name: 'demo-running',
+      component: DemoTable
+    },
+    {
+      path: '/build*',
+      name: 'demo-build',
+      component: DemoTable
+    },
+    {
+      path: '/provisioning*',
+      name: 'demo-provisioning',
       component: DemoTable
     },
     {
