@@ -258,7 +258,7 @@
           return 'success'
         }
         if (path === '/running' || path === '/running/') {
-          return 'success'
+          return 'running'
         }
         if (path === '/success' || path === '/success/') {
           return 'success'
@@ -282,7 +282,7 @@
           return 'success'
         }
         if (path === '/running' || path === '/running/') {
-          return 'success'
+          return 'running'
         }
         if (path === '/success' || path === '/success/') {
           return 'success'
