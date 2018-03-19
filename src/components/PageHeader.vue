@@ -65,6 +65,9 @@
         }
         if (path === '/deploy' || path === '/deploy/') {
           return '1 minute ago'
+        }
+        if (path === '/provisioning' || path === '/provisioning/') {
+          return '1 minute ago'
         } else {
           return '5 minutes ago'
         }
