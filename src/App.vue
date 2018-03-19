@@ -67,7 +67,7 @@ export default {
     }
   }
 
-  @media (min-width: 650px) and (orientation: landscape)   {
+  @media (min-height: 350px) and (max-height: 550px) {
     body,html {
       height: auto;
     }
