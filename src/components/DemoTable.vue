@@ -257,6 +257,9 @@
         if (path === '/home' || path === '/home/') {
           return 'success'
         }
+        if (path === '/running' || path === '/running/') {
+          return 'success'
+        }
         if (path === '/success' || path === '/success/') {
           return 'success'
         }
@@ -276,6 +279,9 @@
           return 'success'
         }
         if (path === '/home' || path === '/home/') {
+          return 'success'
+        }
+        if (path === '/running' || path === '/running/') {
           return 'success'
         }
         if (path === '/success' || path === '/success/') {
