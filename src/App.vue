@@ -67,13 +67,11 @@ export default {
     }
   }
 
-  @media (min-width: 650px) and (orientation: landscape)   {
+  @media (max-height: 670px) {
     body,html {
       height: auto;
     }
+
     #app { display: block; }
-    #main-table {
-      min-height: rem(500);
-    }
   }
 </style>
