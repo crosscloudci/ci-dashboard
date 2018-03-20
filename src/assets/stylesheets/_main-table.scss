@@ -54,7 +54,7 @@
         &.subheader {
 
           th {
-            text-align: left;
+            text-align: center;
             position: relative;
 
             &:before {
@@ -67,11 +67,6 @@
               width: 100%;
               @include mq('lg') { border-bottom: 1px solid $ccc; }
             }
-
-            // &:last-child {
-            //   text-indent: 0;
-            //   padding-left: rem(30);
-            // }
 
             &:last-child:before { border:0; }
             &:nth-child(3) {
@@ -90,6 +85,10 @@
               padding-left: rem(21);
               width: rem(70);
             }
+
+            &:nth-child(1) { text-align: left; }
+            &:nth-child(2) { text-align: left; }
+            &:nth-child(3) { text-align: left; }
           }
         }
       }
