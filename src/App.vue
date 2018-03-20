@@ -67,13 +67,11 @@ export default {
     }
   }
 
-  @media (min-height: 350px) and (max-height: 550px) {
+  @media (max-height: 590px) {
     body,html {
       height: auto;
     }
+
     #app { display: block; }
-    #main-table {
-      min-height: rem(500);
-    }
   }
 </style>
