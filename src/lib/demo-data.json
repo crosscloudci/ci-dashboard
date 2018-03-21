@@ -977,8 +977,8 @@
                 "cloud_id": null
               },
               {
-                "url": "https://gitlab.dev.cncf.ci/cncf/cross-project/-/jobs/56265",
-                "status": "failed",
+                "url": "https://gitlab.cncf.ci/cncf/cross-project/-/jobs/62246",
+                "status": "success",
                 "ref": "N/A",
                 "project_id": null,
                 "pipeline_id": 9,
@@ -1121,6 +1121,18 @@
                 "job_id": 60,
                 "id": 60,
                 "cloud_id": 7
+              },
+              {
+                "url": "https://gitlab.cncf.ci/cncf/cross-project/-/jobs/62665",
+                "status": "failed",
+                "ref": "N/A",
+                "project_id": null,
+                "pipeline_id": 10,
+                "order": 8,
+                "name": "N/A",
+                "job_id": 61,
+                "id": 61,
+                "cloud_id": 6
               }
             ],
             "id": 10,
