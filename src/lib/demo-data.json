@@ -1038,7 +1038,7 @@
               },
               {
                 "url": "https://gitlab.cncf.ci/cncf/cross-project/-/jobs/62665",
-                "status": "failed",
+                "status": "success",
                 "ref": "N/A",
                 "project_id": null,
                 "pipeline_id": 10,
