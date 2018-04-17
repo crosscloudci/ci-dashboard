@@ -60,9 +60,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .75);
   display: table;
-  transition: opacity .65s ease;
+  transition: opacity .3s ease;
 }
 
 .modal-wrapper {
