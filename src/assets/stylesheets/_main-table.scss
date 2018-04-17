@@ -34,7 +34,7 @@
 
           th:first-child {
             @include border-radius(15px 0 0 15px);
-            text-indent: rem(50);
+            text-indent: rem(35);
           }
           th:last-child {
             @include border-radius(0 15px 15px 0);
@@ -74,7 +74,7 @@
               span {
                 padding-bottom: rem(5);
                 position: relative;
-                left: rem(24);
+                left: rem(29);
               }
             }
 
@@ -82,7 +82,7 @@
               background: $white;
               display: block;
               font-size: rem(11);
-              padding-left: rem(21);
+              padding-left: rem(22);
               width: rem(70);
             }
 
