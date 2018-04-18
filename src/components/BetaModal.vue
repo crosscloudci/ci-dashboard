@@ -71,7 +71,7 @@ export default {
 }
 
 .modal-container {
-  width: 325px;
+  width: 350px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -156,4 +156,21 @@ export default {
   transform: scale(1.1);
 }
 
+@media (max-width: 567px) {
+  .modal-body {
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  .modal-container {
+    width: 325px;
+    margin: 0px auto;
+    padding: 20px 10px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: 'Encode Sans', sans-serif;
+  }
+}
 </style>
