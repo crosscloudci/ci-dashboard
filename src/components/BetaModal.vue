@@ -60,7 +60,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .75);
   display: table;
   transition: opacity .3s ease;
 }
@@ -103,7 +103,7 @@ export default {
 
 .modal-default-button-yes {
  border: 1px solid #ccc;
- font-size: 10px;
+ font-size: 14px;
  padding: .5rem 1rem;
  border-radius: 5px;
  cursor: pointer;
@@ -118,7 +118,7 @@ export default {
 }
 
 .modal-default-button-no {
- font-size: 10px;
+ font-size: 14px;
  border: 1px solid #ddd;
  padding: .5rem 1rem;
  border-radius: 5px;
