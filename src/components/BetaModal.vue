@@ -6,13 +6,14 @@
 
           <div class="modal-header">
             <slot name="header">
-						<span style="font-weight:bold">CNCF CI DASHBOARD</span>  <span style="color:rgb(38, 121, 170)">beta</span>
+						<span style="font-weight:bold">CNCF CI DASHBOARD</span>  <span style="color:rgb(126, 126, 126);font-weight:bold">beta</span>
             </slot>
           </div>
 
           <div class="modal-body">
             <slot name="body">
-              This is <span style="color:rgb(38, 121, 170)">beta</span> software. Would you like to take a look? 
+              <p>This is <span style="color:rgb(126, 126, 126)">beta</span> software. Would you like to take a look?</p>
+              <p style="font-size:10px;font-style:italic">The accuracy of the data is not guaranteed</p>
             </slot>
           </div>
 
