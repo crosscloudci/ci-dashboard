@@ -6,13 +6,14 @@
 
           <div class="modal-header">
             <slot name="header">
-						<span style="font-weight:bold">CNCF CI DASHBOARD</span>  <span style="color:rgb(38, 121, 170)">beta</span>
+						<span style="font-weight:bold">CNCF CI DASHBOARD</span>  <span style="color:rgb(126, 126, 126);font-weight:bold">beta</span>
             </slot>
           </div>
 
           <div class="modal-body">
             <slot name="body">
-              This is <span style="color:rgb(38, 121, 170)">beta</span> software. Would you like to take a look? 
+              <p>This is <span style="color:rgb(126, 126, 126)">beta</span> software. Would you like to take a look?</p>
+              <p style="font-size:10px;font-style:italic">The accuracy of the data is not guaranteed</p>
             </slot>
           </div>
 
@@ -60,7 +61,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .75);
   display: table;
   transition: opacity .3s ease;
 }
@@ -71,7 +72,7 @@ export default {
 }
 
 .modal-container {
-  width: 300px;
+  width: 350px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -103,7 +104,7 @@ export default {
 
 .modal-default-button-yes {
  border: 1px solid #ccc;
- font-size: 10px;
+ font-size: 14px;
  padding: .5rem 1rem;
  border-radius: 5px;
  cursor: pointer;
@@ -118,7 +119,7 @@ export default {
 }
 
 .modal-default-button-no {
- font-size: 10px;
+ font-size: 14px;
  border: 1px solid #ddd;
  padding: .5rem 1rem;
  border-radius: 5px;
@@ -156,4 +157,21 @@ export default {
   transform: scale(1.1);
 }
 
+@media (max-width: 567px) {
+  .modal-body {
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  .modal-container {
+    width: 325px;
+    margin: 0px auto;
+    padding: 20px 10px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: 'Encode Sans', sans-serif;
+  }
+}
 </style>
