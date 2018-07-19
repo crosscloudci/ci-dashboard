@@ -1,7 +1,6 @@
 <template>
   <div id="app" ref="app">
     <PageHeader :last_updated="timer" url="https://cncf.io"/>
-		<BetaModal v-if="showModal" @close="showModal = false" />
     <router-view/>
     <AppFooter/>
   </div>
@@ -10,15 +9,13 @@
 <script>
 import PageHeader from './components/PageHeader'
 import AppFooter from './components/AppFooter'
-import BetaModal from './components/BetaModal'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'app',
-  components: {PageHeader, AppFooter, BetaModal},
+  components: {PageHeader, AppFooter},
   data: function () {
     return {
-      showModal: true,
       windowHeight: 0
     }
   },
