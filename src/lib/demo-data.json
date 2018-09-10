@@ -14,7 +14,7 @@
             "stable_tag": "stable",
             "sha": "bee2d1505c4fe820744d26d41ecd3fdd4a3d6546",
             "release_type": "stable",
-            "ref": "v1.9.4",
+            "ref": "v1.11.2",
             "project_id": 33,
             "pipeline_id": 5,
             "order": 2,
@@ -203,7 +203,7 @@
             "stable_tag": "stable",
             "sha": "bc6058c81272a8d938c05e75607371284236aadc",
             "release_type": "stable",
-            "ref": "v2.2.1",
+            "ref": "v2.3.2",
             "project_id": 29,
             "pipeline_id": 7,
             "order": 2,
@@ -478,7 +478,7 @@
             "stable_tag": "stable",
             "sha": "c8d91500797ed7c1be7c4183f5907d7005e09c9a",
             "release_type": "stable",
-            "ref": "v1.1.0",
+            "ref": "v1.2.0",
             "project_id": 37,
             "pipeline_id": 3,
             "order": 2,
@@ -581,7 +581,7 @@
             "stable_tag": "stable",
             "sha": "fa35835d9a085023d7b496a81790948e7581a446",
             "release_type": "stable",
-            "ref": "v1.1.1",
+            "ref": "v1.2.4",
             "project_id": 24,
             "pipeline_id": 11,
             "order": 2,
@@ -770,7 +770,7 @@
             "stable_tag": "stable",
             "sha": "48a2a63d47fd0f6713c74ec03b8588bbc067e1de",
             "release_type": "stable",
-            "ref": "1.3.6",
+            "ref": "1.4.6",
             "project_id": 25,
             "pipeline_id": 1,
             "order": 2,
@@ -1204,7 +1204,13 @@
         "id": 6,
         "cloud_name": "OpenStack",
         "cloud_id": 6
-      }
+      },
+      {
+        "order": 10,
+        "id": 6,
+        "cloud_name": "VMware vSphere",
+        "cloud_id": 9
+       }
     ]
   }
 }
