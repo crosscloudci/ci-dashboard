@@ -67,7 +67,7 @@ export default {
     }
   }
 
-  @media (max-height: 670px) {
+  @media (max-height: 750px) {
     body,html {
       height: auto;
     }
