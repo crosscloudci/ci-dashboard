@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.17.0",
     "cryptiles": "^4.1.3",
+    "engine.io-client": "^3.3.2",
     "growl": "^1.10.5",
     "macaddress": "^0.2.9",
     "moment": "^2.19.2",
