@@ -1,6 +1,7 @@
 <template>
   <div id="app" ref="app">
-    <PageHeader :last_updated="timer" url="https://cncf.io"/>
+    <PageHeader :last_updated="timer"
+   :all_clouds="clouds" :all_projects="projects" url="https://cncf.io"/>
     <router-view/>
     <AppFooter/>
   </div>
@@ -20,7 +21,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ timer: 'updateTime' })
+    ...mapGetters({ clouds: 'allClouds', projects: 'allProjects', timer: 'updateTime' })
   }
 }
 </script>

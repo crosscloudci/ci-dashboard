@@ -1,5 +1,5 @@
 <template>
-  <div class="meta-label" :class="this.$props.state">
+  <div class="status-label" :class="this.$props.state">
     <div class="click-zone" v-on:click="gotoURL()"></div>
     <span v-show='this.$props.branch === "head"'><i class="mobile-only fa fa-circle"></i>{{ truncateHeadLabel(this.$props.label) }}</span>
     <span v-if='this.$props.branch === "stable"'><i class="mobile-only fa fa-circle"></i>{{ truncateMobileStableLabel(this.$props.label) }}</span>
@@ -9,7 +9,7 @@
 <script>
 
 export default {
-  name: 'meta-label',
+  name: 'status-label',
   props: {
     label: { type: String, required: true },
     url: { type: String, required: true, default: '#' },
@@ -51,11 +51,11 @@ export default {
 @import "../assets/stylesheets/variables";
 @import "../assets/stylesheets/mixins";
 
-.meta-label {
+.status-label {
   color: $blue;
   cursor: pointer;
-  padding: rem(5);
   position: relative;
+  font-weight: 700;
 
   &:hover .tool-tip { display: block; }
 
@@ -64,7 +64,7 @@ export default {
     @include border-radius;
     text-align: center;
     margin: 0;
-    margin-left: rem(5);
+    margin-left: 20px;
     font-size: rem(14);
     color: $black;
 
@@ -76,7 +76,14 @@ export default {
     }
 
     &.success i.fa { color: $green; }
-    &.failed i.fa { color: $red; }
+    &.failed {
+          color: $red; 
+          text-transform: uppercase;
+          font-weight: 700;
+        i.fa { 
+          color: $red; 
+        }
+    }
     &.running i.fa { color: $blue; }
 
   }
