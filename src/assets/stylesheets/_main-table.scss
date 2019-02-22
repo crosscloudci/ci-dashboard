@@ -273,7 +273,7 @@
               text-align: left;
 
               @include mq('lg') {
-                text-indent: rem(55);
+                text-indent: rem(45);
               }
               @include mq('sm') {
                 display: inline-block;
