@@ -8,16 +8,8 @@
             <th>Project</th>
             <th>Release</th>
             <th>Build</th>
-            <th :colspan="clouds.length">Deployments</th>
+            <th :colspan="clouds.length">Deploy</th>
             <th>Test</th>
-          </tr>
-
-          <tr class="subheader">
-            <th></th>
-            <th><span>Stable</span><span>Head</span></th>
-            <th><span>Status</span></th>
-            <th v-for="cloud in clouds"><span>{{cloud.cloud_name}}</span></th>
-            <th><span>Test</span></th>
           </tr>
 
         </thead>
@@ -45,13 +37,13 @@
             <td class="build-column top">
 
               <div class="build-links mobile-only">
-                <span><a target="_blank" :href="project.url">GitHub <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a target="_blank"></a></span>
                 <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
                 <span><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
               </div>
 
               <div class="build-details">
-                <label>Build Status</label>
+                <label>Build</label>
                 <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/>
                 <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/>
               </div>
@@ -59,7 +51,7 @@
             </td>
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
-                <label>{{deployment.cloud_name}}</label>
+                <label>Deploy</label>
                 <StatusBadge :state="StableCloudStatus(project, deployment.cloud_id)" :url="StableCloudURL(project, deployment.cloud_id)"/>
                 <StatusBadge :state="HeadCloudStatus(project, deployment.cloud_id)" :url="HeadCloudURL(project, deployment.cloud_id)"/>
               </div>
