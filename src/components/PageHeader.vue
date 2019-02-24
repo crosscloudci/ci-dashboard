@@ -40,6 +40,35 @@
              :class="StableStatus(this.$props.all_projects[0])"/>
           </div>
        </div>
+    <div id="test-environment-full">
+          <span class="test-env-label">Test environment</span>
+          <div class="test-env-name">
+            <div class="icon">
+            <img :src="this.$props.all_projects[0].icon" />
+            </div>
+            <div>
+              Kubernetes
+            </div>
+          </div>
+          <div class="environment-divider dash">
+          </div>
+          <div class="test-env-version">
+              Stable {{ StableReleaseTag(this.$props.all_projects[0]) }}
+          </div>
+          <div class="environment-divider">
+              <i class="fa fa-arrow-right"></i>
+          </div>
+
+          <div class="stage"> {{ this.$props.all_clouds[0].cloud_name }}</div>
+
+          <div class="environment-divider">
+              <i class="fa fa-arrow-right"></i>
+          </div>
+          <StatusLabel :url="this.$props.url" 
+          :label="StableStatus(this.$props.all_projects[0])"
+          :branch="'stable'"
+         :class="StableStatus(this.$props.all_projects[0])"/>
+      </div>
   </div>
 </template>
 
@@ -183,6 +212,9 @@
   }
 
   #dashboard-updated {
+    @include mq('md') {
+      padding-bottom: 20px;
+    }
     .updated-label,
     .time-updated,
     .icon { display: inline-block; }
@@ -190,17 +222,94 @@
   }
 
   #test-environment {
+    display: flex;
+    @include mq('md') {
+      display: none;
+    }
+
+ }
+
+  #test-environment-full {
+    display: none;
+    > div {
+      flex: 1;
+    }
+
+    .test-env-label {
+      left: 20px;
+    }
+    .test-env-name {
+      justify-content: initial;
+    }
+    .environment-divider {
+      &.dash {
+        position: relative;
+        width: 100px;
+        flex: initial;
+        &::before {
+          position: absolute;
+          content: '';
+          border-top: solid 2px #707070;
+          width: 80px;
+          top: 50%;
+          left: 10px;
+        }
+      }
+
+      .fa.fa-arrow-right {
+        color: #707070;
+        font-weight: 400;
+      }
+    }
+ 
+    .icon {
+       width: rem(35);
+       height: rem(35);
+       padding-right: 5px;
+       img {
+         width: inherit;
+       }
+    }
+    @include mq('md') {
+      display: flex;
+    }
+  }
+  #test-environment {
+    .icon {
+      width: rem(35);
+ //     height: rem(35);
+      position: relative;
+     // top: rem(10);
+      @include mq('sm') {
+//        width: rem(25/2);
+        width: 1rem;
+     //   height: rem(25/2);
+
+//        top: rem(4);
+ //       left: rem(5);
+          margin-right: 5px;
+      }
+
+      img { width: inherit; }
+    }
+  }
+
+  #test-environment, #test-environment-full {
      align-content: space-around;
+     align-items: center;
      background: #F8F8F8;
      border: solid #E5E5E5;
      border-width: 0 1px 1px 1px;
-     display: flex;
      flex-direction: column;
      justify-content: space-around;
      margin: 0 15px 20px 15px;
      position: relative;
      text-align: center;
      padding: 20px;
+
+      @include mq('md') {
+          flex-direction: row;
+      }
 
      &::after, &::before {
       background-color: #E5E5E5;
@@ -212,53 +321,51 @@
     }
     &::after {
       right: 0;
+      @include mq('md') {
+        width: calc(100% - 140px);
+      }
     }
     &::before {
       left: 0;
-    }
-    .icon {
-      width: rem(35);
-      height: rem(35);
-      position: relative;
-     // top: rem(10);
-      @include mq('sm') {
-        width: rem(25/2);
-        height: rem(25/2);
 
-//        top: rem(4);
- //       left: rem(5);
-          margin-right: 5px;
+      @include mq('md') {
+        width: 20px;
       }
-
-      img { width: inherit; }
     }
 
-     .test-env-label {
+
+    .test-env-label {
          position: absolute;
          top: -8px;
          left: calc(50% - 60px);
          font-weight: 600;
          font-size: rem(14);
+         @include mq('md') {
+           left: calc(20px);
+         }
      }
      .test-env-name, .test-env-details {
          display: flex;
          justify-content: center;
      }
      .test-env-name {
-         align-items: baseline;
-         padding-bottom: 20px;
+         align-items: center;
          font-weight: 700;
+         @include mq('sm') {
+             padding-bottom: 20px;
+         }
      }
      .test-env-details {
          font-size: rem(14);
+         align-items: center;
      }
   }
 
   .container {
     @include mq('sm') {
       @include flex-container;
-      align-items:baseline;
-      align-content:stretch;
+      align-items: baseline;
+      align-content: stretch;
     }
     #dashboard-header,
     #dashboard-updated {
