@@ -39,7 +39,7 @@
 
               <div class="build-links mobile-only">
                 <span><a target="_blank" :href="project.url">GitHub <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
-                <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+ allProjects               <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
                 <span><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
               </div>
 
@@ -319,7 +319,7 @@
       demoState3: function () {
         return array.random(this.demoStateTypes)
       },
-      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket', timer: 'updateTime' })
+      ...mapGetters({ projects: 'tableProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket', timer: 'updateTime' })
     },
     created () {
       this.$store.dispatch('connectToSocket')

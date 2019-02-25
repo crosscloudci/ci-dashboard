@@ -66,8 +66,9 @@ export default {
   margin: 0;
   margin-left: 20px;
   // font-size: rem(14);
-  font-size: 16px;
+  font-size: 14px;
   color: $black;
+  text-transform: uppercase;
 
   i.fa {
     display: inline-block;
@@ -96,7 +97,6 @@ export default {
 
   &.failed {
     color: $red; 
-    text-transform: uppercase;
     font-weight: 700;
     i.fa {
       color: $red;

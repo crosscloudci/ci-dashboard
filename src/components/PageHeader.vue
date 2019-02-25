@@ -29,7 +29,7 @@
             <img :src="this.$props.all_projects[0].icon" />
             </div>
             <div>
-              Kubernetes &mdash; Stable {{ StableReleaseTag(this.$props.all_projects[0]) }}
+              {{this.$props.all_projects[0].display_name}} &mdash; {{ReleaseType(this.$props.all_projects[0].pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.all_projects[0]) }}
             </div>
           </div>
           <div class="test-env-details">
@@ -47,13 +47,13 @@
             <img :src="this.$props.all_projects[0].icon" />
             </div>
             <div>
-              Kubernetes
+              {{this.$props.all_projects[0].display_name}}
             </div>
           </div>
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version">
-              Stable {{ StableReleaseTag(this.$props.all_projects[0]) }}
+              {{ReleaseType(this.$props.all_projects[0].pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.all_projects[0]) }}
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -129,6 +129,9 @@
         } else {
           return '5 minutes ago'
         }
+      },
+      ReleaseType: function (type) {
+        return type[0].toUpperCase() + type.substring(1)
       },
       StableStatus: function (arg) {
         var status = 'N/A'
