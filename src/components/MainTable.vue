@@ -6,16 +6,10 @@
 
           <tr class="header">
             <th>Project</th>
-            <th>Build</th>
             <th>Release</th>
-            <th :colspan="clouds.length">Deployments</th>
-          </tr>
-
-          <tr class="subheader">
-            <th></th>
-            <th><span>Status</span></th>
-            <th><span>Stable</span><span>Head</span></th>
-            <th v-for="cloud in clouds"><span>{{cloud.cloud_name}}</span></th>
+            <th>Build</th>
+            <th :colspan="clouds.length">Deploy</th>
+            <th>Test</th>
           </tr>
 
         </thead>
@@ -35,31 +29,39 @@
               </div>
             </td>
 
-            <td class="build-column top">
-
-              <div class="build-links mobile-only">
-                <span><a target="_blank" :href="project.url">GitHub <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
- allProjects               <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
-                <span><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
-              </div>
-
-              <div class="build-details">
-                <label>Build Status</label>
-                <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/>
-                <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/>
-              </div>
-
-            </td>
             <td class="release-column">
               <MetaLabel :branch="StableBranchName(project)" :label="StableReleaseTag(project)" :url="StableReleaseURL(project)" :class="StableStatus(project)"/>
               <MetaLabel :branch="HeadBranchName(project)" :label="HeadReleaseTag(project)" :url="HeadReleaseURL(project)" :class="HeadStatus(project)"/>
             </td>
 
+            <td class="build-column top">
+
+              <div class="build-links mobile-only">
+                <span><a target="_blank"></a></span>
+                <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+              </div>
+
+              <div class="build-details">
+                <label>Build</label>
+                <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/>
+                <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/>
+              </div>
+
+            </td>
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
-                <label>{{deployment.cloud_name}}</label>
+                <label>Deploy</label>
                 <StatusBadge :state="StableCloudStatus(project, deployment.cloud_id)" :url="StableCloudURL(project, deployment.cloud_id)"/>
                 <StatusBadge :state="HeadCloudStatus(project, deployment.cloud_id)" :url="HeadCloudURL(project, deployment.cloud_id)"/>
+              </div>
+            </td>
+
+            <td class="build-column">
+              <div class="deployment-details">
+                <label>Test</label>
+                <StatusBadge state='N/A' url='#'/>
+                <StatusBadge state='N/A' url='#'/>
               </div>
             </td>
           </tr>
