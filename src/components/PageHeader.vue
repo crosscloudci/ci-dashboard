@@ -28,7 +28,7 @@
             <div class="icon">
             <img :src="this.$props.project.icon" />
             </div>
-            <div v-on:click="gotoProjectURL()">
+            <div>
               {{this.$props.project.display_name}} &mdash; {{ReleaseType(this.$props.project.pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.project) }}
             </div>
           </div>
@@ -189,12 +189,12 @@
 <style lang="scss">
   @import "../assets/stylesheets/colors";
   @import "../assets/stylesheets/mixins";
+
   $paddingLeft: calc(#{rem(35)} + #{rem(10)});
 
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
-    // margin-top: rem(30);
 
     @include mq('sm'){ margin-top: 0; }
 
@@ -223,7 +223,7 @@
       span.title { text-transform: uppercase; font-weight: bold; }
     }
 
-    @include mq('sm'){
+    @include mq('sm') {
       flex-wrap:wrap;
       padding: rem(20) 0;
 
@@ -244,7 +244,6 @@
     .icon { display: inline-block; }
     .updated-label { font-weight: bold; }
   }
-
 
   #test-environment, #test-environment-full {
      align-content: space-around;
@@ -284,7 +283,6 @@
         width: calc(#{rem(35)} + #{rem(10)});
       }
     }
-
 
     .test-env-label {
          position: absolute;
@@ -385,9 +383,6 @@
       display: flex;
     }
   }
-
-
-
   .container {
     @include mq('sm') {
       @include flex-container;
