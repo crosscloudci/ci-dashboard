@@ -166,6 +166,7 @@
 <style lang="scss">
   @import "../assets/stylesheets/colors";
   @import "../assets/stylesheets/mixins";
+  $paddingLeft: calc(#{rem(35)} + #{rem(10)});
 
   #dashboard-header {
     @include flex-container;
@@ -250,14 +251,14 @@
     &::after {
       right: 0;
       @include mq('md') {
-        width: calc(100% - 140px);
+       width: calc(100% -  #{rem(25)}  - 140px);
       }
     }
     &::before {
       left: 0;
 
       @include mq('md') {
-        width: 20px;
+        width: calc(#{rem(35)} + #{rem(10)});
       }
     }
 
@@ -309,17 +310,23 @@
   }
 
   #test-environment-full {
+    margin: auto;
+    width: 90%;
+    box-sizing: border-box;
+    padding: 20px rem(35);
     display: none;
     > div {
       flex: 1;
     }
 
     .test-env-label {
-      left: 20px;
+      //left: 20px;
+      left: $paddingLeft;
     }
 
     .test-env-name {
       justify-content: initial;
+      padding: 0 rem(10);
     }
     .environment-divider {
       &.dash {
@@ -345,7 +352,7 @@
     .icon {
        width: rem(35);
        height: rem(35);
-       padding-right: 20px;
+       padding-right: 10px;
        img {
          width: inherit;
        }
