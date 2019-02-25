@@ -26,14 +26,14 @@
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name">
             <div class="icon">
-            <img :src="this.$props.project.icon" />
+            <img :src="https://raw.githubusercontent.com/cncf/artwork/1d4e7cf3b60af40e008b2e2413f7a2d1ff784b52/kubernetes/icon/color/kubernetes-icon-noborder-color.png" />
             </div>
             <div>
-              {{this.$props.project.display_name}} &mdash; {{ReleaseType(this.$props.project.pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.project) }}
+              Kubernetes &mdash; Stable {{ StableReleaseTag(this.$props.project) }}
             </div>
           </div>
           <div class="test-env-details">
-              <div class="stage"> {{ this.$props.all_clouds[0].cloud_name }}</div>
+              <div class="stage">Bare Metal (Packet)</div>
               <StatusLabel :url="StableURL(project)" 
               :label="StableStatus(this.$props.project)"
               :branch="'stable'"
@@ -44,22 +44,22 @@
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name" v-on:click="gotoProjectURL()">
             <div class="icon">
-            <img :src="this.$props.project.icon" />
+            <img :src="https://raw.githubusercontent.com/cncf/artwork/1d4e7cf3b60af40e008b2e2413f7a2d1ff784b52/kubernetes/icon/color/kubernetes-icon-noborder-color.png" />
             </div>
             <div>
-              {{this.$props.project.display_name}}
+              Kubernetes
             </div>
           </div>
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version">
-              {{ReleaseType(this.$props.project.pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.project) }}
+              Stable {{ StableReleaseTag(this.$props.project) }}
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
 
-          <div class="stage"> {{ this.$props.all_clouds[0].cloud_name }}</div>
+          <div class="stage">Bare Metal (Packet)</div>
 
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -84,7 +84,7 @@
       last_updated: { default: '' },
       all_clouds: { default: [] },
       url: { type: String, default: '' },
-      project: { type: Object, default: {} }
+      project: { type: Object }
     },
     mounted: function () {
       let v = this
