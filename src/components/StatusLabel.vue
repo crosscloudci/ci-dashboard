@@ -1,5 +1,5 @@
 <template>
-  <div class="status-label" :class="this.$props.state">
+  <div class="status-label">
     <div class="click-zone" v-on:click="gotoURL()"></div>
     <span v-show='this.$props.branch === "head"'><i class="mobile-only fa circle-indicator"></i>{{ truncateHeadLabel(this.$props.label) }}</span>
     <span v-if='this.$props.branch === "stable"'><i class="mobile-only fa circle-indicator"></i>{{ truncateMobileStableLabel(this.$props.label) }}</span>
@@ -75,10 +75,13 @@ export default {
     margin-right: rem(5);
     //font-size: rem(13);
     font-size: 1rem;
-    color: $ccc;
+    color: #333;
     &.circle-indicator {
       &::before {
         content: '\f111';
+        @include mq('md') {
+          content: "\f05e";
+        }
       }
     }
   }

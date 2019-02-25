@@ -26,34 +26,34 @@
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name">
             <div class="icon">
-            <img :src="this.$props.all_projects[0].icon" />
+            <img :src="this.$props.project.icon" />
             </div>
-            <div>
-              {{this.$props.all_projects[0].display_name}} &mdash; {{ReleaseType(this.$props.all_projects[0].pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.all_projects[0]) }}
+            <div v-on:click="gotoProjectURL()">
+              {{this.$props.project.display_name}} &mdash; {{ReleaseType(this.$props.project.pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.project) }}
             </div>
           </div>
           <div class="test-env-details">
               <div class="stage"> {{ this.$props.all_clouds[0].cloud_name }}</div>
-              <StatusLabel :url="this.$props.url" 
-              :label="StableStatus(this.$props.all_projects[0])"
+              <StatusLabel :url="StableURL(project)" 
+              :label="StableStatus(this.$props.project)"
               :branch="'stable'"
-             :class="StableStatus(this.$props.all_projects[0])"/>
+             :class="StableStatus(this.$props.project)"/>
           </div>
        </div>
     <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-name">
+          <div class="test-env-name" v-on:click="gotoProjectURL()">
             <div class="icon">
-            <img :src="this.$props.all_projects[0].icon" />
+            <img :src="this.$props.project.icon" />
             </div>
             <div>
-              {{this.$props.all_projects[0].display_name}}
+              {{this.$props.project.display_name}}
             </div>
           </div>
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version">
-              {{ReleaseType(this.$props.all_projects[0].pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.all_projects[0]) }}
+              {{ReleaseType(this.$props.project.pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.project) }}
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -64,10 +64,10 @@
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
-          <StatusLabel :url="this.$props.url" 
-          :label="StableStatus(this.$props.all_projects[0])"
+          <StatusLabel :url="StableURL(project)" 
+          :label="StableStatus(this.$props.project)"
           :branch="'stable'"
-         :class="StableStatus(this.$props.all_projects[0])"/>
+         :class="StableStatus(this.$props.project)"/>
       </div>
   </div>
 </template>
@@ -82,9 +82,9 @@
     components: { StatusLabel, StatusBadge },
     props: {
       last_updated: { default: '' },
-      all_projects: { default: [] },
       all_clouds: { default: [] },
-      url: { type: String, default: '' }
+      url: { type: String, default: '' },
+      project: { type: Object, default: {} }
     },
     mounted: function () {
       let v = this
@@ -100,6 +100,9 @@
     methods: {
       gotoURL () {
         window.open(this.$props.url, '_blank')
+      },
+      gotoProjectURL () {
+        window.open(this.$props.project.url, '_blank')
       },
       LastUpdatedChecker () {
         if (this.$props.last_updated === '') {
@@ -135,7 +138,6 @@
       },
       StableStatus: function (arg) {
         var status = 'N/A'
-        console.log('arg', arg)
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
             // console.log('Stable pipeline' + pl)
@@ -147,6 +149,24 @@
 
         console.log('stable status:' + status)
         return status
+      },
+      StableURL: function (arg) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) {
+                if (!(j.url === null)) {
+                  url = j.url
+                }
+                if (j.url === null) {
+                  url = '#'
+                }
+              }
+            })
+          }
+        })
+        return url
       },
       StableReleaseTag: function (arg) {
         let ref = '#'
@@ -330,6 +350,7 @@
     .test-env-name {
       justify-content: initial;
       padding: 0 rem(10);
+      cursor: pointer;
     }
     .environment-divider {
       &.dash {

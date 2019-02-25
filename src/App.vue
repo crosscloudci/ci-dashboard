@@ -1,7 +1,8 @@
 <template>
   <div id="app" ref="app">
     <PageHeader :last_updated="timer"
-   :all_clouds="clouds" :all_projects="projects" url="https://cncf.io"/>
+   :all_clouds="clouds" :project="projects[0]"
+   url="https://cncf.io"/>
     <router-view/>
     <AppFooter/>
   </div>
