@@ -221,78 +221,6 @@
     .updated-label { font-weight: bold; }
   }
 
-  #test-environment {
-    display: flex;
-    @include mq('md') {
-      display: none;
-    }
-
- }
-
-  #test-environment-full {
-    display: none;
-    > div {
-      flex: 1;
-    }
-
-    .test-env-label {
-      left: 20px;
-    }
-    .test-env-name {
-      justify-content: initial;
-    }
-    .environment-divider {
-      &.dash {
-        position: relative;
-        width: 100px;
-        flex: initial;
-        &::before {
-          position: absolute;
-          content: '';
-          border-top: solid 2px #707070;
-          width: 80px;
-          top: 50%;
-          left: 10px;
-        }
-      }
-
-      .fa.fa-arrow-right {
-        color: #707070;
-        font-weight: 400;
-      }
-    }
- 
-    .icon {
-       width: rem(35);
-       height: rem(35);
-       padding-right: 5px;
-       img {
-         width: inherit;
-       }
-    }
-    @include mq('md') {
-      display: flex;
-    }
-  }
-  #test-environment {
-    .icon {
-      width: rem(35);
- //     height: rem(35);
-      position: relative;
-     // top: rem(10);
-      @include mq('sm') {
-//        width: rem(25/2);
-        width: 1rem;
-     //   height: rem(25/2);
-
-//        top: rem(4);
- //       left: rem(5);
-          margin-right: 5px;
-      }
-
-      img { width: inherit; }
-    }
-  }
 
   #test-environment, #test-environment-full {
      align-content: space-around;
@@ -360,6 +288,74 @@
          align-items: center;
      }
   }
+
+  #test-environment {
+    display: flex;
+
+    @include mq('md') {
+      display: none;
+    }
+
+    .icon {
+      width: rem(35);
+      position: relative;
+      @include mq('sm') {
+        width: 1rem;
+        margin-right: 5px;
+      }
+
+      img { width: inherit; }
+    }
+  }
+
+  #test-environment-full {
+    display: none;
+    > div {
+      flex: 1;
+    }
+
+    .test-env-label {
+      left: 20px;
+    }
+
+    .test-env-name {
+      justify-content: initial;
+    }
+    .environment-divider {
+      &.dash {
+        position: relative;
+        width: 100px;
+        flex: initial;
+        &::before {
+          position: absolute;
+          content: '';
+          border-top: solid 2px #707070;
+          width: 80px;
+          top: 50%;
+          left: 10px;
+        }
+      }
+
+      .fa.fa-arrow-right {
+        color: #707070;
+        font-weight: 400;
+      }
+    }
+ 
+    .icon {
+       width: rem(35);
+       height: rem(35);
+       padding-right: 20px;
+       img {
+         width: inherit;
+       }
+    }
+    @include mq('md') {
+      display: flex;
+    }
+  }
+
+
 
   .container {
     @include mq('sm') {
