@@ -21,18 +21,70 @@
           <span v-if="this.$props.last_updated === ''" class="time-updated">{{ LastUpdatedChecker() }} </span>
           <span v-else class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
       </div>
-    </div>
+  </div>
+    <div id="test-environment">
+          <span class="test-env-label">Test environment</span>
+          <div class="test-env-name">
+            <div class="icon">
+            <img :src="this.$props.project.icon" />
+            </div>
+            <div>
+              {{this.$props.project.display_name}} &mdash; {{ReleaseType(this.$props.project.pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.project) }}
+            </div>
+          </div>
+          <div class="test-env-details">
+              <div class="stage"> {{ this.$props.all_clouds[0].cloud_name }}</div>
+              <StatusLabel :url="StableURL(project)" 
+              :label="StableStatus(this.$props.project)"
+              :branch="'stable'"
+             :class="StableStatus(this.$props.project)"/>
+          </div>
+       </div>
+    <div id="test-environment-full">
+          <span class="test-env-label">Test environment</span>
+          <div class="test-env-name" v-on:click="gotoProjectURL()">
+            <div class="icon">
+            <img :src="this.$props.project.icon" />
+            </div>
+            <div>
+              {{this.$props.project.display_name}}
+            </div>
+          </div>
+          <div class="environment-divider dash">
+          </div>
+          <div class="test-env-version">
+              {{ReleaseType(this.$props.project.pipelines[0].release_type)}} {{ StableReleaseTag(this.$props.project) }}
+          </div>
+          <div class="environment-divider">
+              <i class="fa fa-arrow-right"></i>
+          </div>
+
+          <div class="stage"> {{ this.$props.all_clouds[0].cloud_name }}</div>
+
+          <div class="environment-divider">
+              <i class="fa fa-arrow-right"></i>
+          </div>
+          <StatusLabel :url="StableURL(project)" 
+          :label="StableStatus(this.$props.project)"
+          :branch="'stable'"
+         :class="StableStatus(this.$props.project)"/>
+      </div>
   </div>
 </template>
 
 <script>
   // import {maps} from 'vuex'
+  import StatusBadge from './StatusBadge'
+  import StatusLabel from './StatusLabel'
 
   export default {
     name: 'page-header',
+    components: { StatusLabel, StatusBadge },
     props: {
       last_updated: { default: '' },
-      url: { type: String }
+      all_clouds: { default: [] },
+      url: { type: String, default: '' },
+      project: { type: Object, default: {} }
     },
     mounted: function () {
       let v = this
@@ -48,6 +100,9 @@
     methods: {
       gotoURL () {
         window.open(this.$props.url, '_blank')
+      },
+      gotoProjectURL () {
+        window.open(this.$props.project.url, '_blank')
       },
       LastUpdatedChecker () {
         if (this.$props.last_updated === '') {
@@ -77,22 +132,69 @@
         } else {
           return '5 minutes ago'
         }
+      },
+      ReleaseType: function (type) {
+        return type[0].toUpperCase() + type.substring(1)
+      },
+      StableStatus: function (arg) {
+        var status = 'N/A'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            // console.log('Stable pipeline' + pl)
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) { status = j.status }
+            })
+          }
+        })
+
+        console.log('stable status:' + status)
+        return status
+      },
+      StableURL: function (arg) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) {
+                if (!(j.url === null)) {
+                  url = j.url
+                }
+                if (j.url === null) {
+                  url = '#'
+                }
+              }
+            })
+          }
+        })
+        return url
+      },
+      StableReleaseTag: function (arg) {
+        let ref = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            ref = pl.ref
+          }
+        })
+
+        return ref
       }
     },
     computed: {
       // ...mapGetters({ timer: 'updateTime' })
     }
   }
+
 </script>
 
 <style lang="scss">
   @import "../assets/stylesheets/colors";
   @import "../assets/stylesheets/mixins";
 
+  $paddingLeft: calc(#{rem(35)} + #{rem(10)});
+
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
-    // margin-top: rem(30);
 
     @include mq('sm'){ margin-top: 0; }
 
@@ -116,12 +218,12 @@
       text-align: right;
       font-size: rem(24);
 
-      @include mq('sm') { display: none; }
+     @include mq('sm') { display: none; }
 
       span.title { text-transform: uppercase; font-weight: bold; }
     }
 
-    @include mq('sm'){
+    @include mq('sm') {
       flex-wrap:wrap;
       padding: rem(20) 0;
 
@@ -134,17 +236,158 @@
   }
 
   #dashboard-updated {
+    @include mq('md') {
+      padding-bottom: 20px;
+    }
     .updated-label,
     .time-updated,
     .icon { display: inline-block; }
     .updated-label { font-weight: bold; }
   }
 
+  #test-environment, #test-environment-full {
+     align-content: space-around;
+     align-items: center;
+     background: #F8F8F8;
+     border: solid #E5E5E5;
+     border-width: 0 1px 1px 1px;
+     flex-direction: column;
+     justify-content: space-around;
+     margin: 0 15px 20px 15px;
+     position: relative;
+     text-align: center;
+     padding: 20px;
+
+      @include mq('md') {
+          flex-direction: row;
+      }
+
+     &::after, &::before {
+      background-color: #E5E5E5;
+      content: '';
+      width: 30%;
+      position: absolute;
+      top: -1px;
+      height: 1px;
+    }
+    &::after {
+      right: 0;
+      @include mq('md') {
+       width: calc(100% -  #{rem(25)}  - 140px);
+      }
+    }
+    &::before {
+      left: 0;
+
+      @include mq('md') {
+        width: calc(#{rem(35)} + #{rem(10)});
+      }
+    }
+
+    .test-env-label {
+         position: absolute;
+         top: -8px;
+         left: calc(50% - 60px);
+         font-weight: 600;
+         font-size: rem(14);
+         @include mq('md') {
+           left: calc(20px);
+         }
+     }
+     .test-env-name, .test-env-details {
+         display: flex;
+         justify-content: center;
+     }
+     .test-env-name {
+         align-items: center;
+         font-weight: 700;
+         @include mq('sm') {
+             padding-bottom: 20px;
+         }
+     }
+     .test-env-details {
+         font-size: rem(14);
+         align-items: center;
+     }
+  }
+
+  #test-environment {
+    display: flex;
+
+    @include mq('md') {
+      display: none;
+    }
+
+    .icon {
+      width: rem(35);
+      position: relative;
+      @include mq('sm') {
+        width: 1rem;
+        margin-right: 5px;
+      }
+
+      img { width: inherit; }
+    }
+  }
+
+  #test-environment-full {
+    margin: auto;
+    width: 90%;
+    box-sizing: border-box;
+    padding: 20px rem(35);
+    display: none;
+    > div {
+      flex: 1;
+    }
+
+    .test-env-label {
+      //left: 20px;
+      left: $paddingLeft;
+    }
+
+    .test-env-name {
+      justify-content: initial;
+      padding: 0 rem(10);
+      cursor: pointer;
+    }
+    .environment-divider {
+      &.dash {
+        position: relative;
+        width: 100px;
+        flex: initial;
+        &::before {
+          position: absolute;
+          content: '';
+          border-top: solid 2px #707070;
+          width: 80px;
+          top: 50%;
+          left: 10px;
+        }
+      }
+
+      .fa.fa-arrow-right {
+        color: #707070;
+        font-weight: 400;
+      }
+    }
+ 
+    .icon {
+       width: rem(35);
+       height: rem(35);
+       padding-right: 10px;
+       img {
+         width: inherit;
+       }
+    }
+    @include mq('md') {
+      display: flex;
+    }
+  }
   .container {
     @include mq('sm') {
       @include flex-container;
-      align-items:baseline;
-      align-content:stretch;
+      align-items: baseline;
+      align-content: stretch;
     }
     #dashboard-header,
     #dashboard-updated {
@@ -175,6 +418,7 @@
       background: $light;
       margin-bottom: 0;
       padding: 0 rem(10);
+      overflow: hidden;
     }
   }
 

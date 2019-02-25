@@ -321,7 +321,7 @@
       demoState3: function () {
         return array.random(this.demoStateTypes)
       },
-      ...mapGetters({ projects: 'allProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket', timer: 'updateTime' })
+      ...mapGetters({ projects: 'tableProjects', pipelines: 'allPipelines', clouds: 'allClouds', socket: 'socket', timer: 'updateTime' })
     },
     created () {
       this.$store.dispatch('connectToSocket')
