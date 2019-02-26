@@ -177,10 +177,14 @@
 
             .build-details {
               @include mq('sm') {
-                border-top: 1px solid $ccc;
-                border-bottom: 1px solid $ccc;
                 padding-top: rem(20);
                 padding-bottom: rem(10);
+              }
+            }
+
+            .mobile-label {
+              @include mq('sm') {
+                text-indent: rem(40);
               }
             }
 
@@ -189,6 +193,7 @@
                 label {
                   margin-top: rem(5)
                 }
+                padding-bottom: rem(10);
               }
             }
 
@@ -196,8 +201,7 @@
               @include mq('sm') {
                 @include flex-container;
                 padding: rem(10) 0;
-                margin-bottom: rem(10);
-                margin-left: rem(10);
+                margin: rem(10) rem(30) 0 rem(5);
                 justify-content:flex-end;
 
                 span {
@@ -212,13 +216,12 @@
                   }
                   &:nth-child(2) {
                     text-align: center;
-                    width: rem(120);
-
+                    width: rem(130);
                   }
                   &:nth-child(3) {
                     text-align: center;
                     width: rem(120);
-                    margin-left: rem(10)
+                    margin-left: rem(15)
                   }
                 }
               }
@@ -238,7 +241,7 @@
               @include mq('sm') {
                 display: inline-block;
                 width: rem(70);
-                margin: 0 0 0 rem(5);
+                margin: 0 rem(16) 0 rem(5);
               }
 
             }
@@ -316,6 +319,7 @@
 
               .build-details .status-badge {
                 top: rem(-5);
+
               }
             }
 

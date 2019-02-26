@@ -38,12 +38,12 @@
 
               <div class="build-links mobile-only">
                 <span><a target="_blank"></a></span>
-                <span><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
-                <span><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link-square" aria-hidden="true"></i></a></span>
+                <span class="bold"><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
+                <span class="bold"><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
               </div>
 
               <div class="build-details">
-                <label>Build</label>
+                <label class="mobile-label bold">Build</label>
                 <StatusBadge :state="StableStatus(project)" :url="StableURL(project)"/>
                 <StatusBadge :state="HeadStatus(project)" :url="HeadURL(project)"/>
               </div>
@@ -51,7 +51,7 @@
             </td>
             <td class="build-column" v-for="deployment in clouds">
               <div class="deployment-details">
-                <label>Deploy</label>
+                <label class="mobile-label bold">Deploy</label>
                 <StatusBadge :state="StableCloudStatus(project, deployment.cloud_id)" :url="StableCloudURL(project, deployment.cloud_id)"/>
                 <StatusBadge :state="HeadCloudStatus(project, deployment.cloud_id)" :url="HeadCloudURL(project, deployment.cloud_id)"/>
               </div>
@@ -59,7 +59,7 @@
 
             <td class="build-column">
               <div class="deployment-details">
-                <label>Test</label>
+                <label class="mobile-label bold">Test</label>
                 <StatusBadge state='N/A' url='#'/>
                 <StatusBadge state='N/A' url='#'/>
               </div>
