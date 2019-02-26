@@ -34,14 +34,14 @@
 
           th:first-child {
             @include border-radius(15px 0 0 15px);
-            text-indent: rem(35);
+            text-indent: rem(-10);
           }
           th:last-child {
             @include border-radius(0 15px 15px 0);
           }
 
           th:nth-child(2) {
-            text-indent: rem(20);
+            text-indent: rem(40);
           }
           th:nth-child(3) {
             text-indent: rem(40);
