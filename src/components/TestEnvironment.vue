@@ -403,7 +403,7 @@
   }
   #test-environment {
     @include mq('sm') {
-      background: $light;
+      background: #FDFDFD;
       margin-bottom: 0;
     }
   }
