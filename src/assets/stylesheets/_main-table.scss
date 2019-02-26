@@ -201,7 +201,7 @@
               @include mq('sm') {
                 @include flex-container;
                 padding: rem(10) 0;
-                margin: rem(10) rem(30) 0 rem(5);
+                margin: rem(10) rem(18) 0 rem(5);
                 justify-content:flex-end;
 
                 span {
@@ -241,7 +241,7 @@
               @include mq('sm') {
                 display: inline-block;
                 width: rem(70);
-                margin: 0 rem(16) 0 rem(5);
+                margin: 0 rem(8) 0 rem(5);
               }
 
             }
@@ -265,7 +265,7 @@
             @include mq('sm') {
               position: absolute;
               top: rem(9);
-              right: rem(5);
+              right: rem(18);
             }
 
             @include mq('lg') {
