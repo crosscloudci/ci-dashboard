@@ -29,8 +29,8 @@
 
         &.header {
           text-align: left;
-          background: $blue;
-          color: $white;
+          background: $trans;
+          color: $black;
 
           th:first-child {
             @include border-radius(15px 0 0 15px);
@@ -44,10 +44,13 @@
             text-indent: rem(20);
           }
           th:nth-child(3) {
-            text-indent: rem(50);
+            text-indent: rem(40);
           }
           th:nth-child(4) {
-            text-indent: rem(20);
+            text-indent: rem(30);
+          }
+          th:nth-child(5) {
+            text-indent: rem(40);
           }
         }
 
