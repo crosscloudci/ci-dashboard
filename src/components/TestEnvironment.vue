@@ -232,7 +232,7 @@
   #test-environment, #test-environment-full {
      align-content: space-around;
      align-items: center;
-     background: #F8F8F8;
+     background: #FDFDFD;
      border: solid #E5E5E5;
      border-width: 0 1px 1px 1px;
      flex-direction: column;
@@ -298,6 +298,8 @@
   #test-environment {
     display: flex;
 
+          
+
     @include mq('md') {
       display: none;
     }
@@ -316,7 +318,6 @@
 
   #test-environment-full {
     margin: auto;
-    width: 90%;
     box-sizing: border-box;
     padding: 20px rem(35);
     display: none;
@@ -396,13 +397,14 @@
       }
     }
   }
-
+  .container {
+    justify-content: center;
+    padding-top: 20px;
+  }
   #test-environment {
     @include mq('sm') {
       background: $light;
       margin-bottom: 0;
-      padding: 0 rem(10);
-      overflow: hidden;
     }
   }
 
