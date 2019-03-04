@@ -5,8 +5,6 @@
         <div class="built-by">
           <span>Created for</span>
           <a href="http://cncf.io" target="_blank">CNCF</a>
-          <span>by</span>
-          <a href="http://crosscloud.ci" target="_blank">Cross-Cloud CI</a>
         </div>
 
         <div class="social-links">
