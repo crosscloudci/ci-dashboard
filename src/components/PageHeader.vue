@@ -21,18 +21,23 @@
           <span v-if="this.$props.last_updated === ''" class="time-updated">{{ LastUpdatedChecker() }} </span>
           <span v-else class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
       </div>
-    </div>
   </div>
+ </div>
 </template>
 
 <script>
   // import {maps} from 'vuex'
+  import StatusBadge from './StatusBadge'
+  import StatusLabel from './StatusLabel'
 
   export default {
     name: 'page-header',
+    components: { StatusLabel, StatusBadge },
     props: {
       last_updated: { default: '' },
-      url: { type: String }
+      all_clouds: { default: [] },
+      url: { type: String, default: '' },
+      project: { type: Object }
     },
     mounted: function () {
       let v = this
@@ -48,6 +53,9 @@
     methods: {
       gotoURL () {
         window.open(this.$props.url, '_blank')
+      },
+      gotoProjectURL () {
+        window.open(this.$props.project.url, '_blank')
       },
       LastUpdatedChecker () {
         if (this.$props.last_updated === '') {
@@ -77,22 +85,69 @@
         } else {
           return '5 minutes ago'
         }
+      },
+      ReleaseType: function (type) {
+        return type[0].toUpperCase() + type.substring(1)
+      },
+      StableStatus: function (arg) {
+        var status = 'N/A'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            // console.log('Stable pipeline' + pl)
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) { status = j.status }
+            })
+          }
+        })
+
+        console.log('stable status:' + status)
+        return status
+      },
+      StableURL: function (arg) {
+        var url = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            pl.jobs.forEach(function (j) {
+              if (j.order === 1) {
+                if (!(j.url === null)) {
+                  url = j.url
+                }
+                if (j.url === null) {
+                  url = '#'
+                }
+              }
+            })
+          }
+        })
+        return url
+      },
+      StableReleaseTag: function (arg) {
+        let ref = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === 'stable') {
+            ref = pl.ref
+          }
+        })
+
+        return ref
       }
     },
     computed: {
       // ...mapGetters({ timer: 'updateTime' })
     }
   }
+
 </script>
 
 <style lang="scss">
   @import "../assets/stylesheets/colors";
   @import "../assets/stylesheets/mixins";
 
+  $paddingLeft: calc(#{rem(35)} + #{rem(10)});
+
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
-    // margin-top: rem(30);
 
     @include mq('sm'){ margin-top: 0; }
 
@@ -116,12 +171,12 @@
       text-align: right;
       font-size: rem(24);
 
-      @include mq('sm') { display: none; }
+     @include mq('sm') { display: none; }
 
       span.title { text-transform: uppercase; font-weight: bold; }
     }
 
-    @include mq('sm'){
+    @include mq('sm') {
       flex-wrap:wrap;
       padding: rem(20) 0;
 
@@ -134,17 +189,20 @@
   }
 
   #dashboard-updated {
+    @include mq('md') {
+      padding-bottom: 20px;
+    }
     .updated-label,
     .time-updated,
     .icon { display: inline-block; }
     .updated-label { font-weight: bold; }
   }
 
-  .container {
+ .container {
     @include mq('sm') {
       @include flex-container;
-      align-items:baseline;
-      align-content:stretch;
+      align-items: baseline;
+      align-content: stretch;
     }
     #dashboard-header,
     #dashboard-updated {
@@ -175,6 +233,7 @@
       background: $light;
       margin-bottom: 0;
       padding: 0 rem(10);
+      overflow: hidden;
     }
   }
 

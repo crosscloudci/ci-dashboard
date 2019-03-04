@@ -2,6 +2,13 @@
 
 Dashboard front-end for the [CNCF Cross-cloud CI Project](https://github.com/cncf/cross-cloud)
 
+## Prerequisites
+You need install node using something like [nvm](https://github.com/creationix/nvm).  You'll
+also need to install npm
+# Choose a version of node 4.0.0 or higher e.g.:
+```
+nvm use 8.5.0
+```
 ## Build Setup
 
 ``` bash

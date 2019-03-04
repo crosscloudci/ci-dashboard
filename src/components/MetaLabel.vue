@@ -11,9 +11,9 @@
 export default {
   name: 'meta-label',
   props: {
-    label: { type: String, required: true, default: 'N/A' },
+    label: { type: String, required: true },
     url: { type: String, required: true, default: '#' },
-    branch: { type: String, required: true, default: 'N/A' }
+    branch: { type: String, required: false, default: 'N/A' }
   },
   data () {
     return {

@@ -29,25 +29,28 @@
 
         &.header {
           text-align: left;
-          background: $blue;
-          color: $white;
+          background: $trans;
+          color: $black;
 
           th:first-child {
             @include border-radius(15px 0 0 15px);
-            text-indent: rem(35);
+            text-indent: rem(-10);
           }
           th:last-child {
             @include border-radius(0 15px 15px 0);
           }
 
           th:nth-child(2) {
-            text-indent: rem(20);
+            text-indent: rem(40);
           }
           th:nth-child(3) {
-            text-indent: rem(50);
+            text-indent: rem(40);
           }
           th:nth-child(4) {
-            text-indent: rem(20);
+            text-indent: rem(30);
+          }
+          th:nth-child(5) {
+            text-indent: rem(40);
           }
         }
 
@@ -174,10 +177,14 @@
 
             .build-details {
               @include mq('sm') {
-                border-top: 1px solid $ccc;
-                border-bottom: 1px solid $ccc;
                 padding-top: rem(20);
                 padding-bottom: rem(10);
+              }
+            }
+
+            .mobile-label {
+              @include mq('sm') {
+                text-indent: rem(40);
               }
             }
 
@@ -186,6 +193,7 @@
                 label {
                   margin-top: rem(5)
                 }
+                padding-bottom: rem(10);
               }
             }
 
@@ -193,8 +201,7 @@
               @include mq('sm') {
                 @include flex-container;
                 padding: rem(10) 0;
-                margin-bottom: rem(10);
-                margin-left: rem(10);
+                margin: rem(10) rem(18) 0 rem(5);
                 justify-content:flex-end;
 
                 span {
@@ -209,13 +216,12 @@
                   }
                   &:nth-child(2) {
                     text-align: center;
-                    width: rem(120);
-
+                    width: rem(130);
                   }
                   &:nth-child(3) {
                     text-align: center;
                     width: rem(120);
-                    margin-left: rem(10)
+                    margin-left: rem(15)
                   }
                 }
               }
@@ -235,7 +241,7 @@
               @include mq('sm') {
                 display: inline-block;
                 width: rem(70);
-                margin: 0 0 0 rem(5);
+                margin: 0 rem(8) 0 rem(5);
               }
 
             }
@@ -259,7 +265,7 @@
             @include mq('sm') {
               position: absolute;
               top: rem(9);
-              right: rem(5);
+              right: rem(18);
             }
 
             @include mq('lg') {
@@ -273,7 +279,7 @@
               text-align: left;
 
               @include mq('lg') {
-                text-indent: rem(55);
+                text-indent: rem(45);
               }
               @include mq('sm') {
                 display: inline-block;
@@ -313,6 +319,7 @@
 
               .build-details .status-badge {
                 top: rem(-5);
+
               }
             }
 

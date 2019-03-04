@@ -9,7 +9,9 @@ const state = {
 
 // getters
 const getters = {
-  allProjects: state => state.projects
+  allProjects: state => state.projects,
+  tableProjects: state => state.projects.filter((project) => project.display_name !== 'Kubernetes')
+
 }
 
 // actions

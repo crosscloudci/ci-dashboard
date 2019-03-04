@@ -1,6 +1,9 @@
 <template>
   <div id="app" ref="app">
-    <PageHeader :last_updated="timer" url="https://cncf.io"/>
+    <PageHeader :last_updated="timer"
+   :all_clouds="clouds" :project="projects[0]"
+   url="https://cncf.io"/>
+	 <TestEnvironment :all_clouds="clouds" :project="projects[0]" />
     <router-view/>
     <AppFooter/>
   </div>
@@ -9,18 +12,19 @@
 <script>
 import PageHeader from './components/PageHeader'
 import AppFooter from './components/AppFooter'
+import TestEnvironment from './components/TestEnvironment'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'app',
-  components: {PageHeader, AppFooter},
+  components: {PageHeader, TestEnvironment, AppFooter},
   data: function () {
     return {
       windowHeight: 0
     }
   },
   computed: {
-    ...mapGetters({ timer: 'updateTime' })
+    ...mapGetters({ clouds: 'allClouds', projects: 'allProjects', timer: 'updateTime' })
   }
 }
 </script>
