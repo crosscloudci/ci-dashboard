@@ -122,7 +122,7 @@
             if (pl.release_type === 'stable') {
               // console.log('Stable pipeline' + pl)
               pl.jobs.forEach(function (j) {
-                if (j.order === 1) { status = j.status }
+                if (j.order === 9) { status = j.status }
               })
             }
           })
@@ -136,7 +136,7 @@
           arg.pipelines.forEach(function (pl) {
             if (pl.release_type === 'stable') {
               pl.jobs.forEach(function (j) {
-                if (j.order === 1) {
+                if (j.order === 9) {
                   if (!(j.url === null)) {
                     url = j.url
                   }
