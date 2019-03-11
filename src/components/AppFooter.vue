@@ -5,18 +5,16 @@
         <div class="built-by">
           <span>Created for</span>
           <a href="http://cncf.io" target="_blank">CNCF</a>
-          <span>by</span>
-          <a href="http://crosscloud.ci" target="_blank">Cross-Cloud CI</a>
         </div>
 
         <div class="social-links">
-          <a class="social" href="http://github.com/crosscloudci/crosscloudci" target="_blank"><i class="fa fa-github"></i></a>
+          <a class="social" href="http://github.com/crosscloudci/ci-dashboard" target="_blank"><i class="fa fa-github"></i></a>
           <a class="social" href="http://twitter.com/crosscloudci" target="_blank"><i class="fa fa-twitter"></i></a>
-          <a class="social" href="mailto:crosscloudci@vulk.coop"><i class="fa fa-envelope"></i></a>
+          <a class="social" href="mailto:cncfci@vulk.coop"><i class="fa fa-envelope"></i></a>
         </div>
 
         <div class="report-bug">
-          <a class="report-bug-link" href="http://github.com/crosscloudci/crosscloudci/issues" target="_blank"><i class="fa fa-bug"></i> Report bug</a>
+          <a class="report-bug-link" href="http://github.com/crosscloudci/ci-dashboard/issues" target="_blank"><i class="fa fa-bug"></i> Report bug</a>
         </div>
       </div>
     </div>
