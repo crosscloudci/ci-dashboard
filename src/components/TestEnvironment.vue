@@ -60,21 +60,8 @@
     name: 'test-environment',
     components: { StatusLabel, StatusBadge },
     props: {
-      last_updated: { default: '' },
-      all_clouds: { default: [] },
       url: { type: String, default: '' },
       project: { type: Object }
-    },
-    mounted: function () {
-      let v = this
-
-      if (this.$route.path === '/') {
-        setInterval(() => {
-          console.log('TestEnvironment mounted: ' + v.$props.last_updated)
-          v.$store.dispatch('updateNewTime', v.$props.last_updated)
-        }, 1000 * 30
-        )
-      }
     },
     methods: {
       gotoURL () {
@@ -82,35 +69,6 @@
       },
       gotoProjectURL () {
         window.open(this.$props.project.url, '_blank')
-      },
-      LastUpdatedChecker () {
-        if (this.$props.last_updated === '') {
-          return this.demoTime(this.$route.path)
-        } else {
-          return this.$props.last_updated
-        }
-      },
-      demoTime (path) {
-        if (path === '/') {
-          return this.$props.last_updated
-        }
-        if (path === '/build' || path === '/build/') {
-          return '1 minute ago'
-        }
-        if (path === '/deploy' || path === '/deploy/') {
-          return '1 minute ago'
-        }
-        if (path === '/success' || path === '/success/') {
-          return '5 minutes ago'
-        }
-        if (path === '/home' || path === '/home/') {
-          return '12 hours ago'
-        }
-        if (path === '/provisioning' || path === '/provisioning/') {
-          return '1 minute ago'
-        } else {
-          return '5 minutes ago'
-        }
       },
       ReleaseType: function (type) {
         return type[0].toUpperCase() + type.substring(1)
