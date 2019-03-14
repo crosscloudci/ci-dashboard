@@ -7,15 +7,16 @@
             <img :src="'https://raw.githubusercontent.com/cncf/artwork/1d4e7cf3b60af40e008b2e2413f7a2d1ff784b52/kubernetes/icon/color/kubernetes-icon-noborder-color.png'" />
             </div>
             <div>
-              Kubernetes &mdash; Stable {{ StableReleaseTag(this.$props.project) }}
+              Kubernetes &mdash; 
+             Stable {{ ReleaseTag(this.$props.project, releaseType) }}
             </div>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
-              <StatusLabel :url="StableURL(project)" 
-              :label="StableStatus(this.$props.project)"
+              <StatusLabel :url="ReleaseURL(project, releaseType)" 
+              :label="ReleaseStatus(this.$props.project, releaseType)"
               :branch="'stable'"
-             :class="StableStatus(this.$props.project)"/>
+             :class="ReleaseStatus(this.$props.project, releaseType)"/>
           </div>
        </div>
     <div id="test-environment-full">
@@ -32,7 +33,14 @@
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version">
-              Stable {{ StableReleaseTag(this.$props.project) }}
+            <md-select v-model="releaseType" name="releaseType" id="release-type">
+              <md-option value="stable"> 
+                Stable {{ ReleaseTag(this.$props.project, 'stable') }}
+              </md-option>
+              <md-option value="head"> 
+                Head {{ ReleaseTag(this.$props.project, 'head') }}
+              </md-option>
+            </md-select>
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -43,22 +51,30 @@
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
-          <StatusLabel :url="StableURL(project)" 
-          :label="StableStatus(this.$props.project)"
+          <StatusLabel :url="ReleaseURL(project, releaseType)" 
+          :label="ReleaseStatus(this.$props.project, releaseType)"
           :branch="'stable'"
-         :class="StableStatus(this.$props.project)"/>
+         :class="ReleaseStatus(this.$props.project, releaseType)"/>
       </div>
     </div>
 </template>
 
 <script>
+  import Vue from 'vue'
   // import {maps} from 'vuex'
   import StatusBadge from './StatusBadge'
   import StatusLabel from './StatusLabel'
+  import VueMaterial from 'vue-material'
+  import 'vue-material/dist/vue-material.css'
+
+  Vue.use(VueMaterial)
 
   export default {
     name: 'test-environment',
     components: { StatusLabel, StatusBadge },
+    data: () => ({
+      releaseType: 'stable'
+    }),
     props: {
       last_updated: { default: '' },
       all_clouds: { default: [] },
@@ -115,11 +131,11 @@
       ReleaseType: function (type) {
         return type[0].toUpperCase() + type.substring(1)
       },
-      StableStatus: function (arg) {
+      ReleaseStatus: function (arg, releaseType) {
         var status = 'N/A'
         if (arg) {
           arg.pipelines.forEach(function (pl) {
-            if (pl.release_type === 'stable') {
+            if (pl.release_type === releaseType) {
               // console.log('Stable pipeline' + pl)
               pl.jobs.forEach(function (j) {
                 if (j.order === 9) { status = j.status }
@@ -130,11 +146,11 @@
         console.log('stable status:' + status)
         return status
       },
-      StableURL: function (arg) {
+      ReleaseURL: function (arg, releaseType) {
         var url = '#'
         if (arg) {
           arg.pipelines.forEach(function (pl) {
-            if (pl.release_type === 'stable') {
+            if (pl.release_type === releaseType) {
               pl.jobs.forEach(function (j) {
                 if (j.order === 9) {
                   if (!(j.url === null)) {
@@ -150,17 +166,15 @@
         }
         return url
       },
-      StableReleaseTag: function (arg) {
-        let ref = '#'
-        if (arg) {
-          arg.pipelines.forEach(function (pl) {
-            if (pl.release_type === 'stable') {
-              ref = pl.ref
-            }
-          })
-        }
+      ReleaseTag: function (arg, releaseType) {
+        let headCommit = '#'
+        arg.pipelines.forEach(function (pl) {
+          if (pl.release_type === releaseType) {
+            headCommit = pl.head_commit.substring(0, 7)
+          }
+        })
 
-        return ref
+        return headCommit
       }
     },
     computed: {
@@ -405,6 +419,12 @@
     @include mq('sm') {
       background: #FDFDFD;
       margin-bottom: 0;
+    }
+  }
+  .md-theme-default.md-select-content .md-menu-item.md-selected {
+    > div > span {
+      color: $black;
+      font-weight: 700;
     }
   }
 
