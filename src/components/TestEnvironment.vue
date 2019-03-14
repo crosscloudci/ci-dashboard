@@ -2,13 +2,13 @@
    <div class="container">
    <div id="test-environment">
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-name">
+          <div class="test-env-name" @click="openDialog('dialog1')">
             <div class="icon">
             <img :src="'https://raw.githubusercontent.com/cncf/artwork/1d4e7cf3b60af40e008b2e2413f7a2d1ff784b52/kubernetes/icon/color/kubernetes-icon-noborder-color.png'" />
             </div>
             <div>
               Kubernetes &mdash; 
-             Stable {{ ReleaseTag(this.$props.project, releaseType) }}
+             {{ReleaseType(releaseType)}} {{ ReleaseTag(this.$props.project, releaseType) }}
             </div>
           </div>
           <div class="test-env-details">
@@ -56,8 +56,34 @@
           :branch="'stable'"
          :class="ReleaseStatus(this.$props.project, releaseType)"/>
       </div>
+
+      <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog1">
+        <md-dialog-title>Select K8s Environment</md-dialog-title>
+        <md-dialog-content>
+          <md-list>
+              <md-list-item @click="closeDialog('dialog1', 'stable')">
+                <span>
+                  Stable {{ ReleaseTag(this.$props.project, 'stable') }}
+                </span>
+                <md-icon>{{ListIcon('stable', releaseType)}}</md-icon>
+              </md-list-item>
+
+              <md-list-item @click="closeDialog('dialog1', 'head')">
+                <span>
+                  Head {{ ReleaseTag(this.$props.project, 'head') }}
+                </span>
+                <md-icon>{{ListIcon('head', releaseType)}}</md-icon>
+                </md-list-item>
+          </md-list>
+        </md-dialog-content>
+
+        <md-dialog-actions>
+        <md-button class="md-primary" @click="closeDialog('dialog1')">Cancel</md-button>
+        </md-dialog-actions>
+      </md-dialog>
     </div>
 </template>
+
 
 <script>
   import Vue from 'vue'
@@ -93,6 +119,15 @@
       }
     },
     methods: {
+      openDialog (ref) {
+        this.$refs[ref].open()
+      },
+      closeDialog (ref, releaseType) {
+        if (releaseType) {
+          this.$data.releaseType = releaseType
+        }
+        this.$refs[ref].close()
+      },
       gotoURL () {
         window.open(this.$props.url, '_blank')
       },
@@ -127,6 +162,9 @@
         } else {
           return '5 minutes ago'
         }
+      },
+      ListIcon: function (type, releaseType) {
+        return type === releaseType ? 'checked' : ''
       },
       ReleaseType: function (type) {
         return type[0].toUpperCase() + type.substring(1)
@@ -312,8 +350,6 @@
   #test-environment {
     display: flex;
 
-          
-
     @include mq('md') {
       display: none;
     }
@@ -321,12 +357,17 @@
     .icon {
       width: rem(35);
       position: relative;
+
       @include mq('sm') {
         width: 1rem;
         margin-right: 5px;
       }
 
       img { width: inherit; }
+    }
+
+    .test-env-name {
+        cursor: pointer;
     }
   }
 
@@ -426,6 +467,9 @@
       color: $black;
       font-weight: 700;
     }
+  }
+  .md-dialog-title.md-title {
+    font-weight: 500;
   }
 
 </style>
