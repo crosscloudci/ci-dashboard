@@ -150,6 +150,11 @@
           return '5 minutes ago'
         }
       },
+      SelectItems (items, releaseType) {
+        var selectItems = [items[0]]
+        items[0].release_type === releaseType ? selectItems.push(items[1]) : selectItems.unshift(items[1])
+        return selectItems
+      },
       ListIcon: function (type, releaseType) {
         return type === releaseType ? 'checked' : ''
       },
@@ -460,6 +465,36 @@
   }
   .md-dialog-content {
     padding: 0;
+  }
+  .md-select-content {
+     display: none;
+    @include mq('md') {
+      display: block;
+      min-width: 150px;
+      width: calc((100% / 7.3) + 50px);
+    }
+ }
+
+   li.md-list-item.md-menu-item.md-option:first-of-type {
+     position: relative;
+     &::after {
+      color: rgba(0, 0, 0, .38);
+      margin-top: 2px;
+      position: absolute;
+      top: 50%;
+      right:  5%;
+      transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
+      transition: all 0.15s linear;
+      content: "\25BC";
+      @include mq('md') {
+        right: 2%;
+      }
+      @include mq('lg') {
+        right: 10px;
+      }
+ 
+    }
+ 
   }
 
 </style>
