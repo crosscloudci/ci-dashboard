@@ -197,14 +197,14 @@
         return url
       },
       ReleaseTag: function (arg, releaseType) {
-        let headCommit = '#'
+        let tag = '#'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === releaseType) {
-            headCommit = pl.head_commit.substring(0, 7)
+            tag = releaseType === 'head' ? pl.head_commit.substring(0, 7) : releaseType === 'stable' ? pl.ref : '#'
           }
         })
 
-        return headCommit
+        return tag
       }
     },
     computed: {
@@ -467,7 +467,7 @@
     padding: 0;
   }
   .md-select-content {
-     display: none;
+    display: none;
     @include mq('md') {
       display: block;
       min-width: 150px;
@@ -475,26 +475,27 @@
     }
  }
 
-   li.md-list-item.md-menu-item.md-option:first-of-type {
-     position: relative;
-     &::after {
-      color: rgba(0, 0, 0, .38);
-      margin-top: 2px;
-      position: absolute;
-      top: 50%;
-      right:  5%;
-      transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
-      transition: all 0.15s linear;
-      content: "\25BC";
-      @include mq('md') {
-        right: 2%;
+   li.md-list-item {
+     box-sizing: border-box;
+     &.md-menu-item.md-option:first-of-type {
+       position: relative;
+       &::after {
+        color: rgba(0, 0, 0, .38);
+        margin-top: 2px;
+        position: absolute;
+        top: 50%;
+        right:  5%;
+        transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
+        transition: all 0.15s linear;
+        content: "\25BC";
+        @include mq('md') {
+          right: 2%;
+        }
+        @include mq('lg') {
+          right: 10px;
+        }
       }
-      @include mq('lg') {
-        right: 10px;
-      }
- 
     }
- 
   }
 
 </style>
