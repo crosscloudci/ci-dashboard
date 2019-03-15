@@ -102,21 +102,8 @@
       releaseType: 'stable'
     }),
     props: {
-      last_updated: { default: '' },
-      all_clouds: { default: [] },
       url: { type: String, default: '' },
       project: { type: Object }
-    },
-    mounted: function () {
-      let v = this
-
-      if (this.$route.path === '/') {
-        setInterval(() => {
-          console.log('TestEnvironment mounted: ' + v.$props.last_updated)
-          v.$store.dispatch('updateNewTime', v.$props.last_updated)
-        }, 1000 * 30
-        )
-      }
     },
     methods: {
       openDialog (ref) {
