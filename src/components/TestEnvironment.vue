@@ -471,5 +471,8 @@
   .md-dialog-title.md-title {
     font-weight: 500;
   }
+  .md-dialog-content {
+    padding: 0;
+  }
 
 </style>
