@@ -35,6 +35,7 @@ const actions = {
       var lastCheckDt = response.reply.last_check_dt
       // pipelines = projects.pipelines
       commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
+      commit(types.CHANGE_TEST_ENV, { projects })
       commit(types.RECEIVE_CLOUDS, { clouds })
       // commit(types.RECEIVE_PIPELINES, { pipelines })
       console.log('channel join event date' + lastCheckDt)

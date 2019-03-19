@@ -13,7 +13,7 @@
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
-              <StatusLabel :url="ReleaseURL(project, releaseType)" 
+              <StatusLabel :url="ReleaseURL(this.$props.project, releaseType)" 
               :label="ReleaseStatus(this.$props.project, releaseType)"
               :branch="'stable'"
              :class="ReleaseStatus(this.$props.project, releaseType)"/>
@@ -33,7 +33,7 @@
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version">
-            <md-select v-model="releaseType" name="releaseType" id="release-type">
+            <md-select v-model="releaseType" name="releaseType" id="release-type" v-on:selected="selectEnv($event)">
               <md-option value="stable"> 
                 Stable {{ ReleaseTag(this.$props.project, 'stable') }}
               </md-option>
@@ -51,7 +51,7 @@
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
-          <StatusLabel :url="ReleaseURL(project, releaseType)" 
+          <StatusLabel :url="ReleaseURL(this.$props.project, releaseType)" 
           :label="ReleaseStatus(this.$props.project, releaseType)"
           :branch="'stable'"
          :class="ReleaseStatus(this.$props.project, releaseType)"/>
@@ -87,7 +87,7 @@
 
 <script>
   import Vue from 'vue'
-  // import {maps} from 'vuex'
+  // import {mapState} from 'vuex'
   import StatusBadge from './StatusBadge'
   import StatusLabel from './StatusLabel'
   import VueMaterial from 'vue-material'
@@ -121,34 +121,9 @@
       gotoProjectURL () {
         window.open(this.$props.project.url, '_blank')
       },
-      LastUpdatedChecker () {
-        if (this.$props.last_updated === '') {
-          return this.demoTime(this.$route.path)
-        } else {
-          return this.$props.last_updated
-        }
-      },
-      demoTime (path) {
-        if (path === '/') {
-          return this.$props.last_updated
-        }
-        if (path === '/build' || path === '/build/') {
-          return '1 minute ago'
-        }
-        if (path === '/deploy' || path === '/deploy/') {
-          return '1 minute ago'
-        }
-        if (path === '/success' || path === '/success/') {
-          return '5 minutes ago'
-        }
-        if (path === '/home' || path === '/home/') {
-          return '12 hours ago'
-        }
-        if (path === '/provisioning' || path === '/provisioning/') {
-          return '1 minute ago'
-        } else {
-          return '5 minutes ago'
-        }
+      selectEnv: function (releaseType) {
+        let env = releaseType
+        this.$store.dispatch('switchEnv', { env })
       },
       SelectItems (items, releaseType) {
         var selectItems = [items[0]]
@@ -198,17 +173,18 @@
       },
       ReleaseTag: function (arg, releaseType) {
         let tag = '#'
-        arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === releaseType) {
-            tag = releaseType === 'head' ? pl.head_commit.substring(0, 7) : releaseType === 'stable' ? pl.ref : '#'
-          }
-        })
-
+        if (arg) {
+          arg.pipelines.forEach(function (pl) {
+            if (pl.release_type === releaseType) {
+              tag = releaseType === 'head' ? pl.head_commit.substring(0, 7) : releaseType === 'stable' ? pl.ref : '#'
+              console.log('releaseType' + releaseType)
+            }
+          })
+        }
         return tag
       }
     },
     computed: {
-      // ...mapGetters({ timer: 'updateTime' })
     }
   }
 

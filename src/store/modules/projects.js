@@ -1,4 +1,4 @@
-import api from '../../api/api'
+// import api from '../../api/api'
 import * as types from '../mutation-types'
 
 // initial state
@@ -16,12 +16,12 @@ const getters = {
 
 // actions
 const actions = {
-  getAllProjects ({ commit }) {
-    api.getDashboard().then((response) => {
-      let projects = response.data.dashboard.projects
-      commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
-    })
-  }
+  // getAllProjects ({ commit }) {
+  //   api.getDashboard().then((response) => {
+  //     let projects = response.data.dashboard.projects
+  //     commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
+  //   })
+  // }
 }
 
 // mutations
