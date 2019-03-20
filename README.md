@@ -1,6 +1,6 @@
 # cncf-ci-dashboard
 
-Dashboard front-end for the [CNCF Cross-cloud CI Project](https://github.com/cncf/cross-cloud)
+Dashboard front-end for the [CNCF.CI Project](https://github.com/crosscloudci/crosscloudci)
 
 ## Prerequisites
 You need install node using something like [nvm](https://github.com/creationix/nvm).  You'll
