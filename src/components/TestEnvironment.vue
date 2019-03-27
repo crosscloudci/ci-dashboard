@@ -4,7 +4,7 @@
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name">
             <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/1d4e7cf3b60af40e008b2e2413f7a2d1ff784b52/kubernetes/icon/color/kubernetes-icon-noborder-color.png'" />
+            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
             </div>
             <div>
               Kubernetes &mdash; Stable {{ StableReleaseTag(this.$props.project) }}
@@ -22,7 +22,7 @@
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name" v-on:click="gotoProjectURL()">
             <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/1d4e7cf3b60af40e008b2e2413f7a2d1ff784b52/kubernetes/icon/color/kubernetes-icon-noborder-color.png'"
+            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'"
             />
             </div>
             <div>
