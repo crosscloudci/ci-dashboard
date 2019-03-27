@@ -4,7 +4,7 @@
       <header id="dashboard-header">
         <div id="dashboard-logo">
           <div class="cncf-logo" v-on:click="gotoURL()">
-            <img src="../assets/images/logo_cncf.png"/>
+            <img src="'https://raw.githubusercontent.com/cncf/artwork/master/cncf/horizontal/color/cncf-color.svg?sanitize=true'"/>
           </div>
         </div>
         <div id="dashboard-title">
