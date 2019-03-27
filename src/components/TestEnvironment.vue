@@ -143,7 +143,7 @@
             if (pl.release_type === releaseType) {
               // console.log('Stable pipeline' + pl)
               pl.jobs.forEach(function (j) {
-                if (j.order === 9) { status = j.status }
+                if (j.order === 1) { status = j.status }
               })
             }
           })
@@ -157,7 +157,7 @@
           arg.pipelines.forEach(function (pl) {
             if (pl.release_type === releaseType) {
               pl.jobs.forEach(function (j) {
-                if (j.order === 9) {
+                if (j.order === 1) {
                   if (!(j.url === null)) {
                     url = j.url
                   }
