@@ -33,9 +33,11 @@ const actions = {
       let projects = response.reply.projects
       let clouds = response.reply.clouds
       var lastCheckDt = response.reply.last_check_dt
+      let kubernetesRefs = response.reply.kubernetes_refs
       // pipelines = projects.pipelines
       commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
-      commit(types.CHANGE_TEST_ENV, { projects })
+      // commit(types.CHANGE_TEST_ENV, { projects })
+      commit(types.GET_ALL_TEST_ENV, {projects, kubernetesRefs})
       commit(types.RECEIVE_CLOUDS, { clouds })
       // commit(types.RECEIVE_PIPELINES, { pipelines })
       console.log('channel join event date' + lastCheckDt)

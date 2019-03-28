@@ -33,12 +33,9 @@
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version">
-            <md-select v-model="releaseType" name="releaseType" id="release-type" v-on:selected="selectEnv($event)">
-              <md-option value="stable"> 
-                Stable {{ ReleaseTag(this.$props.project, 'stable') }}
-              </md-option>
-              <md-option value="head"> 
-                Head {{ ReleaseTag(this.$props.project, 'head') }}
+            <md-select v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:selected="selectEnv($event)">
+              <md-option v-for="(env, index) in testEnvs" :key="index" :value="env.dropdown"> 
+                {{ env.dropdown }}
               </md-option>
             </md-select>
           </div>
@@ -52,7 +49,7 @@
               <i class="fa fa-arrow-right"></i>
           </div>
           <StatusLabel :url="ReleaseURL(this.$props.project, releaseType)" 
-          :label="ReleaseStatus(this.$props.project, releaseType)"
+          :label="ReleaseStatus()"
           :branch="'stable'"
          :class="ReleaseStatus(this.$props.project, releaseType)"/>
       </div>
@@ -87,7 +84,7 @@
 
 <script>
   import Vue from 'vue'
-  // import {mapState} from 'vuex'
+  import {mapGetters} from 'vuex'
   import StatusBadge from './StatusBadge'
   import StatusLabel from './StatusLabel'
   import VueMaterial from 'vue-material'
@@ -98,9 +95,20 @@
   export default {
     name: 'test-environment',
     components: { StatusLabel, StatusBadge },
-    data: () => ({
-      releaseType: 'stable'
-    }),
+    data: function () {
+      return {
+        releaseType: 'stable',
+        initialCurrentEnv: 'STable',
+        // initialCurrentEnv: this.$store.state.environments.testEnvList[0].dropdown,
+        // this.initialCurrentEnv.length === 0 ? this.initialCurrentEnv = '' : this.dropdownList[0].dropdown
+        dropdownList: this.$store.state.environments.testEnvList
+        // initialCurrentEnv: this.$store.getters.selectedEnv
+      }
+    },
+    mounted: function () {
+      // this.dropdownList = this.$store.state.environments.testEnvList
+      // this.initialCurrentEnv.length === 0 ? this.initialCurrentEnv = '' : this.dropdownList[0].dropdown
+    },
     props: {
       url: { type: String, default: '' },
       project: { type: Object }
@@ -136,19 +144,9 @@
       ReleaseType: function (type) {
         return type[0].toUpperCase() + type.substring(1)
       },
-      ReleaseStatus: function (arg, releaseType) {
-        var status = 'N/A'
-        if (arg) {
-          arg.pipelines.forEach(function (pl) {
-            if (pl.release_type === releaseType) {
-              // console.log('Stable pipeline' + pl)
-              pl.jobs.forEach(function (j) {
-                if (j.order === 9) { status = j.status }
-              })
-            }
-          })
-        }
-        console.log('stable status:' + status)
+      ReleaseStatus: function (env) {
+        let status = 'N/A'
+        status = this.$store.state.environments.current.jobs[0].status
         return status
       },
       ReleaseURL: function (arg, releaseType) {
@@ -171,6 +169,11 @@
         }
         return url
       },
+      CurrentEnv: function (env) {
+        if (env.dropdown === this.$store.state.environments.current) {
+          return env.dropdown
+        }
+      },
       ReleaseTag: function (arg, releaseType) {
         let tag = '#'
         if (arg) {
@@ -185,6 +188,7 @@
       }
     },
     computed: {
+      ...mapGetters({testEnvs: 'allTestEnvs', currentEnv: 'selectedEnv'})
     }
   }
 
