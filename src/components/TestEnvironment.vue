@@ -1,6 +1,6 @@
 <template>
    <div class="container">
-   <div id="test-environment">
+   <div id="test-environment" >
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name" @click="openDialog('dialog1')">
             <div class="icon">
@@ -8,15 +8,15 @@
             </div>
             <div>
               Kubernetes &mdash; 
-             {{ReleaseType(releaseType)}} {{ ReleaseTag(this.$props.project, releaseType) }}
+             {{ReleaseType()}} {{ ReleaseTag() }}
             </div>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
-              <StatusLabel :url="ReleaseURL(this.$props.project, releaseType)" 
-              :label="ReleaseStatus(this.$props.project, releaseType)"
-              :branch="'stable'"
-             :class="ReleaseStatus(this.$props.project, releaseType)"/>
+              <StatusLabel :url="ReleaseURL()" 
+              :label="ReleaseStatus()"
+              :branch="ReleaseBranch()"
+             :class="ReleaseStatus()"/>
           </div>
        </div>
     <div id="test-environment-full">
@@ -48,29 +48,22 @@
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
-          <StatusLabel :url="ReleaseURL(this.$props.project, releaseType)" 
+          <StatusLabel :url="ReleaseURL()" 
           :label="ReleaseStatus()"
-          :branch="'stable'"
-         :class="ReleaseStatus(this.$props.project, releaseType)"/>
+          :branch="ReleaseBranch()"
+         :class="ReleaseStatus()"/>
       </div>
 
       <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog1">
         <md-dialog-title>Select K8s Environment</md-dialog-title>
         <md-dialog-content>
           <md-list>
-              <md-list-item @click="closeDialog('dialog1', 'stable')">
+              <md-list-item v-for="(env, index) in testEnvs" :key="index" :value="env" @click="closeDialog('dialog1', env)">
                 <span>
-                  Stable {{ ReleaseTag(this.$props.project, 'stable') }}
+                  {{ env.dropdown }}
                 </span>
-                <md-icon>{{ListIcon('stable', releaseType)}}</md-icon>
+                <md-icon>{{ListIcon(env)}}</md-icon>
               </md-list-item>
-
-              <md-list-item @click="closeDialog('dialog1', 'head')">
-                <span>
-                  Head {{ ReleaseTag(this.$props.project, 'head') }}
-                </span>
-                <md-icon>{{ListIcon('head', releaseType)}}</md-icon>
-                </md-list-item>
           </md-list>
         </md-dialog-content>
 
@@ -97,15 +90,8 @@
     components: { StatusLabel, StatusBadge },
     data: function () {
       return {
-        releaseType: 'stable',
-        initialCurrentEnv: this.$store.state.environments.current.dropdown,
-        dropdownList: this.$store.state.environments.testEnvList
+        initialCurrentEnv: this.$store.state.environments.current.dropdown
       }
-    },
-    mounted: function () {
-      this.initialCurrentEnv = this.$store.state.environments.current.dropdown
-      this.$forceUpdate()
-      // this.dropdownList = this.$store.state.environments.testEnvList
     },
     props: {
       url: { type: String, default: '' },
@@ -117,7 +103,7 @@
       },
       closeDialog (ref, releaseType) {
         if (releaseType) {
-          this.$data.releaseType = releaseType
+          this.selectEnv(releaseType)
         }
         this.$refs[ref].close()
       },
@@ -136,35 +122,25 @@
         items[0].release_type === releaseType ? selectItems.push(items[1]) : selectItems.unshift(items[1])
         return selectItems
       },
-      ListIcon: function (type, releaseType) {
-        return type === releaseType ? 'checked' : ''
+      ListIcon: function (type) {
+        return type === this.$store.state.environments.current.kubernetes_release_type ? 'checked' : ''
       },
-      ReleaseType: function (type) {
-        return type[0].toUpperCase() + type.substring(1)
+      ReleaseType: function () {
+        return this.$store.state.environments.current.kubernetes_release_type.toUpperCase() + this.$store.state.environments.current.kubernetes_release_type.substring(1)
       },
-      ReleaseStatus: function (env, type) {
+      ReleaseStatus: function () {
         let status = 'N/A'
         status = this.$store.state.environments.current.jobs[0].status
         return status
       },
-      ReleaseURL: function (arg, releaseType) {
+      ReleaseBranch: function () {
+        let status = 'N/A'
+        status = this.$store.state.environments.current.kubernetes_release_type
+        return status
+      },
+      ReleaseURL: function () {
         var url = '#'
-        if (arg) {
-          arg.pipelines.forEach(function (pl) {
-            if (pl.release_type === releaseType) {
-              pl.jobs.forEach(function (j) {
-                if (j.order === 1) {
-                  if (!(j.url === null)) {
-                    url = j.url
-                  }
-                  if (j.url === null) {
-                    url = '#'
-                  }
-                }
-              })
-            }
-          })
-        }
+        url = this.$store.state.environments.current.jobs[0].url
         return url
       },
       CurrentEnv: function (env) {
@@ -172,16 +148,12 @@
           return env.dropdown
         }
       },
-      ReleaseTag: function (arg, releaseType) {
+      ReleaseTag: function () {
         let tag = '#'
-        if (arg) {
-          arg.pipelines.forEach(function (pl) {
-            if (pl.release_type === releaseType) {
-              tag = releaseType === 'head' ? pl.head_commit.substring(0, 7) : releaseType === 'stable' ? pl.ref : '#'
-              console.log('releaseType' + releaseType)
-            }
-          })
-        }
+        let releaseType = this.$store.state.environments.current.kubernetes_release_type
+        let sha = this.$store.state.environments.current.sha
+        let ref = this.$store.state.environments.current.ref
+        tag = releaseType === 'head' ? sha.substring(0, 7) : releaseType === 'stable' ? ref : '#'
         return tag
       }
     },

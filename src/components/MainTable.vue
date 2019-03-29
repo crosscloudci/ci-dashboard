@@ -15,7 +15,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="project in projects" :key="project.order" v-on:click="$event.current.kubernetes_release_typeTarget.classList.toggle('open')">
+          <tr v-for="project in projects" :key="project.order" v-on:click="$event.currentTarget.classList.toggle('open')">
             <td class="project-column">
               <div class="project-box">
 
