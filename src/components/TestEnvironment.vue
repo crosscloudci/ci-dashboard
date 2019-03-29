@@ -33,8 +33,8 @@
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version">
-            <md-select v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:selected="selectEnv($event)">
-              <md-option v-for="(env, index) in testEnvs" :key="index" :value="env.dropdown"> 
+            <md-select v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
+              <md-option v-for="(env, index) in testEnvs" :key="index" :value="env"> 
                 {{ env.dropdown }}
               </md-option>
             </md-select>
@@ -98,16 +98,14 @@
     data: function () {
       return {
         releaseType: 'stable',
-        initialCurrentEnv: 'STable',
-        // initialCurrentEnv: this.$store.state.environments.testEnvList[0].dropdown,
-        // this.initialCurrentEnv.length === 0 ? this.initialCurrentEnv = '' : this.dropdownList[0].dropdown
+        initialCurrentEnv: this.$store.state.environments.current.dropdown,
         dropdownList: this.$store.state.environments.testEnvList
-        // initialCurrentEnv: this.$store.getters.selectedEnv
       }
     },
     mounted: function () {
+      this.initialCurrentEnv = this.$store.state.environments.current.dropdown
+      this.$forceUpdate()
       // this.dropdownList = this.$store.state.environments.testEnvList
-      // this.initialCurrentEnv.length === 0 ? this.initialCurrentEnv = '' : this.dropdownList[0].dropdown
     },
     props: {
       url: { type: String, default: '' },
@@ -144,7 +142,7 @@
       ReleaseType: function (type) {
         return type[0].toUpperCase() + type.substring(1)
       },
-      ReleaseStatus: function (env) {
+      ReleaseStatus: function (env, type) {
         let status = 'N/A'
         status = this.$store.state.environments.current.jobs[0].status
         return status
@@ -155,7 +153,7 @@
           arg.pipelines.forEach(function (pl) {
             if (pl.release_type === releaseType) {
               pl.jobs.forEach(function (j) {
-                if (j.order === 9) {
+                if (j.order === 1) {
                   if (!(j.url === null)) {
                     url = j.url
                   }
@@ -188,7 +186,7 @@
       }
     },
     computed: {
-      ...mapGetters({testEnvs: 'allTestEnvs', currentEnv: 'selectedEnv'})
+      ...mapGetters({testEnvs: 'allTestEnvs', currentEnv: 'selectedEnv', defaultEnv: 'defaultEnv'})
     }
   }
 

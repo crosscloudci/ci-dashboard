@@ -29,21 +29,16 @@ const actions = {
     let v = this
     channel.join()
     .receive('ok', (response) => {
-      // let pipelines = []
       let projects = response.reply.projects
       let clouds = response.reply.clouds
       var lastCheckDt = response.reply.last_check_dt
       let kubernetesRefs = response.reply.kubernetes_refs
-      // pipelines = projects.pipelines
       commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
-      // commit(types.CHANGE_TEST_ENV, { projects })
       commit(types.GET_ALL_TEST_ENV, {projects, kubernetesRefs})
       commit(types.RECEIVE_CLOUDS, { clouds })
-      // commit(types.RECEIVE_PIPELINES, { pipelines })
+      commit(types.DEFAULT_TEST_ENV)
       console.log('channel join event date' + lastCheckDt)
       v.dispatch('updateNewTime', lastCheckDt)
-      // commit(types.UPDATE_TIME, { lastCheckDt })
-      // commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { response })
     })
   },
 
@@ -59,11 +54,6 @@ const actions = {
 
 // mutations
 const mutations = {
-  // [types.SOCKET_CONNECTED] (state, { dashboard }) {
-  //   state.projects = dashboard.projects
-  //   state.pipelines = dashboard.pipelines
-  //   state.clouds = dashboard.clouds
-  // }
   [types.SOCKET_CONNECTED] (state, { socket }) {
     state.socket = socket
   },

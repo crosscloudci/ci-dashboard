@@ -5,33 +5,38 @@ import * as R from 'ramda'
 const state = {
   test_envs: [],
   testEnvList: [],
-  current: {}
+  current: {},
+  defaultDropdownEnv: ''
 }
 
 // getters
 const getters = {
   selectedEnv: state => state.current,
-  allTestEnvs: state => state.testEnvList
+  allTestEnvs: state => state.testEnvList,
+  defaultEnv: state => state.defaultDropdownEnv
 }
 
 // actions
 const actions = {
-  getDropdownEnvs ({ commit }, env) {
-    commit(types.GET_ALL_TEST_ENV, { env })
+  getDropdownEnvs ({ dispatch, commit }) {
+    return dispatch('updateDashboard').then((payload) => { commit(types.GET_ALL_TEST_ENV, { payload }) })
   },
   switchEnv ({ commit }, env) {
     commit(types.SELECT_TEST_ENV, { env })
+  },
+  getDefaultEnv ({ commit }, env) {
+    commit(types.DEFAULT_TEST_ENV, { env })
   }
 }
 
 // mutations
 const mutations = {
+  [types.DEFAULT_TEST_ENV] (state) {
+    let defaultEnv = state.current.dropdown
+    state.defaultDropdownEnv = defaultEnv
+  },
   [types.SELECT_TEST_ENV] (state, {env}) {
-    for (let i = 0; i < state.testEnvList; i++) {
-      if (R.eqProps(env, state.testEnvList[i])) {
-        state.current = state.testEnvList[i]
-      }
-    }
+    state.current = env.env
     return state.current
   },
   [types.GET_ALL_TEST_ENV] (state, {projects, kubernetesRefs}) {
@@ -39,29 +44,11 @@ const mutations = {
     state.testEnvList = list
     for (let i = 0; i < list.length; i++) {
       let hi = R.match(/Stable/, list[i].dropdown)
-      // console.log('this is dropdown foo first ' + Object.keys(list[i]))
       if (hi.length > 0) {
         state.current = list[i]
         return state.current
-        // console.log('this is dropdown foo second ' + Object.keys(list[i]))
       }
     }
-  },
-
-  [types.CHANGE_TEST_ENV] (state, { projects }) {
-    let pipelines = []
-    let arrayLength = projects.length
-    let envs = []
-    for (let i = 0; i < arrayLength; i++) {
-      if (projects[i].pipelines.length > 0) {
-        pipelines.push(projects[i].pipelines)
-      }
-    }
-    for (let i = 0; i < pipelines.length; i++) {
-      envs.push(pipelines[i].test_env)
-    }
-    let testEnvs = R.uniq(envs)
-    state.test_envs = testEnvs
   }
 }
 

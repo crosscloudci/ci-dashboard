@@ -94,25 +94,16 @@
       channel.on('new_cross_cloud_call', payload => {
         this.$store.dispatch('updateDashboard', { payload })
         let lastCheckDt = payload.reply.dashboard.last_check_dt
-        // console.log('new_cross_cloud_call event date' + lastCheckDt)
         this.$store.dispatch('updateNewTime', lastCheckDt)
-        // v.dispatch('updateNewTime', response.reply.last_check_dt)
-        // let projects = payload.reply.dashboard.projects
-        // let clouds = payload.reply.dashboard.clouds
-        // this.$store.dispatch('RECEIVE_DASHBOARD_PROJECTS', { projects })
-        // this.$store.dispatch('RECEIVE_CLOUDS', { clouds })
-       // commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
-       // commit(types.RECEIVE_CLOUDS, { clouds })
         this.$forceUpdate()
       })
     },
     methods: {
       StableStatus: function (arg) {
         var status = 'N/A'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
-            // console.log('Stable pipeline' + pl)
             if (pl.kubernetes_release_type === env) {
               pl.jobs.forEach(function (j) {
                 if (j.order === 1) { status = j.status }
@@ -126,10 +117,9 @@
       },
       HeadStatus: function (arg) {
         var status = 'N/A'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
-            // console.log('HEAD pipeline' + pl)
             if (pl.kubernetes_release_type === env) {
               pl.jobs.forEach(function (j) {
                 if (j.order === 1) { status = j.status }
@@ -142,7 +132,7 @@
       },
       StableURL: function (arg) {
         var url = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
             if (pl.kubernetes_release_type === env) {
@@ -163,7 +153,7 @@
       },
       HeadURL: function (arg) {
         var url = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
             if (pl.kubernetes_release_type === env) {
@@ -181,7 +171,7 @@
       },
       StableReleaseURL: function (arg) {
         let url = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
             if (pl.kubernetes_release_type === env) {
@@ -190,8 +180,6 @@
               }
               if (!(pl.head_commit === 'N/A')) {
                 url = arg.repository_url + `/commit/${pl.head_commit}`
-                // var rturl = pl.kubernetes_release_type + ': ' + url
-                // console.log(rturl)
               }
             }
           }
@@ -200,7 +188,7 @@
       },
       HeadReleaseURL: function (arg) {
         let url = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
             if (pl.kubernetes_release_type === env) {
@@ -219,7 +207,7 @@
       },
       StableReleaseTag: function (arg) {
         let ref = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
             if (pl.kubernetes_release_type === env) {
@@ -232,7 +220,7 @@
       },
       HeadReleaseTag: function (arg) {
         let headCommit = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
             if (pl.kubernetes_release_type === env) {
@@ -245,7 +233,7 @@
       },
       HeadBranchName: function (arg) {
         let type = ''
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
             if (pl.kubernetes_release_type === env) {
@@ -257,7 +245,7 @@
       },
       StableBranchName: function (arg) {
         let type = ''
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
             if (pl.kubernetes_release_type === env) {
@@ -269,7 +257,7 @@
       },
       HeadCloudStatus: function (arg, cloudId) {
         var status = 'N/A'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
             // console.log('Stable pipeline' + pl)
@@ -290,7 +278,7 @@
       },
       StableCloudStatus: function (arg, cloudId) {
         var status = 'N/A'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
             // console.log('Stable pipeline' + pl)
@@ -311,7 +299,7 @@
       },
       HeadCloudURL: function (arg, cloudId) {
         var url = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'head') {
             if (pl.kubernetes_release_type === env) {
@@ -328,7 +316,7 @@
       },
       StableCloudURL: function (arg, cloudId) {
         var url = '#'
-        let env = this.$store.getters.selectedEnv.kubernetes_release_type
+        let env = this.$store.state.environments.current.kubernetes_release_type
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
             if (pl.kubernetes_release_type === env) {
@@ -364,9 +352,7 @@
     },
     created () {
       this.$store.dispatch('connectToSocket')
-      // this.$store.dispatch('getAllProjects')
       this.$store.dispatch('getAllClouds')
-      // this.$store.dispatch('getAllPipelines')
     }
   }
 
