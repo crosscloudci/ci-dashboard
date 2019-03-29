@@ -8,7 +8,7 @@
             </div>
             <div>
               Kubernetes &mdash; 
-             {{ReleaseType()}} {{ ReleaseTag() }}
+             {{ CurrentEnv(currentEnv) }}
             </div>
           </div>
           <div class="test-env-details">
@@ -123,7 +123,7 @@
         return selectItems
       },
       ListIcon: function (type) {
-        return type === this.$store.state.environments.current.kubernetes_release_type ? 'checked' : ''
+        return type.kubernetes_release_type === this.$store.state.environments.current.kubernetes_release_type ? 'checked' : ''
       },
       ReleaseType: function () {
         return this.$store.state.environments.current.kubernetes_release_type.toUpperCase() + this.$store.state.environments.current.kubernetes_release_type.substring(1)
@@ -144,9 +144,7 @@
         return url
       },
       CurrentEnv: function (env) {
-        if (env.dropdown === this.$store.state.environments.current) {
-          return env.dropdown
-        }
+        return this.$store.state.environments.current.dropdown
       },
       ReleaseTag: function () {
         let tag = '#'
