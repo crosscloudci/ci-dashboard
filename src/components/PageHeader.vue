@@ -14,12 +14,14 @@
       </header>
 
       <div id="dashboard-updated">
-        <span class="icon">
-          <i class="fa fa-clock-o"></i>
-        </span>
-        <span class="updated-label">Last updated</span>
-          <span v-if="this.$props.last_updated === ''" class="time-updated">{{ LastUpdatedChecker() }} </span>
-          <span v-else class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
+        <div id="dashboard-updated-content">
+            <span class="icon">
+              <i class="fa fa-clock-o"></i>
+            </span>
+            <span class="updated-label">Last updated</span>
+              <span v-if="this.$props.last_updated === ''" class="time-updated">{{ LastUpdatedChecker() }} </span>
+              <span v-else class="time-updated">{{ this.$props.last_updated | moment("from", "now") || '12 hours ago' }} </span>
+              </div>
       </div>
   </div>
  </div>
@@ -191,11 +193,22 @@
   #dashboard-updated {
     @include mq('md') {
       padding-bottom: 20px;
+      display: flex;
+      justify-content: flex-end;
     }
-    .updated-label,
-    .time-updated,
-    .icon { display: inline-block; }
-    .updated-label { font-weight: bold; }
+    #dashboard-updated-content {
+        .updated-label,
+        .time-updated,
+        .icon { display: inline-block; }
+
+        .updated-label { font-weight: bold; }
+        @include mq('sm') {
+          .time-updated {
+            display: block;
+            font-size: 12px;
+          }
+        }
+    }
   }
 
  .container {
@@ -207,7 +220,6 @@
     #dashboard-header,
     #dashboard-updated {
       @include mq('sm') {
-        @include fbox(1);
         font-size: rem(14);
       }
     }
@@ -218,12 +230,12 @@
         position: relative;
         top: rem(-15);
 
-        .icon { display: none; }
-        .updated-label,
-        .time-updated {
-          display: block;
-          text-align: right;
-        }
+        #dashboard-updated-content {
+            .icon { 
+              margin-right: -1px;
+              font-size: rem(15); 
+            }
+       }
       }
     }
   }
@@ -234,6 +246,9 @@
       margin-bottom: 0;
       padding: 0 rem(10);
       overflow: hidden;
+      > .container {
+        justify-content: space-around;
+     }
     }
   }
 

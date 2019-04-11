@@ -211,16 +211,6 @@
     }
   }
 
-  #dashboard-updated {
-    @include mq('md') {
-      padding-bottom: 20px;
-    }
-    .updated-label,
-    .time-updated,
-    .icon { display: inline-block; }
-    .updated-label { font-weight: bold; }
-  }
-
   #test-environment, #test-environment-full {
      align-content: space-around;
      align-items: center;
@@ -369,8 +359,7 @@
       align-items: baseline;
       align-content: stretch;
     }
-    #dashboard-header,
-    #dashboard-updated {
+    #dashboard-header { 
       @include mq('sm') {
         @include fbox(1);
         font-size: rem(14);
