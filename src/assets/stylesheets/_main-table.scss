@@ -116,6 +116,9 @@
           width: 100%;
           display: block;
           position: relative;
+          &:first-of-type td.project-column {
+            border-top: 1px solid $ccc;
+          }
         }
 
         td {
