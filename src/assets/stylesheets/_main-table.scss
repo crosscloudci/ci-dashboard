@@ -149,10 +149,9 @@
 
               .pipe-gfx {
                 position: absolute;
-                top: rem(-15);
-                right: rem(-40);
-                width: rem(80);
-                height: rem(80);
+                top: 4px;
+                right: -50px;
+                width: 60px;
               }
 
               @include mq('sm') {

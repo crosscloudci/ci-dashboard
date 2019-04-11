@@ -231,7 +231,7 @@
      &::after, &::before {
       background-color: #E5E5E5;
       content: '';
-      width: 30%;
+      width: calc((100% - 120px)/ 2 - 8px);
       position: absolute;
       top: -1px;
       height: 1px;
@@ -239,14 +239,14 @@
     &::after {
       right: 0;
       @include mq('md') {
-       width: calc(100% -  #{rem(25)}  - 140px);
+         width: calc(100% - 120px - 12px - 40px);
       }
     }
     &::before {
       left: 0;
 
       @include mq('md') {
-        width: calc(#{rem(35)} + #{rem(10)});
+        width: 40px;
       }
     }
 
@@ -255,9 +255,10 @@
          top: -8px;
          left: calc(50% - 60px);
          font-weight: 600;
-         font-size: rem(14);
+         font-size: 14px;
+         width: 120px;
          @include mq('md') {
-           left: calc(20px);
+           left: 46px;
          }
      }
      .test-env-name, .test-env-details {
@@ -314,7 +315,6 @@
 
     .test-env-label {
       //left: 20px;
-      left: $paddingLeft;
     }
 
     .test-env-name {
