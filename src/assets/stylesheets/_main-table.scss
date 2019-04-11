@@ -296,9 +296,6 @@
               margin-bottom: rem(10);
               text-align: left;
 
-              @include mq('lg') {
-                text-indent: rem(45);
-              }
               @include mq('sm') {
                 display: inline-block;
                 margin-bottom: 0;
