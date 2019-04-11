@@ -279,6 +279,7 @@
 
   #test-environment {
     display: flex;
+    border-radius: 5px;
 
     @include mq('md') {
       display: none;
@@ -306,6 +307,7 @@
     box-sizing: border-box;
     padding: 20px rem(35);
     display: none;
+    border-radius: 3px;
     > div {
       flex: 1;
     }
