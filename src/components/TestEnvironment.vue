@@ -217,7 +217,7 @@
      align-items: center;
      background: #FDFDFD;
      border: solid #E5E5E5;
-     border-width: 0 1px 1px 1px;
+     border-width: 1px;
      flex-direction: column;
      justify-content: space-around;
      margin: 0 15px 20px 15px;
@@ -230,9 +230,9 @@
       }
 
      &::after, &::before {
-      background-color: #E5E5E5;
+   //   background-color: #E5E5E5;
       content: '';
-      width: calc((100% - 120px)/ 2 - 8px);
+    //  width: calc((100% - 120px)/ 2 - 8px);
       position: absolute;
       top: -1px;
       height: 1px;
@@ -244,17 +244,18 @@
       }
     }
     &::before {
-      left: 0;
+      width: calc(120px + 16px);
+      background-color: white;
 
       @include mq('md') {
-        width: 40px;
+        width: calc(120px + 12px);
+        left: 40px;
       }
     }
 
     .test-env-label {
          position: absolute;
          top: -8px;
-         left: calc(50% - 60px);
          font-weight: 600;
          font-size: 14px;
          width: 120px;
@@ -273,7 +274,7 @@
              padding-bottom: 20px;
          }
      }
-     .test-env-details {
+     etest-env-details {
          font-size: rem(14);
          align-items: center;
      }
