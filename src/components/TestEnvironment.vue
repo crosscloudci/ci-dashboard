@@ -171,6 +171,7 @@
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
+    padding-bottom: 3px;
 
     @include mq('sm'){ margin-top: 0; }
 
@@ -372,7 +373,7 @@
       @include mq('sm') {
         text-align: right;
         position: relative;
-        top: rem(-15);
+        top: -6px;
 
         .icon { display: none; }
         .updated-label,
