@@ -414,6 +414,9 @@
   .md-dialog-content {
     padding: 0;
   }
+  .md-select-value {
+    font-weight: 900;
+  }
   .md-select-content {
     display: none;
     @include mq('md') {
