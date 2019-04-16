@@ -186,6 +186,7 @@
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
+    padding-bottom: 3px;
 
     @include mq('sm'){ margin-top: 0; }
 
@@ -226,22 +227,12 @@
     }
   }
 
-  #dashboard-updated {
-    @include mq('md') {
-      padding-bottom: 20px;
-    }
-    .updated-label,
-    .time-updated,
-    .icon { display: inline-block; }
-    .updated-label { font-weight: bold; }
-  }
-
   #test-environment, #test-environment-full {
      align-content: space-around;
      align-items: center;
      background: #FDFDFD;
      border: solid #E5E5E5;
-     border-width: 0 1px 1px 1px;
+     border-width: 1px;
      flex-direction: column;
      justify-content: space-around;
      margin: 0 15px 20px 15px;
@@ -254,9 +245,9 @@
       }
 
      &::after, &::before {
-      background-color: #E5E5E5;
+   //   background-color: #E5E5E5;
       content: '';
-      width: 30%;
+    //  width: calc((100% - 120px)/ 2 - 8px);
       position: absolute;
       top: -1px;
       height: 1px;
@@ -264,25 +255,27 @@
     &::after {
       right: 0;
       @include mq('md') {
-       width: calc(100% -  #{rem(25)}  - 140px);
+         width: calc(100% - 120px - 12px - 40px);
       }
     }
     &::before {
-      left: 0;
+      width: calc(120px + 16px);
+      background-color: white;
 
       @include mq('md') {
-        width: calc(#{rem(35)} + #{rem(10)});
+        width: calc(120px + 12px);
+        left: 40px;
       }
     }
 
     .test-env-label {
          position: absolute;
          top: -8px;
-         left: calc(50% - 60px);
          font-weight: 600;
-         font-size: rem(14);
+         font-size: 14px;
+         width: 120px;
          @include mq('md') {
-           left: calc(20px);
+           left: 46px;
          }
      }
      .test-env-name, .test-env-details {
@@ -296,7 +289,7 @@
              padding-bottom: 20px;
          }
      }
-     .test-env-details {
+     etest-env-details {
          font-size: rem(14);
          align-items: center;
      }
@@ -304,6 +297,7 @@
 
   #test-environment {
     display: flex;
+    border-radius: 5px;
 
     @include mq('md') {
       display: none;
@@ -331,13 +325,13 @@
     box-sizing: border-box;
     padding: 20px rem(35);
     display: none;
+    border-radius: 3px;
     > div {
       flex: 1;
     }
 
     .test-env-label {
       //left: 20px;
-      left: $paddingLeft;
     }
 
     .test-env-name {
@@ -384,8 +378,7 @@
       align-items: baseline;
       align-content: stretch;
     }
-    #dashboard-header,
-    #dashboard-updated {
+    #dashboard-header { 
       @include mq('sm') {
         @include fbox(1);
         font-size: rem(14);
@@ -396,7 +389,7 @@
       @include mq('sm') {
         text-align: right;
         position: relative;
-        top: rem(-15);
+        top: -6px;
 
         .icon { display: none; }
         .updated-label,
