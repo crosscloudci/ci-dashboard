@@ -82,6 +82,7 @@
   import StatusLabel from './StatusLabel'
   import VueMaterial from 'vue-material'
   import 'vue-material/dist/vue-material.css'
+  import * as R from 'ramda'
 
   Vue.use(VueMaterial)
 
@@ -130,8 +131,15 @@
       },
       ReleaseStatus: function () {
         let status = 'N/A'
-        status = this.$store.state.environments.current.jobs[0].status
-        return status
+        const pred = R.where({
+          order: R.equals(9)
+        })
+        for (let i = 0; i < this.$store.state.environments.current.jobs.length; i++) {
+          if (pred(this.$store.state.environments.current.jobs[i])) {
+            status = this.$store.state.environments.current.jobs[i].status
+            return status
+          }
+        }
       },
       ReleaseBranch: function () {
         let status = 'N/A'
@@ -140,8 +148,15 @@
       },
       ReleaseURL: function () {
         var url = '#'
-        url = this.$store.state.environments.current.jobs[0].url
-        return url
+        const pred = R.where({
+          order: R.equals(9)
+        })
+        for (let i = 0; i < this.$store.state.environments.current.jobs.length; i++) {
+          if (pred(this.$store.state.environments.current.jobs[i])) {
+            url = this.$store.state.environments.current.jobs[i].url
+            return url
+          }
+        }
       },
       CurrentEnv: function (env) {
         return this.$store.state.environments.current.dropdown
