@@ -418,7 +418,7 @@
     }
   }
   .md-dialog-title.md-title {
-    font-weight: 500;
+    font-weight: 900;
   }
   .md-dialog-content {
     padding: 0;
