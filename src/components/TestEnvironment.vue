@@ -20,7 +20,7 @@
              :class="ReleaseStatus()"/>
           </div>
        </div>
-    <div id="test-environment-full">
+       <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name" v-on:click="gotoProjectURL()">
             <div class="icon">
@@ -36,7 +36,7 @@
           <div class="test-env-version">
             <md-select v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
               <md-option v-for="(env, index) in testEnvs" :key="index" :value="env"> 
-                {{ env.dropdown }}
+                <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
               </md-option>
             </md-select>
           </div>
@@ -118,6 +118,13 @@
       selectEnv: function (releaseType) {
         let env = releaseType
         this.$store.dispatch('switchEnv', { env })
+      },
+      boldThisOption: function (dropdown) {
+        if (dropdown === this.$store.state.environments.current.dropdown) {
+          return 'boldSelector'
+        } else {
+          return 'doNotBoldSelector'
+        }
       },
       SelectItems (items, releaseType) {
         var selectItems = [items[0]]
@@ -423,9 +430,6 @@
   .md-dialog-content {
     padding: 0;
   }
-  .md-select-value {
-    font-weight: 900;
-  }
   .md-select-content {
     display: none;
     @include mq('md') {
@@ -447,7 +451,7 @@
         right:  5%;
         transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
         transition: all 0.15s linear;
-        content: "\25BC";
+        content: "\25B2";
         @include mq('md') {
           right: 2%;
         }
@@ -477,5 +481,11 @@
         }
       }
      }
+      .doNotBoldSelector {
+        font-weight: 200;
+      }
+      .boldSelector {
+        font-weight: 900;
+      }
 
 </style>
