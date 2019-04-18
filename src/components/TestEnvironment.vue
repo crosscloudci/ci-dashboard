@@ -10,6 +10,7 @@
               Kubernetes &mdash; 
              {{ CurrentEnv(currentEnv) }}
             </div>
+          <span class="mobile-test-env-dropdown"></span>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
@@ -456,5 +457,25 @@
       }
     }
   }
+     #test-environment {
+     box-sizing: border-box;
+       position: relative;
+        &::after {
+        color: rgba(0, 0, 0, .38);
+        margin-top: 2px;
+        position: absolute;
+        top: 25%;
+        right:  2%;
+        transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
+        transition: all 0.15s linear;
+        content: "\25BC";
+        @include mq('md') {
+          right: 2%;
+        }
+        @include mq('lg') {
+          right: 10px;
+        }
+      }
+     }
 
 </style>
