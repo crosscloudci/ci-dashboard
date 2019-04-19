@@ -10,6 +10,7 @@
               Kubernetes &mdash; 
              {{ CurrentEnv(currentEnv) }}
             </div>
+          <span class="mobile-test-env-dropdown"></span>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
@@ -19,7 +20,7 @@
              :class="ReleaseStatus()"/>
           </div>
        </div>
-    <div id="test-environment-full">
+       <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name" v-on:click="gotoProjectURL()">
             <div class="icon">
@@ -35,7 +36,7 @@
           <div class="test-env-version">
             <md-select v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
               <md-option v-for="(env, index) in testEnvs" :key="index" :value="env"> 
-                {{ env.dropdown }}
+                <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
               </md-option>
             </md-select>
           </div>
@@ -82,6 +83,7 @@
   import StatusLabel from './StatusLabel'
   import VueMaterial from 'vue-material'
   import 'vue-material/dist/vue-material.css'
+  import * as R from 'ramda'
 
   Vue.use(VueMaterial)
 
@@ -117,6 +119,13 @@
         let env = releaseType
         this.$store.dispatch('switchEnv', { env })
       },
+      boldThisOption: function (dropdown) {
+        if (dropdown === this.$store.state.environments.current.dropdown) {
+          return 'boldSelector'
+        } else {
+          return 'doNotBoldSelector'
+        }
+      },
       SelectItems (items, releaseType) {
         var selectItems = [items[0]]
         items[0].release_type === releaseType ? selectItems.push(items[1]) : selectItems.unshift(items[1])
@@ -130,8 +139,15 @@
       },
       ReleaseStatus: function () {
         let status = 'N/A'
-        status = this.$store.state.environments.current.jobs[0].status
-        return status
+        const pred = R.where({
+          order: R.equals(9)
+        })
+        for (let i = 0; i < this.$store.state.environments.current.jobs.length; i++) {
+          if (pred(this.$store.state.environments.current.jobs[i])) {
+            status = this.$store.state.environments.current.jobs[i].status
+            return status
+          }
+        }
       },
       ReleaseBranch: function () {
         let status = 'N/A'
@@ -140,8 +156,15 @@
       },
       ReleaseURL: function () {
         var url = '#'
-        url = this.$store.state.environments.current.jobs[0].url
-        return url
+        const pred = R.where({
+          order: R.equals(9)
+        })
+        for (let i = 0; i < this.$store.state.environments.current.jobs.length; i++) {
+          if (pred(this.$store.state.environments.current.jobs[i])) {
+            url = this.$store.state.environments.current.jobs[i].url
+            return url
+          }
+        }
       },
       CurrentEnv: function (env) {
         return this.$store.state.environments.current.dropdown
@@ -171,6 +194,7 @@
   #dashboard-header {
     @include flex-container;
     padding: rem(40) 0;
+    padding-bottom: 3px;
 
     @include mq('sm'){ margin-top: 0; }
 
@@ -211,22 +235,12 @@
     }
   }
 
-  #dashboard-updated {
-    @include mq('md') {
-      padding-bottom: 20px;
-    }
-    .updated-label,
-    .time-updated,
-    .icon { display: inline-block; }
-    .updated-label { font-weight: bold; }
-  }
-
   #test-environment, #test-environment-full {
      align-content: space-around;
      align-items: center;
      background: #FDFDFD;
      border: solid #E5E5E5;
-     border-width: 0 1px 1px 1px;
+     border-width: 1px;
      flex-direction: column;
      justify-content: space-around;
      margin: 0 15px 20px 15px;
@@ -239,9 +253,9 @@
       }
 
      &::after, &::before {
-      background-color: #E5E5E5;
+   //   background-color: #E5E5E5;
       content: '';
-      width: 30%;
+    //  width: calc((100% - 120px)/ 2 - 8px);
       position: absolute;
       top: -1px;
       height: 1px;
@@ -249,25 +263,27 @@
     &::after {
       right: 0;
       @include mq('md') {
-       width: calc(100% -  #{rem(25)}  - 140px);
+         width: calc(100% - 120px - 12px - 40px);
       }
     }
     &::before {
-      left: 0;
+      width: calc(120px + 16px);
+      background-color: white;
 
       @include mq('md') {
-        width: calc(#{rem(35)} + #{rem(10)});
+        width: calc(120px + 12px);
+        left: 40px;
       }
     }
 
     .test-env-label {
          position: absolute;
          top: -8px;
-         left: calc(50% - 60px);
          font-weight: 600;
-         font-size: rem(14);
+         font-size: 14px;
+         width: 120px;
          @include mq('md') {
-           left: calc(20px);
+           left: 46px;
          }
      }
      .test-env-name, .test-env-details {
@@ -281,7 +297,7 @@
              padding-bottom: 20px;
          }
      }
-     .test-env-details {
+     etest-env-details {
          font-size: rem(14);
          align-items: center;
      }
@@ -289,6 +305,7 @@
 
   #test-environment {
     display: flex;
+    border-radius: 5px;
 
     @include mq('md') {
       display: none;
@@ -316,13 +333,13 @@
     box-sizing: border-box;
     padding: 20px rem(35);
     display: none;
+    border-radius: 3px;
     > div {
       flex: 1;
     }
 
     .test-env-label {
       //left: 20px;
-      left: $paddingLeft;
     }
 
     .test-env-name {
@@ -369,8 +386,7 @@
       align-items: baseline;
       align-content: stretch;
     }
-    #dashboard-header,
-    #dashboard-updated {
+    #dashboard-header { 
       @include mq('sm') {
         @include fbox(1);
         font-size: rem(14);
@@ -381,7 +397,7 @@
       @include mq('sm') {
         text-align: right;
         position: relative;
-        top: rem(-15);
+        top: -6px;
 
         .icon { display: none; }
         .updated-label,
@@ -409,13 +425,10 @@
     }
   }
   .md-dialog-title.md-title {
-    font-weight: 500;
+    font-weight: 900;
   }
   .md-dialog-content {
     padding: 0;
-  }
-  .md-select-value {
-    font-weight: 900;
   }
   .md-select-content {
     display: none;
@@ -438,7 +451,7 @@
         right:  5%;
         transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
         transition: all 0.15s linear;
-        content: "\25BC";
+        content: "\25B2";
         @include mq('md') {
           right: 2%;
         }
@@ -448,5 +461,31 @@
       }
     }
   }
+     #test-environment {
+     box-sizing: border-box;
+       position: relative;
+        &::after {
+        color: rgba(0, 0, 0, .38);
+        margin-top: 2px;
+        position: absolute;
+        top: 25%;
+        right:  2%;
+        transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
+        transition: all 0.15s linear;
+        content: "\25BC";
+        @include mq('md') {
+          right: 2%;
+        }
+        @include mq('lg') {
+          right: 10px;
+        }
+      }
+     }
+      .doNotBoldSelector {
+        font-weight: 200;
+      }
+      .boldSelector {
+        font-weight: 900;
+      }
 
 </style>
