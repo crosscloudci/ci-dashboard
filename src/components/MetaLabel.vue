@@ -31,7 +31,7 @@ export default {
       }
     },
     truncateMobileStableLabel (value) {
-      return value.substring(0, 10)
+      return value.substring(0, 7)
     },
     truncateDesktopStableLabel (value) {
       return value.substring(0, 15)

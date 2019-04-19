@@ -7,6 +7,7 @@ import pipelines from './modules/pipelines'
 import clouds from './modules/clouds'
 import session from './modules/session'
 import time from './modules/timeTracker'
+import environments from './modules/test_environments'
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     pipelines,
     clouds,
     session,
+    environments,
     time
   }
 })

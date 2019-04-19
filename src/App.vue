@@ -33,6 +33,11 @@ export default {
   @import "assets/stylesheets/colors";
   @import "assets/stylesheets/variables";
   @import "assets/stylesheets/mixins";
+  
+
+  html {
+      box-sizing: content-box !important;
+  }
 
   @include mq('md') {
     body,html {
