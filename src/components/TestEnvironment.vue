@@ -487,5 +487,8 @@
       .boldSelector {
         font-weight: 900;
       }
+      .md-select .md-select-value {
+        font-size: 14px;
+      }
 
 </style>
