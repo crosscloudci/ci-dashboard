@@ -21,7 +21,9 @@
     "moment": "^2.19.2",
     "npm": "^6.8.0",
     "phoenix": "1.2.1",
+    "ramda": "^0.26.1",
     "vue": "^2.4.2",
+    "vue-material": "^0.8.1",
     "vue-moment": "^3.0.0",
     "vue-router": "^2.7.0",
     "vuex": "^2.4.1"
