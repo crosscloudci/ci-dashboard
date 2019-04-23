@@ -6,7 +6,26 @@ const state = {
   test_envs: [],
   testEnvList: [],
   current: {},
-  defaultDropdownEnv: ''
+  // current: {
+  //   kubernetes_release_type: '',
+  //   ref: '',
+  //   sha: '',
+  //   rropdown: '',
+  //   jobs: [{
+  //     cloud_id: null,
+  //     id: null,
+  //     job_id: null,
+  //     name: 'N/A',
+  //     order: null,
+  //     pipeline_id: null,
+  //     project_id: null,
+  //     ref: 'N/A',
+  //     status: 'N/A',
+  //     url: '#'
+  //   }],
+  //   arch: ''
+  // },
+  defaultDropdownEnv: 'Stable'
 }
 
 // getters
@@ -18,9 +37,6 @@ const getters = {
 
 // actions
 const actions = {
-  getDropdownEnvs ({ dispatch, commit }) {
-    return dispatch('updateDashboard').then((payload) => { commit(types.GET_ALL_TEST_ENV, { payload }) })
-  },
   switchEnv ({ commit }, env) {
     commit(types.SELECT_TEST_ENV, { env })
   },
@@ -59,22 +75,30 @@ var gatherKubernetesEnvs = (projects) => {
   for (let i = 0; i < arrayLength; i++) {
     if (projects[i].title === 'Kubernetes') {
       let kubernetesPipelines = projects[i].pipelines
+      console.log('this is pipeline count' + ' ' + projects[i].pipelines.length)
       for (let j = 0; j < kubernetesPipelines.length; j++) {
-        let pipelineObj = k8PipelineObj(kubernetesPipelines[j].release_type, kubernetesPipelines[j].ref, kubernetesPipelines[j].sha, kubernetesPipelines[j].jobs)
+        let pipelineObj = k8PipelineObj(kubernetesPipelines[j].release_type, kubernetesPipelines[j].ref, kubernetesPipelines[j].sha, kubernetesPipelines[j].jobs, kubernetesPipelines[j].arch)
         pipelines.push(pipelineObj)
       }
     }
+    console.log('these are pipelines count' + ' ' + projects[i].pipelines)
   }
   let getEnvs = (pipelines) => {
     let envList = []
     for (let i = 0; i < pipelines.length; i++) {
       // this will need to be later when the architectures are included with the dropdown
       // currently this code will only let the dropdown work in the scenario of stable/head branches for only amd64
-      if (pipelines[i].kubernetes_release_type === 'stable') {
+      if ((pipelines[i].kubernetes_release_type === 'stable') && (pipelines[i].arch === 'amd64')) {
         let environment = `Stable ${pipelines[i].ref}`
         envList.push(environment)
-      } else if (pipelines[i].kubernetes_release_type === 'head') {
+      } else if ((pipelines[i].kubernetes_release_type === 'head') && (pipelines[i].arch === 'amd64')) {
         let environment = `Head ${pipelines[i].sha.substring(0, 7)}`
+        envList.push(environment)
+      } else if (pipelines[i].kubernetes_release_type === 'stable') {
+        let environment = `Stable ${pipelines[i].ref} ${pipelines[i].arch}`
+        envList.push(environment)
+      } else if (pipelines[i].kubernetes_release_type === 'head') {
+        let environment = `Head ${pipelines[i].sha.substring(0, 7)} ${pipelines[i].arch}`
         envList.push(environment)
       }
     }
@@ -84,30 +108,58 @@ var gatherKubernetesEnvs = (projects) => {
   }
   let dropdownList = getEnvs(pipelines)
   pipelines = mergeDropdownWithPipelines(dropdownList, pipelines)
-  // pipelines.push(dropdownList)
-  const arePipelinesEqual = R.eqProps('dropdown')
-  let uniqPipelines = R.uniqWith(arePipelinesEqual)(pipelines)
-  return uniqPipelines
+  const arePipelinesEqualByDropdown = R.eqProps('dropdown')
+  let finalUniqPipelines = R.uniqWith(arePipelinesEqualByDropdown)(pipelines)
+  return finalUniqPipelines
 }
 
 var mergeDropdownWithPipelines = (dropdownList, pipelines) => {
   let finalTestEnvList = []
   let env = []
+  let arch = []
   let finalK8Pipeline = []
-  for (let i = 0; i < pipelines.length; i++) {
-    for (let j = 0; j < dropdownList.dropdown.length; j++) {
-      if (pipelines[i].kubernetes_release_type === 'stable') {
+  for (let j = 0; j < dropdownList.dropdown.length; j++) {
+    for (let i = 0; i < pipelines.length; i++) {
+      if ((pipelines[i].kubernetes_release_type === 'stable') && (pipelines[i].arch === 'amd64')) {
         env = R.match(/Stable/, dropdownList['dropdown'][j])
         if (env.length > 0) {
-          finalK8Pipeline = R.mergeAll([{dropdown: dropdownList['dropdown'][j]}, pipelines[i]])
-          finalTestEnvList.push(finalK8Pipeline)
+          arch = R.match(/arm64/, env.input)
+          if (arch.length === 0) {
+            finalK8Pipeline = R.mergeAll([{dropdown: dropdownList['dropdown'][j]}, pipelines[i]])
+            finalTestEnvList.push(finalK8Pipeline)
+          }
         }
       }
-      if (pipelines[i].kubernetes_release_type === 'head') {
+      if ((pipelines[i].kubernetes_release_type === 'head') && (pipelines[i].arch === 'amd64')) {
         env = R.match(/Head/, dropdownList['dropdown'][j])
         if (env.length > 0) {
-          finalK8Pipeline = R.mergeAll([{dropdown: dropdownList['dropdown'][j]}, pipelines[i]])
-          finalTestEnvList.push(finalK8Pipeline)
+          arch = R.match(/arm64/, env.input)
+          if (arch.length === 0) {
+            finalK8Pipeline = R.mergeAll([{dropdown: dropdownList['dropdown'][j]}, pipelines[i]])
+            finalTestEnvList.push(finalK8Pipeline)
+          }
+        }
+      }
+    }
+    for (let i = 0; i < pipelines.length; i++) {
+      if ((pipelines[i].kubernetes_release_type === 'stable') && (pipelines[i].arch === 'arm64')) {
+        env = R.match(/Stable/, dropdownList['dropdown'][j])
+        if (env.length > 0) {
+          arch = R.match(/arm64/, env.input)
+          if (arch.length > 0) {
+            finalK8Pipeline = R.mergeAll([{dropdown: dropdownList['dropdown'][j]}, pipelines[i]])
+            finalTestEnvList.push(finalK8Pipeline)
+          }
+        }
+      }
+      if ((pipelines[i].kubernetes_release_type === 'head') && (pipelines[i].arch === 'arm64')) {
+        env = R.match(/Head/, dropdownList['dropdown'][j])
+        if (env.length > 0) {
+          arch = R.match(/arm64/, env.input)
+          if (arch.length > 0) {
+            finalK8Pipeline = R.mergeAll([{dropdown: dropdownList['dropdown'][j]}, pipelines[i]])
+            finalTestEnvList.push(finalK8Pipeline)
+          }
         }
       }
     }
@@ -115,12 +167,13 @@ var mergeDropdownWithPipelines = (dropdownList, pipelines) => {
   return finalTestEnvList
 }
 
-var k8PipelineObj = function (releaseType, ref, sha, jobs) {
+var k8PipelineObj = function (releaseType, ref, sha, jobs, arch) {
   let obj = {}
   obj.kubernetes_release_type = releaseType
   obj.ref = ref
   obj.sha = sha
   obj.jobs = jobs
+  obj.arch = arch
   return obj
 }
 
