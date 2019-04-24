@@ -139,7 +139,7 @@
         return selectItems
       },
       ListIcon: function (type) {
-        return type.kubernetes_release_type === this.$store.state.environments.current.kubernetes_release_type ? 'checked' : ''
+        return ((type.kubernetes_release_type === this.$store.state.environments.current.kubernetes_release_type) && (type.arch === this.$store.state.environments.current.arch)) ? 'checked' : ''
       },
       ReleaseType: function () {
         return this.$store.state.environments.current.kubernetes_release_type.toUpperCase() + this.$store.state.environments.current.kubernetes_release_type.substring(1)
@@ -489,6 +489,10 @@
       .boldSelector {
         font-weight: 900;
       }
+      .md-list-item .md-list-item-container {
+        font-size: 14px;
+      }
+
       .md-select .md-select-value {
         font-size: 14px;
       }

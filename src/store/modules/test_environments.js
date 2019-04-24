@@ -93,7 +93,7 @@ var gatherKubernetesEnvs = (projects) => {
         let environment = `Stable ${pipelines[i].ref}`
         envList.push({'environment': environment, 'order': order})
       } else if ((pipelines[i].kubernetes_release_type === 'head') && (pipelines[i].arch === 'amd64')) {
-        let order = 4
+        let order = 3
         let environment = `Head ${pipelines[i].sha.substring(0, 7)}`
         envList.push({'environment': environment, 'order': order})
       } else if (pipelines[i].kubernetes_release_type === 'stable') {
@@ -101,7 +101,7 @@ var gatherKubernetesEnvs = (projects) => {
         let environment = `Stable ${pipelines[i].ref} Arm`
         envList.push({'environment': environment, 'order': order})
       } else if (pipelines[i].kubernetes_release_type === 'head') {
-        let order = 3
+        let order = 4
         let environment = `Head ${pipelines[i].sha.substring(0, 7)} Arm`
         envList.push({'environment': environment, 'order': order})
       }
