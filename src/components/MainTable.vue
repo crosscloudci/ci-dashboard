@@ -101,13 +101,15 @@
     methods: {
       StableStatus: function (arg) {
         var status = 'N/A'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.order === 1) { status = j.status }
-              })
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'stable') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.order === 1) { status = j.status }
+                })
+              }
             }
           }
         })
@@ -117,13 +119,15 @@
       },
       HeadStatus: function (arg) {
         var status = 'N/A'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.order === 1) { status = j.status }
-              })
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'head') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.order === 1) { status = j.status }
+                })
+              }
             }
           }
         })
@@ -132,20 +136,22 @@
       },
       StableURL: function (arg) {
         var url = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.order === 1) {
-                  if (!(j.url === null)) {
-                    url = j.url
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'stable') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.order === 1) {
+                    if (!(j.url === null)) {
+                      url = j.url
+                    }
+                    if (j.url === null) {
+                      url = '#'
+                    }
                   }
-                  if (j.url === null) {
-                    url = '#'
-                  }
-                }
-              })
+                })
+              }
             }
           }
         })
@@ -153,16 +159,22 @@
       },
       HeadURL: function (arg) {
         var url = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.order === 1) {
-                  url = j.url
-                  console.log(url)
-                }
-              })
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'head') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.order === 1) {
+                    if (!(j.url === null)) {
+                      url = j.url
+                    }
+                    if (j.url === null) {
+                      url = '#'
+                    }
+                  }
+                })
+              }
             }
           }
         })
@@ -171,15 +183,17 @@
       },
       StableReleaseURL: function (arg) {
         let url = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            if (pl.kubernetes_release_type === env) {
-              if (pl.head_commit === 'N/A') {
-                url = '#'
-              }
-              if (!(pl.head_commit === 'N/A')) {
-                url = arg.repository_url + `/commit/${pl.head_commit}`
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'stable') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                if (pl.head_commit === 'N/A') {
+                  url = '#'
+                }
+                if (!(pl.head_commit === 'N/A')) {
+                  url = arg.repository_url + `/commit/${pl.head_commit}`
+                }
               }
             }
           }
@@ -188,17 +202,19 @@
       },
       HeadReleaseURL: function (arg) {
         let url = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            if (pl.kubernetes_release_type === env) {
-              if (pl.head_commit === 'N/A') {
-                url = '#'
-              }
-              if (!(pl.head_commit === 'N/A')) {
-                url = arg.repository_url + `/commit/${pl.head_commit}`
-                // var rturl = pl.kubernetes_release_type + ': ' + url
-                // console.log(rturl)
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'head') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                if (pl.head_commit === 'N/A') {
+                  url = '#'
+                }
+                if (!(pl.head_commit === 'N/A')) {
+                  url = arg.repository_url + `/commit/${pl.head_commit}`
+                  // var rturl = pl.kubernetes_release_type + ': ' + url
+                  // console.log(rturl)
+                }
               }
             }
           }
@@ -207,11 +223,13 @@
       },
       StableReleaseTag: function (arg) {
         let ref = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            if (pl.kubernetes_release_type === env) {
-              ref = pl.ref
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'stable') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                ref = pl.ref
+              }
             }
           }
         })
@@ -220,11 +238,13 @@
       },
       HeadReleaseTag: function (arg) {
         let headCommit = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            if (pl.kubernetes_release_type === env) {
-              headCommit = pl.head_commit
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'head') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                headCommit = pl.head_commit
+              }
             }
           }
         })
@@ -233,11 +253,13 @@
       },
       HeadBranchName: function (arg) {
         let type = ''
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            if (pl.kubernetes_release_type === env) {
-              type = pl.kubernetes_release_type
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'head') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                type = pl.kubernetes_release_type
+              }
             }
           }
         })
@@ -245,11 +267,13 @@
       },
       StableBranchName: function (arg) {
         let type = ''
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            if (pl.kubernetes_release_type === env) {
-              type = pl.kubernetes_release_type
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'stable') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                type = pl.kubernetes_release_type
+              }
             }
           }
         })
@@ -257,18 +281,20 @@
       },
       HeadCloudStatus: function (arg, cloudId) {
         var status = 'N/A'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            // console.log('Stable pipeline' + pl)
-            // let jobs = pl.jobs
-            // jobs.sort(function (a, b) {
-            //   return a.order - b.order
-            // })
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.cloud_id === cloudId) { status = j.status }
-              })
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'head') {
+              // console.log('Stable pipeline' + pl)
+              // let jobs = pl.jobs
+              // jobs.sort(function (a, b) {
+              //   return a.order - b.order
+              // })
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.cloud_id === cloudId) { status = j.status }
+                })
+              }
             }
           }
         })
@@ -278,18 +304,20 @@
       },
       StableCloudStatus: function (arg, cloudId) {
         var status = 'N/A'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            // console.log('Stable pipeline' + pl)
-            // let jobs = pl.jobs
-            // jobs.sort(function (a, b) {
-            //   return a.order - b.order
-            // })
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.cloud_id === cloudId) { status = j.status }
-              })
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'stable') {
+              // console.log('Stable pipeline' + pl)
+              // let jobs = pl.jobs
+              // jobs.sort(function (a, b) {
+              //   return a.order - b.order
+              // })
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.cloud_id === cloudId) { status = j.status }
+                })
+              }
             }
           }
         })
@@ -299,16 +327,18 @@
       },
       HeadCloudURL: function (arg, cloudId) {
         var url = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'head') {
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.cloud_id === cloudId) {
-                  if (j.status === 'N/A') { url = '#' }
-                  if (!(j.status === 'N/A')) { url = j.url }
-                }
-              })
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'head') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.cloud_id === cloudId) {
+                    if (j.status === 'N/A') { url = '#' }
+                    if (!(j.status === 'N/A')) { url = j.url }
+                  }
+                })
+              }
             }
           }
         })
@@ -316,21 +346,23 @@
       },
       StableCloudURL: function (arg, cloudId) {
         var url = '#'
-        let env = this.$store.state.environments.current.kubernetes_release_type
+        let env = this.$store.state.environments.current
         arg.pipelines.forEach(function (pl) {
-          if (pl.release_type === 'stable') {
-            if (pl.kubernetes_release_type === env) {
-              pl.jobs.forEach(function (j) {
-                if (j.cloud_id === cloudId) {
-                  if (j.status === 'N/A') { url = '#' }
-                  if (!(j.status === 'N/A')) { url = j.url }
-                // console.log('cloud name =' + cloudName)
-                // console.log('cloud id =' + j.cloud_id)
-                // console.log('real cloud id =' + cloudId)
-                // console.log('status=' + j.status)
-                // console.log('url =' + j.url)
-                }
-              })
+          if (pl.arch === env.arch) {
+            if (pl.release_type === 'stable') {
+              if (pl.kubernetes_release_type === env.kubernetes_release_type) {
+                pl.jobs.forEach(function (j) {
+                  if (j.cloud_id === cloudId) {
+                    if (j.status === 'N/A') { url = '#' }
+                    if (!(j.status === 'N/A')) { url = j.url }
+                  // console.log('cloud name =' + cloudName)
+                  // console.log('cloud id =' + j.cloud_id)
+                  // console.log('real cloud id =' + cloudId)
+                  // console.log('status=' + j.status)
+                  // console.log('url =' + j.url)
+                  }
+                })
+              }
             }
           }
         })

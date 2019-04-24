@@ -5,3 +5,9 @@ export const updateDashboard = ({ commit }, payload) => {
   commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
 }
 
+export const updateTestEnv = ({ commit }, payload) => {
+  let projects = payload.payload.reply.dashboard.projects
+  let kubernetesRefs = payload.payload.reply.kubernetes_refs
+  commit(types.GET_ALL_TEST_ENV, { projects, kubernetesRefs })
+}
+
