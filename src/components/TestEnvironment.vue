@@ -4,7 +4,7 @@
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name" @click="openDialog('dialog1')">
             <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
             </div>
             <div>
               Kubernetes &mdash; 
@@ -24,7 +24,7 @@
           <span class="test-env-label">Test environment</span>
           <div class="test-env-name" v-on:click="gotoProjectURL()">
             <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'"
+            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'"
             />
             </div>
             <div>
