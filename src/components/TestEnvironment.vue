@@ -33,7 +33,7 @@
           </div>
           <div class="environment-divider dash">
           </div>
-          <div class="test-env-version">
+          <div>
             <md-select v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
               <md-option v-for="(env, index) in testEnvs" :key="index" :value="env"> 
                 <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
@@ -99,6 +99,13 @@
       url: { type: String, default: '' },
       project: { type: Object }
     },
+    mounted: function () {
+      const channel = this.$store.getters.socket.channel('dashboard:*', {})
+      channel.on('new_cross_cloud_call', payload => {
+        this.$store.dispatch('updateTestEnv', { payload })
+        this.$forceUpdate()
+      })
+    },
     methods: {
       openDialog (ref) {
         this.$refs[ref].open()
@@ -132,7 +139,7 @@
         return selectItems
       },
       ListIcon: function (type) {
-        return type.kubernetes_release_type === this.$store.state.environments.current.kubernetes_release_type ? 'checked' : ''
+        return ((type.kubernetes_release_type === this.$store.state.environments.current.kubernetes_release_type) && (type.arch === this.$store.state.environments.current.arch)) ? 'checked' : ''
       },
       ReleaseType: function () {
         return this.$store.state.environments.current.kubernetes_release_type.toUpperCase() + this.$store.state.environments.current.kubernetes_release_type.substring(1)
@@ -145,9 +152,9 @@
         for (let i = 0; i < this.$store.state.environments.current.jobs.length; i++) {
           if (pred(this.$store.state.environments.current.jobs[i])) {
             status = this.$store.state.environments.current.jobs[i].status
-            return status
           }
         }
+        return status
       },
       ReleaseBranch: function () {
         let status = 'N/A'
@@ -337,11 +344,6 @@
     > div {
       flex: 1;
     }
-
-    .test-env-label {
-      //left: 20px;
-    }
-
     .test-env-name {
       justify-content: initial;
       padding: 0 rem(10);
@@ -486,6 +488,13 @@
       }
       .boldSelector {
         font-weight: 900;
+      }
+      .md-list-item .md-list-item-container {
+        font-size: 14px;
+      }
+
+      .md-select .md-select-value {
+        font-size: 14px;
       }
 
 </style>
