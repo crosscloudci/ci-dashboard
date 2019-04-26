@@ -33,9 +33,9 @@
           </div>
           <div class="environment-divider dash">
           </div>
-          <div>
-            <md-select v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
-              <md-option v-for="(env, index) in testEnvs" :key="index" :value="env"> 
+          <div class="test-env-version" v-bind:class="{ highlighted: isEnvHighlighted }" >
+            <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
+              <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
                 <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
               </md-option>
             </md-select>
@@ -92,7 +92,8 @@
     components: { StatusLabel, StatusBadge },
     data: function () {
       return {
-        initialCurrentEnv: this.$store.state.environments.current.dropdown
+        initialCurrentEnv: this.$store.state.environments.current.dropdown,
+        isEnvHighlighted: false
       }
     },
     props: {
@@ -131,6 +132,13 @@
           return 'boldSelector'
         } else {
           return 'doNotBoldSelector'
+        }
+      },
+      isSelected: function (dropdown) {
+        if (dropdown === this.$store.state.environments.current.dropdown) {
+          return 'selected-option'
+        } else {
+          return ''
         }
       },
       SelectItems (items, releaseType) {
@@ -183,6 +191,9 @@
         let ref = this.$store.state.environments.current.ref
         tag = releaseType === 'head' ? sha.substring(0, 7) : releaseType === 'stable' ? ref : '#'
         return tag
+      },
+      highlightEnv: function () {
+        this.isEnvHighlighted = !this.isEnvHighlighted
       }
     },
     computed: {
@@ -338,12 +349,25 @@
   #test-environment-full {
     margin: auto;
     box-sizing: border-box;
-    padding: 20px rem(35);
+    padding: 0 rem(35);
     display: none;
     border-radius: 3px;
     > div {
       flex: 1;
+      padding: 10px 0;
     }
+
+    .test-env-label {
+      //left: 20px;
+    }
+
+    .test-env-version {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+
     .test-env-name {
       justify-content: initial;
       padding: 0 rem(10);
@@ -443,22 +467,24 @@
 
    li.md-list-item {
      box-sizing: border-box;
-     &.md-menu-item.md-option:first-of-type {
+     &.md-menu-item.md-option.selected-option {
        position: relative;
        &::after {
-        color: rgba(0, 0, 0, .38);
+        font-family: 'Material Icons';
+        font-size: 16px;
+        font-weight: 700;
+        color: #535353;
         margin-top: 2px;
         position: absolute;
-        top: 50%;
-        right:  5%;
-        transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
+        top: calc(50% - 10px);
         transition: all 0.15s linear;
         content: "\25B2";
+        content: 'check';
         @include mq('md') {
-          right: 2%;
+          right: 10px;
         }
         @include mq('lg') {
-          right: 10px;
+          right: 20px;
         }
       }
     }
@@ -491,10 +517,34 @@
       }
       .md-list-item .md-list-item-container {
         font-size: 14px;
+        padding: 0 20px;
       }
 
       .md-select .md-select-value {
         font-size: 14px;
+      }
+
+      .md-select-content.md-direction-bottom-right.md-active {
+         margin-top: 40px;
+         margin-left: -20px;
+      }
+
+      .md-button:hover:not([disabled]):not(.md-raised) {
+      background-color: #F7F7F7;
+      } 
+
+      .highlighted {
+        background: #DDD;
+        border-radius: 3px;
+          .md-select:not(.md-select-icon):after {
+          content: '\25B2';
+          }
+      }
+.md-theme-default.md-select-content .md-menu-item.md-selected {
+       color: #535353;
+         &.md-selected > div > span {
+           color: currentColor;
+        }
       }
 
 </style>
