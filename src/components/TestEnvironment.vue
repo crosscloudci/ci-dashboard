@@ -208,6 +208,8 @@
   @import "../assets/stylesheets/mixins";
 
   $paddingLeft: calc(#{rem(35)} + #{rem(10)});
+      $hoverColor: #F7F7F7;
+      $transparency: 0.12;
 
   #dashboard-header {
     @include flex-container;
@@ -530,7 +532,7 @@
       }
 
       .md-button:hover:not([disabled]):not(.md-raised) {
-      background-color: #F7F7F7;
+        background-color: #F7F7F7;
       } 
 
       .highlighted {
@@ -540,11 +542,14 @@
           content: '\25B2';
           }
       }
-.md-theme-default.md-select-content .md-menu-item.md-selected {
+      .md-theme-default.md-select-content .md-menu-item.md-selected {
        color: #535353;
          &.md-selected > div > span {
            color: currentColor;
         }
+      }
+      .md-menu-content .md-theme-default.md-list .md-menu-item:hover .md-button:not([disabled]) {
+        @include bg_alpha_calc($hoverColor, $transparency);
       }
 
 </style>
