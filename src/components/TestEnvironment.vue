@@ -480,7 +480,10 @@
         position: absolute;
         top: calc(50% - 10px);
         transition: all 0.15s linear;
-        display: inline-block;
+        display: block;
+        content: '/e5ca';
+        font-feature-settings: 'liga';
+        font-feature-settings: liga;
         content: 'check';
         @include mq('md') {
           right: 10px;
@@ -520,6 +523,11 @@
       .md-list-item .md-list-item-container {
         font-size: 14px;
         padding: 0 20px;
+        height: 48px;
+        &.md-button {
+          display: table-cell;
+          vertical-align: middle;
+        }
       }
 
       .md-select .md-select-value {
