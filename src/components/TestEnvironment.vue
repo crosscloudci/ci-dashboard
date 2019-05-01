@@ -480,7 +480,7 @@
         position: absolute;
         top: calc(50% - 10px);
         transition: all 0.15s linear;
-        content: "\25B2";
+        display: inline-block;
         content: 'check';
         @include mq('md') {
           right: 10px;
