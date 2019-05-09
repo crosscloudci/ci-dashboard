@@ -523,10 +523,12 @@
       .md-list-item .md-list-item-container {
         font-size: 14px;
         padding: 0 20px;
-        height: 48px;
-        &.md-button {
-          display: table-cell;
-          vertical-align: middle;
+        @media screen and (-ms-high-contrast: none) {
+          height: 48px;
+          &.md-button {
+            display: table-cell;
+            vertical-align: middle;
+          }
         }
       }
 
