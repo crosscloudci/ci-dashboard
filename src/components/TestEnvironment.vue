@@ -541,9 +541,12 @@
          margin-left: -20px;
       }
 
-      .md-button:hover:not([disabled]):not(.md-raised) {
-        background-color: #F7F7F7;
-      } 
+
+      @include mq(md) {
+        .md-button:hover:not([disabled]):not(.md-raised) {
+         background-color: rgba(153, 153, 153, 0.05);
+        } 
+      }
 
       .highlighted {
         background: #DDD;
@@ -559,7 +562,10 @@
         }
       }
       .md-menu-content .md-theme-default.md-list .md-menu-item:hover .md-button:not([disabled]) {
-        @include bg_alpha_calc($hoverColor, $transparency);
+        background-color: rgba(153, 153, 153, 0.05);
       }
+body > div.md-dialog-container.md-theme-default.md-active > div.md-dialog.md-reference > div.md-dialog-content > ul > li > .md-button:hover:not([disabled]):not(.md-raised) {
+  background-color: rgba(153, 153, 153, 0.1);
+}
 
 </style>
