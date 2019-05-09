@@ -564,8 +564,8 @@
       .md-menu-content .md-theme-default.md-list .md-menu-item:hover .md-button:not([disabled]) {
         background-color: rgba(153, 153, 153, 0.05);
       }
-body > div.md-dialog-container.md-theme-default.md-active > div.md-dialog.md-reference > div.md-dialog-content > ul > li > .md-button:hover:not([disabled]):not(.md-raised) {
-  background-color: rgba(153, 153, 153, 0.1);
-}
+      .md-theme-default.md-active .md-button:hover:not([disabled]):not(.md-raised) {
+        background-color: rgba(153, 153, 153, 0.1);
+      }
 
 </style>
