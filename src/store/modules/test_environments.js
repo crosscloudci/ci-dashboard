@@ -59,12 +59,15 @@ const mutations = {
     let list = gatherKubernetesEnvs(projects)
     state.testEnvList = list
     for (let i = 0; i < list.length; i++) {
+      if (state.current.dropdown === list[i].dropdown) {
+        return state.current
+      }
+    }
+    for (let i = 0; i < list.length; i++) {
       let hi = R.match(/Stable/, list[i].dropdown)
       if (hi.length > 0) {
-        if (state.current.length === 0) {
-          state.current = list[i]
-          return state.current
-        }
+        state.current = list[i]
+        return state.current
       }
     }
   }
