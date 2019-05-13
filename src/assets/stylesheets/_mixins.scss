@@ -1,29 +1,33 @@
 @mixin shadow($value:0 2px 5px 0 rgba(0, 0, 0, 0.26)) {
   //inset 0 0 10px #000000
-  box-shadow:$value;
-  -webkit-box-shadow:$value;
-  -moz-box-shadow:$value;
+  box-shadow: $value;
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
 }
-@mixin badge($bg, $text){
+@mixin badge($bg, $text) {
   @include border-radius($round);
   background: $bg;
   color: $text;
   cursor: pointer;
-  border:3px solid $trans;
-  border-color:$bg;
+  border: 3px solid $trans;
+  border-color: $bg;
   font-weight: bold;
   font-size: rem(8);
   line-height: rem(16);
   .icon {
     color: $text;
-    i.fa { font-size: rem(14) }
+    i.fa {
+      font-size: rem(14);
+    }
   }
 
   &:hover {
     background: $text;
     color: $bg;
 
-    .icon { color: $bg; }
+    .icon {
+      color: $bg;
+    }
   }
 }
 
@@ -32,11 +36,11 @@
 }
 
 @mixin transform($transforms) {
-     -moz-transform: $transforms;
-       -o-transform: $transforms;
-      -ms-transform: $transforms;
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
   -webkit-transform: $transforms;
-          transform: $transforms;
+  transform: $transforms;
 }
 // rotate
 @mixin rotate ($deg) {
@@ -45,7 +49,7 @@
 
 // scale
 @mixin scale($scale) {
-   @include transform(scale($scale));
+  @include transform(scale($scale));
 }
 
 @mixin flex-container($type:flex, $direction:row, $wrap:nowrap, $justify:flex-start, $align:flex-start, $align-content:flex-start) {
@@ -63,8 +67,8 @@
   /* flex-start | flex-end | center | space-between | space-around | stretch */
 }
 
-@mixin fbox($val:0){
-  flex-grow:$val;
+@mixin fbox($val:0) {
+  flex-grow: $val;
 }
 
 @function rem($size, $base-font-size: 16) {
@@ -74,7 +78,7 @@
 
 @mixin clearfix {
   &:after {
-    content: "";
+    content: '';
     display: table;
     clear: both;
   }
@@ -82,12 +86,34 @@
 
 @mixin mq($point) {
   @if $point == 'lg' {
-    @media screen and (min-width: 64em) { @content; }
+    @media screen and (min-width: 64em) {
+      @content;
+    }
+  } @else if $point == 'md' {
+    @media screen and (min-width: 40em) {
+      @content;
+    }
+  } @else if $point == 'sm' {
+    @media screen and (max-width: 39.9375em) {
+      @content;
+    }
   }
-  @else if $point == 'md' {
-    @media screen and (min-width: 40em) { @content; }
-  }
-  @else if $point == 'sm' {
-    @media screen and (max-width: 39.9375em)  { @content; }
-  }
+}
+
+@mixin bg_alpha_calc ($desired_colour, $desired_alpha, $background_colour: white) {
+  $r3: red($desired_colour);
+  $g3: green($desired_colour);
+  $b3: blue($desired_colour);
+
+  $r2: red($background_colour);
+  $g2: green($background_colour);
+  $b2: blue($background_colour);
+
+  // r1 = (r3 - r2 + r2 * a1) / a1
+  $r1: ($r3 - $r2 + ($r2 * $desired_alpha)) / $desired_alpha;
+  $g1: ($g3 - $g2 + ($g2 * $desired_alpha)) / $desired_alpha;
+  $b1: ($b3 - $b2 + ($b2 * $desired_alpha)) / $desired_alpha;
+
+  background-color: $desired_colour;
+  background-color: rgba($r1, $g1, $b1, $desired_alpha);
 }
