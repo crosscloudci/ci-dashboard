@@ -473,18 +473,21 @@
        position: relative;
        &::after {
         font-family: 'Material Icons';
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 700;
         color: #535353;
-        margin-top: 2px;
         position: absolute;
-        top: calc(50% - 10px);
+        top: calc(50% - 9px);
         transition: all 0.15s linear;
         display: block;
         content: '/e5ca';
         font-feature-settings: 'liga';
         font-feature-settings: liga;
         content: 'check';
+        @supports (-moz-appearance:none) {
+          top: calc(50% - 10px);
+          font-size: 15px;
+        }
         @include mq('md') {
           right: 10px;
         }
