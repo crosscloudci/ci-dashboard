@@ -15,7 +15,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="project in projects" :key="project.order" v-on:click="$event.currentTarget.classList.toggle('open')">
+          <tr v-for="project in projects" :key="project.order" v-bind:class="classObject(project.id)" v-on:click="setExpandedTab($event, project.id)">
             <td class="project-column">
               <div class="project-box">
 
@@ -84,7 +84,8 @@
     components: {ProjectFlag, StatusBadge, MetaLabel},
     data: function () {
       return {
-        demoStateTypes: ['success', 'running', 'failed', '', null]
+        demoStateTypes: ['success', 'running', 'failed', '', null],
+        expandedTab: null
       }
     },
     beforeDestroy: function () {},
@@ -99,6 +100,12 @@
       })
     },
     methods: {
+      classObject: function (projectId) {
+        const selectedTabs = localStorage.getItem('cncfDashboardSelectedTabs')
+        const result = selectedTabs && selectedTabs.split(',')
+                                   .includes(projectId.toString()) ? 'open' : ''
+        return result
+      },
       StableStatus: function (arg) {
         var status = 'N/A'
         let env = this.$store.state.environments.current
@@ -367,6 +374,21 @@
           }
         })
         return url
+      },
+      setExpandedTab: function (event, projectId) {
+        const targetClassList = event.currentTarget.classList
+        if (targetClassList) {
+          targetClassList.toggle('open')
+          const expandedTabId = targetClassList.contains('open') ? projectId : null
+          this.expandedTab = expandedTabId
+          let tabs = localStorage.getItem('cncfDashboardSelectedTabs') ? localStorage.getItem('cncfDashboardSelectedTabs').split(',') : []
+          if (targetClassList.contains('open')) {
+            tabs.push(expandedTabId)
+          } else {
+            tabs = tabs.filter((item) => item === expandedTabId)
+          }
+          localStorage.setItem('cncfDashboardSelectedTabs', tabs.join(','))
+        }
       }
     },
     computed: {
