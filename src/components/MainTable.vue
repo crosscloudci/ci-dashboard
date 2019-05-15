@@ -38,8 +38,8 @@
 
               <div class="build-links mobile-only">
                 <span><a target="_blank"></a></span>
-                <span class="bold"><a target="_blank" :href="StableReleaseURL(project)">Stable <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
-                <span class="bold"><a target="_blank" :href="HeadReleaseURL(project)">Head <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
+                <span class="bold"><a target="_blank" :href="StableReleaseURL(project)" v-on:click.stop >Stable <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
+                <span class="bold"><a target="_blank" :href="HeadReleaseURL(project)" v-on:click.stop>Head <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
               </div>
 
               <div class="build-details">
