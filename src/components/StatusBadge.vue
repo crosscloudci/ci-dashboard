@@ -1,5 +1,5 @@
 <template>
-  <div class="status-badge" :class="this.$props.state" v-on:click="gotoURL()">
+  <div class="status-badge" v-on:click.stop :class="this.$props.state" v-on:click="gotoURL()">
     <div class="badge">
 
       <span class="icon" v-if="this.$props.state === 'success'">

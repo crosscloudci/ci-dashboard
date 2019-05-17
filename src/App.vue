@@ -69,10 +69,6 @@ export default {
       min-height: auto;
       display: flex;
       flex-direction: column;
-
-      #main-table {
-        min-height: rem(460);
-      }
     }
   }
 

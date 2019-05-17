@@ -1,6 +1,6 @@
 <template>
   <div id="app-footer">
-    <div class="container">
+    <div class="container footer-container">
       <div class="footer-content">
         <div class="built-by">
           <span>Created for</span>
@@ -8,8 +8,8 @@
         </div>
 
         <div class="social-links">
-          <a class="social" href="http://github.com/crosscloudci/ci-dashboard" target="_blank"><i class="fa fa-github"></i></a>
-          <a class="social" href="http://twitter.com/crosscloudci" target="_blank"><i class="fa fa-twitter"></i></a>
+          <a class="social" href="https://github.com/crosscloudci/ci-dashboard" target="_blank"><i class="fa fa-github"></i></a>
+          <a class="social" href="https://twitter.com/cncfci" target="_blank"><i class="fa fa-twitter"></i></a>
           <a class="social" href="mailto:cncfci@vulk.coop"><i class="fa fa-envelope"></i></a>
         </div>
 
@@ -50,11 +50,19 @@
     background: $light;
     border-top: 1px solid $ccc;
     padding: rem(10);
-    margin-top: rem(20);
+    margin-top: 32px;
+    @include mq('sm') {
+      margin-top: 44px;
+    }
   }
 
   #app-footer a {
     text-decoration: none; }
+
+
+  .footer-container {
+    padding: 0;
+  }
 
   .footer-content {
     @include flex-container;
@@ -93,7 +101,7 @@
         height: rem(30);
         width: 100%;
         text-align: center;
-        margin-bottom: rem(20);
+        margin-bottom: 1rem;
 
         a {
           @include fbox;
@@ -112,7 +120,7 @@
 
         .report-bug-link {
           background: $blue;
-          padding: rem(5) rem(24);
+          padding: 5px rem(24);
           @include border-radius($round);
           color: $white;
           margin: auto;
