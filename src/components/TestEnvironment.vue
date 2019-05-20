@@ -398,7 +398,6 @@
  
     .icon {
        width: rem(35);
-       height: rem(35);
        padding-right: 10px;
        img {
          width: inherit;
