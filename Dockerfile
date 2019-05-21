@@ -45,7 +45,8 @@ RUN chmod +x /entrypoint.sh
 WORKDIR /dashboard
 
 RUN npm install
-
+RUN npm install -g serve
+RUN npm build
 #CMD ["npm", "run", "dev"]
 
 ENTRYPOINT ["/entrypoint.sh"]
