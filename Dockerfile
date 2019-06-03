@@ -44,10 +44,16 @@ RUN chmod +x /entrypoint.sh
 
 WORKDIR /dashboard
 
+ENV NODE_HOST tcp://0.0.0.0
+ENV NODE_PORT 8080
+
 RUN npm install
 RUN npm install -g serve
-RUN npm build
+RUN npm run build
+
+COPY dist/ /dashboard/dist/
 #CMD ["npm", "run", "dev"]
 
+EXPOSE NODE_PORT
 ENTRYPOINT ["/entrypoint.sh"]
 
