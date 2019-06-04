@@ -54,6 +54,6 @@ RUN npm run build
 COPY dist/ /dashboard/dist/
 #CMD ["npm", "run", "dev"]
 
-EXPOSE NODE_PORT
+EXPOSE $NODE_PORT
 ENTRYPOINT ["/entrypoint.sh"]
 
