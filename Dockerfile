@@ -50,7 +50,7 @@ RUN npm install
 RUN npm install -g serve
 RUN npm run build
 
-COPY dist/ /dashboard/dist/
+#COPY dist/ /dashboard/dist/
 #CMD ["npm", "run", "dev"]
 
 EXPOSE $NODE_PORT
