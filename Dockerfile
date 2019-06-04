@@ -20,10 +20,6 @@ COPY package.json  /dashboard/
 
 COPY config/  /dashboard/config/
 
-#COPY Dockerfiles/prod.env  /dashboard/config/
-
-#COPY Dockerfiles/dev.env  /dashboard/config/
-
 COPY build/  /dashboard/build/
 
 COPY fixtures/  /dashboard/fixtures/
@@ -46,6 +42,9 @@ WORKDIR /dashboard
 
 ENV NODE_HOST tcp://0.0.0.0
 ENV NODE_PORT 8080
+ENV API_URL https://$NODE_HOST:YOUR_API_PORT/api
+
+RUN ./bin/create_env_js -f
 
 RUN npm install
 RUN npm install -g serve
