@@ -8,8 +8,8 @@
         </div>
 
         <div class="social-links">
-          <a class="social" href="http://github.com/crosscloudci/ci-dashboard" target="_blank"><i class="fa fa-github"></i></a>
-          <a class="social" href="http://twitter.com/crosscloudci" target="_blank"><i class="fa fa-twitter"></i></a>
+          <a class="social" href="https://github.com/crosscloudci/ci-dashboard" target="_blank"><i class="fa fa-github"></i></a>
+          <a class="social" href="https://twitter.com/cncfci" target="_blank"><i class="fa fa-twitter"></i></a>
           <a class="social" href="mailto:cncfci@vulk.coop"><i class="fa fa-envelope"></i></a>
         </div>
 
