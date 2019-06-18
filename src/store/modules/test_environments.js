@@ -80,13 +80,12 @@ var gatherKubernetesEnvs = (projects) => {
   for (let i = 0; i < arrayLength; i++) {
     if (projects[i].title === 'Kubernetes') {
       let kubernetesPipelines = projects[i].pipelines
-      console.log('this is pipeline count' + ' ' + projects[i].pipelines.length)
+
       for (let j = 0; j < kubernetesPipelines.length; j++) {
         let pipelineObj = k8PipelineObj(kubernetesPipelines[j].release_type, kubernetesPipelines[j].ref, kubernetesPipelines[j].sha, kubernetesPipelines[j].jobs, kubernetesPipelines[j].arch)
         pipelines.push(pipelineObj)
       }
     }
-    console.log('these are pipelines count' + ' ' + projects[i].pipelines)
   }
   let getEnvs = (pipelines) => {
     let envList = []
