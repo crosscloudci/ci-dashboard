@@ -1,11 +1,11 @@
 <template>
-  <div id="main-table">
+  <div id="projects-listing">
     <div class="container">
-      <table>
+      <table v-for="(projectType, name) in projects">
         <thead>
 
           <tr class="header">
-            <th>Project</th>
+            <th>{{SubProjectLabel(name)}} Projects</th>
             <th>Release</th>
             <th>Build</th>
             <th :colspan="clouds.length">Deploy</th>
@@ -15,7 +15,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="project in projects[0]['Graduated']" :key="project.order" v-on:click="$event.currentTarget.classList.toggle('open')">
+          <tr v-for="project in projectType" :key="project.order" v-on:click="$event.currentTarget.classList.toggle('open')">
             <td class="project-column">
               <div class="project-box">
 
@@ -79,7 +79,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: 'main-table',
+    name: 'ProjectsListing',
     components: {ProjectFlag, StatusBadge, MetaLabel},
     beforeDestroy: function () {},
     beforeMount: function () {},
@@ -203,6 +203,14 @@
           }
         })
         return url
+      },
+      SubProjectLabel: function (name) {
+        const labelMap = {
+          'Linux Foundation': 'Linux Foundation',
+          'Graduated': 'Graduated CNCF ',
+          'Incubating': 'Incubating CNCF '
+        }
+        return labelMap[name]
       }
     },
     computed: {

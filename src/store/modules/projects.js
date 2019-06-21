@@ -11,7 +11,15 @@ const state = {
 // getters
 const getters = {
   allProjects: state => state.projects,
-  tableProjects: state => state.projects
+  tableProjects: state => {
+    console.log('these are the tableProjects', state.projects)
+    const tableProjects = {}
+    state.projects.forEach(function (stateProject, index) {
+      const subProjectName = Object.keys(stateProject)[0]
+      tableProjects[subProjectName] = stateProject[subProjectName]
+    })
+    return tableProjects
+  }
 // .filter((project) => { if (project['Graduated'] !== undefined) { project['Graduated'][0].display_name !== 'Kubernetes' } else { return true } })
   // tableProjects: state => state.projects.filter((project) => { debugger; project['Graduated'][0].display_name !== 'Kubernetes' })
 }

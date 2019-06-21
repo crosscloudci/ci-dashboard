@@ -51,7 +51,7 @@ export default {
       flex-direction: column;
     }
 
-    #main-table {
+    #projects-listing {
       flex: 1;
       height: 100%;
     }
