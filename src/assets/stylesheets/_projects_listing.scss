@@ -1,5 +1,4 @@
 #projects-listing {
-  margin-top: rem(20);
   position: relative;
 
   @include mq("sm") {
@@ -9,6 +8,8 @@
 
   > .container {
     display: block;
+    padding-top: 15px;
+    padding-left: 20px;
   }
 
   table {
