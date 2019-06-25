@@ -83,7 +83,9 @@ const assignProjectsToStages = (cncfStages, orderedRelations, orderedProjects) =
   for (let j = 0; j < keys.length; j++) {
     for (let i = 0; i < orderedProjects.length; i++) {
       if (keys[j] === orderedProjects[i].cncf_relation) {
-        newCNCFStages[keys[j]].push(orderedProjects[i])
+        if (orderedProjects[i].display_name !== 'Kubernetes') {
+          newCNCFStages[keys[j]].push(orderedProjects[i])
+        }
       }
     }
   }

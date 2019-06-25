@@ -28,19 +28,19 @@ const actions = {
     const channel = socket.channel('dashboard:*')
     let v = this
     channel.join()
-    .receive('ok', (response) => {
-      let projects = response.reply.projects
-      let cncfRelations = response.reply.cncf_relations
-      let clouds = response.reply.clouds
-      var lastCheckDt = response.reply.last_check_dt
-      let kubernetesRefs = response.reply.kubernetes_refs
-      commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects, cncfRelations })
-      commit(types.GET_ALL_TEST_ENV, {projects, kubernetesRefs})
-      commit(types.RECEIVE_CLOUDS, { clouds })
-      commit(types.DEFAULT_TEST_ENV)
-      // console.log('channel join event date' + lastCheckDt)
-      v.dispatch('updateNewTime', lastCheckDt)
-    })
+      .receive('ok', (response) => {
+        let projects = response.reply.projects
+        let cncfRelations = response.reply.cncf_relations
+        let clouds = response.reply.clouds
+        var lastCheckDt = response.reply.last_check_dt
+        let kubernetesRefs = response.reply.kubernetes_refs
+        commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects, cncfRelations })
+        commit(types.GET_ALL_TEST_ENV, {projects, kubernetesRefs})
+        commit(types.RECEIVE_CLOUDS, { clouds })
+        commit(types.DEFAULT_TEST_ENV)
+        // console.log('channel join event date' + lastCheckDt)
+        v.dispatch('updateNewTime', lastCheckDt)
+      })
   },
 
   connectToChannel ({ commit, socket }) {
