@@ -1,5 +1,6 @@
 // import api from '../../api/api'
 import * as types from '../mutation-types'
+import * as R from 'ramda'
 
 // initial state
 const state = {
@@ -10,18 +11,21 @@ const state = {
 // getters
 const getters = {
   allProjects: state => state.projects,
-  tableProjects: state => state.projects.filter((project) => project.display_name !== 'Kubernetes')
-
+  tableProjects: state => {
+    console.log('these are the tableProjects', state.projects)
+    const tableProjects = {}
+    state.projects.forEach(function (stateProject, index) {
+      const subProjectName = Object.keys(stateProject)[0]
+      tableProjects[subProjectName] = stateProject[subProjectName]
+    })
+    return tableProjects
+  }
+// .filter((project) => { if (project['Graduated'] !== undefined) { project['Graduated'][0].display_name !== 'Kubernetes' } else { return true } })
+  // tableProjects: state => state.projects.filter((project) => { debugger; project['Graduated'][0].display_name !== 'Kubernetes' })
 }
 
 // actions
 const actions = {
-  // getAllProjects ({ commit }) {
-  //   api.getDashboard().then((response) => {
-  //     let projects = response.data.dashboard.projects
-  //     commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
-  //   })
-  // }
 }
 
 // mutations
@@ -29,80 +33,68 @@ const mutations = {
   [types.RECEIVE_PIPELINES] (state, { projects }) {
     let currentProjects = state.projects.slice()
     // state.projects = []
-    let newProjects = projects
+    let orderedProjects = projects
     currentProjects.sort(function (a, b) {
       return a.order - b.order
     })
-    newProjects.sort(function (a, b) {
+    orderedProjects.sort(function (a, b) {
       return a.order - b.order
     })
     let pipelines = []
     for (var i = 0; i < projects.length; i++) {
-      if (!(JSON.stringify(currentProjects[i]) === JSON.stringify(newProjects[i]))) {
-        console.log(JSON.stringify(currentProjects[i]) + 'was replaced by' + JSON.stringify(newProjects[i]))
-        currentProjects.splice(i, 1, newProjects[i])
+      if (!(JSON.stringify(currentProjects[i]) === JSON.stringify(orderedProjects[i]))) {
+        console.log(JSON.stringify(currentProjects[i]) + 'was replaced by' + JSON.stringify(orderedProjects[i]))
+        currentProjects.splice(i, 1, orderedProjects[i])
       }
       pipelines.concat(currentProjects.pipelines)
     }
     state.pipelines = pipelines
-    // for (var i = 0; i < projects.length; i++) {
-    //   projects.forEach((arg) => {
-    //     if (arg[name] === state.projects[i][name]) {
-    //       let currentProject = state.projects[i]
-    //       if (!(JSON.stringify(arg) === JSON.stringify(currentProject))) {
-    //         newArray.splice(i, 1, arg)
-    //       }
-    //     }
-    //   })
-    //  // if (state.projects[i] == [projects]
-    //   state.projects = newArray
-    // }
   },
-  [types.RECEIVE_DASHBOARD_PROJECTS] (state, { projects }) {
-  // state.projects = Object.assign({}, state.projects, newGroups);
-    let newProjects = projects
-    newProjects.sort(function (a, b) {
-      return a.order - b.order
-    })
-    state.projects = newProjects
-    // the good stuff for later
-    // let projectArray = []
-    // let projectArray = state.projects.slice()
-    // for (var i = 0; i < projects.length; i++) {
-    //   let ary = {
-    //     project_name: projects[i].display_name,
-    //     caption: projects[i].caption,
-    //     url: projects[i].url,
-    //     icon: projects[i].icon,
-    //     build: {
-    //       head: {
-    //         label: projects[i].head_commit,
-    //         status: projects[i].pipelines[1].jobs[0].status,
-    //         url: projects[i].pipelines[1].jobs[0].url
-    //       },
-    //       stable: {
-    //         label: projects[i].head_commit,
-    //         status: projects[i].pipelines[0].jobs[0].status,
-    //         url: projects[i].pipelines[0].jobs[0].url
-    //       }
-    //     },
-    //     release: {
-    //       head: {
-    //         label: projects[i].head_commit,
-    //         status: projects[i].pipelines[0].jobs[0].status,
-    //         url: projects[i].pipelines[0].jobs[0].url
-    //       },
-    //       stable: {
-    //         label: projects[i].head_commit,
-    //         status: projects[i].pipelines[0].jobs[0].status,
-    //         url: projects[i].pipelines[0].jobs[0].url
-    //       }
-    //     }
-    //   }
-    //   projectArray = projectArray.concat(ary)
-    // }
-    // state.projects = projectArray
+
+  [types.RECEIVE_DASHBOARD_PROJECTS] (state, { projects, cncfRelations }) {
+    let cncfStages = []
+    let orderedRelations = sortProjectsAndRelations(cncfRelations)
+    let orderedProjects = sortProjectsAndRelations(projects)
+
+    // assigns projects to CNCF Relation objects
+    let finalCNCFStages = assignProjectsToStages(cncfStages, orderedRelations, orderedProjects)
+    state.projects = finalCNCFStages
   }
+}
+
+const sortProjectsAndRelations = (array) => {
+  array.sort(function (a, b) {
+    return a.order - b.order
+  })
+  return array
+}
+
+const assignProjectsToStages = (cncfStages, orderedRelations, orderedProjects) => {
+  for (let i = 0; i < orderedRelations.length; i++) {
+    let lens = R.lensProp('name')
+    let name = R.view(lens, orderedRelations[i])
+    cncfStages.push(name)
+  }
+
+  let newCNCFStages = R.zipObj(cncfStages, [[], [], []])
+  var keys = R.keys(newCNCFStages)
+  let cncfStagesArray = []
+
+  for (let j = 0; j < keys.length; j++) {
+    for (let i = 0; i < orderedProjects.length; i++) {
+      if (keys[j] === orderedProjects[i].cncf_relation) {
+        newCNCFStages[keys[j]].push(orderedProjects[i])
+      }
+    }
+  }
+  for (var prop in newCNCFStages) {
+    if (newCNCFStages.hasOwnProperty(prop)) {
+      let innerObj = {}
+      innerObj[prop] = newCNCFStages[prop]
+      cncfStagesArray.push(innerObj)
+    }
+  }
+  return cncfStagesArray
 }
 
 export default {

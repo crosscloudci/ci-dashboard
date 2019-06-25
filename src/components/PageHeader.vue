@@ -46,7 +46,7 @@
 
       if (this.$route.path === '/') {
         setInterval(() => {
-          console.log('PageHeader mounted: ' + v.$props.last_updated)
+          // console.log('PageHeader mounted: ' + v.$props.last_updated)
           v.$store.dispatch('updateNewTime', v.$props.last_updated)
         }, 1000 * 30
         )
@@ -95,14 +95,12 @@
         var status = 'N/A'
         arg.pipelines.forEach(function (pl) {
           if (pl.release_type === 'stable') {
-            // console.log('Stable pipeline' + pl)
             pl.jobs.forEach(function (j) {
               if (j.order === 1) { status = j.status }
             })
           }
         })
 
-        console.log('stable status:' + status)
         return status
       },
       StableURL: function (arg) {

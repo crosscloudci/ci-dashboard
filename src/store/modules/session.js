@@ -21,7 +21,7 @@ const getters = {
 const actions = {
   connectToSocket ({ commit, store }) {
     const socket = new Socket(`${WEBSOCKET_URL}/socket`, {
-      logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
+      // logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
     })
     socket.connect()
     commit(types.SOCKET_CONNECTED, { socket })
@@ -30,14 +30,15 @@ const actions = {
     channel.join()
     .receive('ok', (response) => {
       let projects = response.reply.projects
+      let cncfRelations = response.reply.cncf_relations
       let clouds = response.reply.clouds
       var lastCheckDt = response.reply.last_check_dt
       let kubernetesRefs = response.reply.kubernetes_refs
-      commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects })
+      commit(types.RECEIVE_DASHBOARD_PROJECTS, { projects, cncfRelations })
       commit(types.GET_ALL_TEST_ENV, {projects, kubernetesRefs})
       commit(types.RECEIVE_CLOUDS, { clouds })
       commit(types.DEFAULT_TEST_ENV)
-      console.log('channel join event date' + lastCheckDt)
+      // console.log('channel join event date' + lastCheckDt)
       v.dispatch('updateNewTime', lastCheckDt)
     })
   },
@@ -46,7 +47,9 @@ const actions = {
     if (!socket) { return false }
     const channel = socket.channel('dashboard:*')
     channel.join().receive('ok', (response) => {
-      (response) => { console.log('channel tings' + response) }
+      (response) => {
+      // console.log('channel tings' + response)
+      }
       commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { response })
     })
   }
