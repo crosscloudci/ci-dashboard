@@ -5,7 +5,7 @@
         <thead>
 
           <tr class="header">
-            <th>{{SubProjectLabel(name)}} Projects</th>
+            <th>{{name}} Projects</th>
             <th>Release</th>
             <th>Build</th>
             <th :colspan="clouds.length">Deploy</th>
@@ -30,8 +30,8 @@
             </td>
 
             <td class="release-column">
-              <MetaLabel :branch="BranchName(project, 'stable')" :label="ReleaseTag(project, 'stable')" :url="ReleaseURL(project, 'stable')"/>
-              <MetaLabel :branch="BranchName(project, 'head')" :label="ReleaseTag(project, 'head')" :url="ReleaseURL(project, 'head')"/>
+              <MetaLabel :branch="BranchName(project, 'stable')" :label="ReleaseTag(project, 'stable')" :url="ReleaseURL(project, 'stable')" :class="BuildStatus(project, 'stable')"/>
+              <MetaLabel :branch="BranchName(project, 'head')" :label="ReleaseTag(project, 'head')" :url="ReleaseURL(project, 'head')" :class="BuildStatus(project, 'head')"/>
             </td>
 
             <td class="build-column top">
