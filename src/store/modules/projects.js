@@ -71,7 +71,9 @@ const sortProjectsAndRelations = (array) => {
 
 const assignProjectsToStages = (cncfStages, orderedRelations, orderedProjects) => {
   for (let i = 0; i < orderedRelations.length; i++) {
+    // Returns a lens whose focus is the specified property.
     let lens = R.lensProp('name')
+    // Returns a "view" of the given data structure, determined by the given lens. The lens's focus determines which portion of the data structure is visible.
     let name = R.view(lens, orderedRelations[i])
     cncfStages.push(name)
   }
@@ -79,6 +81,7 @@ const assignProjectsToStages = (cncfStages, orderedRelations, orderedProjects) =
   let newCNCFStages = R.zipObj(cncfStages, [[], [], []])
   var keys = R.keys(newCNCFStages)
   let cncfStagesArray = []
+  let filteredCNCFStages
 
   for (let j = 0; j < keys.length; j++) {
     for (let i = 0; i < orderedProjects.length; i++) {
@@ -88,11 +91,15 @@ const assignProjectsToStages = (cncfStages, orderedRelations, orderedProjects) =
         }
       }
     }
+    const hasProjects = (val, key) => val.length >= 1
+    // pickBy returns partial subset of object that satisfies given espression
+    // doing this to ensure that only CNCF stages with listed projects are returned to the frontend
+    filteredCNCFStages = R.pickBy(hasProjects, newCNCFStages)
   }
-  for (var prop in newCNCFStages) {
-    if (newCNCFStages.hasOwnProperty(prop)) {
+  for (var prop in filteredCNCFStages) {
+    if (filteredCNCFStages.hasOwnProperty(prop)) {
       let innerObj = {}
-      innerObj[prop] = newCNCFStages[prop]
+      innerObj[prop] = filteredCNCFStages[prop]
       cncfStagesArray.push(innerObj)
     }
   }

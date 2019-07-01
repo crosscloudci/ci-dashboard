@@ -203,14 +203,6 @@
           }
         })
         return url
-      },
-      SubProjectLabel: function (name) {
-        const labelMap = {
-          'Linux Foundation': 'Linux Foundation',
-          'Graduated': 'Graduated CNCF ',
-          'Incubating': 'Incubating CNCF '
-        }
-        return labelMap[name]
       }
     },
     computed: {
