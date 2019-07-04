@@ -87,7 +87,8 @@
       const channel = this.$store.getters.socket.channel('dashboard:*', {})
       channel.on('new_cross_cloud_call', payload => {
         this.$store.dispatch('updateDashboard', { payload })
-        let lastCheckDt = payload.reply.dashboard.last_check_dt
+        let lastCheckDt = payload.reply.last_check_dt
+        // console.log('this is last check dt dude' + lastCheckDt)
         this.$store.dispatch('updateNewTime', lastCheckDt)
         this.$forceUpdate()
       })
