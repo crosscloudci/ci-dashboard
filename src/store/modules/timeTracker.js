@@ -13,7 +13,7 @@ const getters = {
 // actions
 const actions = {
   updateNewTime ({ commit }, lastCheckDt) {
-    console.log('updateNewTime lastCheckDt: ' + lastCheckDt)
+    // console.log('updateNewTime lastCheckDt: ' + lastCheckDt)
     // payload = payload.substr(payload.length - 9)
     // let time = Date.now()
     // payload = payload.replace(/T|Z/g, ' ').trim()
@@ -26,7 +26,7 @@ const actions = {
 // mutations
 const mutations = {
   [types.UPDATE_TIME] (state, { lastCheckDt }) {
-    console.log('lastCheckedMutation: ' + lastCheckDt)
+    // console.log('lastCheckedMutation: ' + lastCheckDt)
     state.now = lastCheckDt
   }
 }
