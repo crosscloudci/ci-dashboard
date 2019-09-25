@@ -10,7 +10,6 @@
               Kubernetes &mdash; 
              {{ CurrentEnv(currentEnv) }}
             </div>
-          <span class="mobile-test-env-dropdown"></span>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
@@ -34,11 +33,21 @@
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version" v-bind:class="{ highlighted: isEnvHighlighted }" >
-            <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
-              <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
-                <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
-              </md-option>
-            </md-select>
+            // <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
+            //   <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
+            //     <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
+            //   </md-option>
+            // </md-select>
+            <md-theme md-name="envReleaseChoices">
+              <md-radio v-bind:class="md-primary" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
+                <div class="md-primary">{{ release }}</div>
+              </md-radio>
+            </md-theme>
+            <md-theme md-name="envArchChoices">
+              <md-radio v-bind:class="md-primary" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index"> 
+                <div class="md-primary">{{ arch.name }}</div>
+              </md-radio>
+            </md-theme>
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -93,6 +102,8 @@
     data: function () {
       return {
         initialCurrentEnv: this.$store.state.environments.current.dropdown,
+        currentEnvRelease: this.$store.state.environments.selectedRelease,
+        currentEnvArch: this.$store.state.environments.selectedArch,
         isEnvHighlighted: false
       }
     },
@@ -197,7 +208,7 @@
       }
     },
     computed: {
-      ...mapGetters({testEnvs: 'allTestEnvs', currentEnv: 'selectedEnv', defaultEnv: 'defaultEnv'})
+      ...mapGetters({testEnvs: 'allTestEnvs', envReleases: 'selectableTestEnvReleases', envArchs: 'selectableTestEnvArch', currentEnv: 'selectedEnv', defaultEnv: 'defaultEnv'})
     }
   }
 

@@ -6,25 +6,10 @@ const state = {
   test_envs: [],
   testEnvList: [],
   current: {},
-  // current: {
-  //   kubernetes_release_type: '',
-  //   ref: '',
-  //   sha: '',
-  //   rropdown: '',
-  //   jobs: [{
-  //     cloud_id: null,
-  //     id: null,
-  //     job_id: null,
-  //     name: 'N/A',
-  //     order: null,
-  //     pipeline_id: null,
-  //     project_id: null,
-  //     ref: 'N/A',
-  //     status: 'N/A',
-  //     url: '#'
-  //   }],
-  //   arch: ''
-  // },
+  envReleaseList: [],
+  envArchList: [],
+  selectedRelease: '',
+  selectedArch: '',
   defaultDropdownEnv: ''
 }
 
@@ -32,6 +17,8 @@ const state = {
 const getters = {
   selectedEnv: state => state.current,
   allTestEnvs: state => state.testEnvList,
+  selectableTestEnvReleases: state => state.envReleaseList,
+  selectableTestEnvArch: state => state.envArchList,
   defaultEnv: state => state.defaultDropdownEnv
 }
 
@@ -87,6 +74,19 @@ var gatherKubernetesEnvs = (projects) => {
       }
     }
   }
+  let establishSelectableEnvs = (pipelines) => {
+    for (let i = 0; i < pipelines.length; i++) {
+      if ((pipelines[i].kubernetes_release_type === 'stable') && (pipelines[i].arch === 'amd64')) {
+        let release = `Stable ${pipelines[i].ref}`
+        state.envReleaseList.push(release)
+      } else if ((pipelines[i].kubernetes_release_type === 'head') && (pipelines[i].arch === 'amd64')) {
+        let release = `Head ${pipelines[i].sha.substring(0, 7)}`
+        state.envReleaseList.push(release)
+      }
+    }
+    state.envArchList.push({'arch': 'amd64', 'name': 'x86'})
+    state.envArchList.push({'arch': 'Arm', 'name': 'Arm'})
+  }
   let getEnvs = (pipelines) => {
     let envList = []
     for (let i = 0; i < pipelines.length; i++) {
@@ -117,6 +117,7 @@ var gatherKubernetesEnvs = (projects) => {
     return envs
   }
   let dropdownList = getEnvs(pipelines)
+  establishSelectableEnvs(pipelines)
   pipelines = mergeDropdownWithPipelines(dropdownList, pipelines)
   const arePipelinesEqualByDropdown = R.eqProps('dropdown')
   let finalUniqPipelines = R.uniqWith(arePipelinesEqualByDropdown)(pipelines)
