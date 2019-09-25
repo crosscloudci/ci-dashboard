@@ -33,21 +33,17 @@
           <div class="environment-divider dash">
           </div>
           <div class="test-env-version" v-bind:class="{ highlighted: isEnvHighlighted }" >
-            // <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
-            //   <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
-            //     <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
-            //   </md-option>
-            // </md-select>
-            <md-theme md-name="envReleaseChoices">
-              <md-radio v-bind:class="md-primary" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
-                <div class="md-primary">{{ release }}</div>
+            <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
+              <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
+                <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
+              </md-option>
+            </md-select>
+              <md-radio class="md-primary" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
+                {{ release }}
               </md-radio>
-            </md-theme>
-            <md-theme md-name="envArchChoices">
-              <md-radio v-bind:class="md-primary" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index"> 
-                <div class="md-primary">{{ arch.name }}</div>
+              <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index"> 
+                {{ arch }}
               </md-radio>
-            </md-theme>
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -93,6 +89,7 @@
   import VueMaterial from 'vue-material'
   import 'vue-material/dist/vue-material.css'
   import * as R from 'ramda'
+import { debug } from 'util'
 
   Vue.use(VueMaterial)
 
@@ -102,8 +99,8 @@
     data: function () {
       return {
         initialCurrentEnv: this.$store.state.environments.current.dropdown,
-        currentEnvRelease: this.$store.state.environments.selectedRelease,
-        currentEnvArch: this.$store.state.environments.selectedArch,
+        currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type,
+        currentEnvArch: this.$store.state.environments.current.arch,
         isEnvHighlighted: false
       }
     },

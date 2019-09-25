@@ -75,20 +75,20 @@ var gatherKubernetesEnvs = (projects) => {
     }
   }
   let establishSelectableEnvs = (pipelines) => {
-    for (let i = 0; i < pipelines.length; i++) {
-      if ((pipelines[i].kubernetes_release_type === 'stable') && (pipelines[i].arch === 'amd64')) {
-        let release = `Stable ${pipelines[i].ref}`
-        state.envReleaseList.push(release)
-      } else if ((pipelines[i].kubernetes_release_type === 'head') && (pipelines[i].arch === 'amd64')) {
-        let release = `Head ${pipelines[i].sha.substring(0, 7)}`
-        state.envReleaseList.push(release)
-      }
-    }
-    state.envArchList.push({'arch': 'amd64', 'name': 'x86'})
-    state.envArchList.push({'arch': 'Arm', 'name': 'Arm'})
-  }
+    // debugger
+
+    state.envReleaseList = R.uniq(state.envReleaseList.concat(pipelines.map(p => p.kubernetes_release_type)))
+    state.envArchList = R.uniq(state.envArchList.concat(pipelines.map(p => p.arch)))
+
+    // TODO: move arch nicknames here to view
+    // state.envArchList = [
+    //   {'arch': 'amd64', 'name': 'x86'}, 
+    //   {'arch': 'arm64', 'name': 'Arm'}
+    // ]
+  } 
   let getEnvs = (pipelines) => {
     let envList = []
+    // TODO: update below to have envList also include arch and kubernetes_release_type so you can filter for them
     for (let i = 0; i < pipelines.length; i++) {
       // this will need to be later when the architectures are included with the dropdown
       // currently this code will only let the dropdown work in the scenario of stable/head branches for only amd64
