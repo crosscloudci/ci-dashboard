@@ -2,6 +2,8 @@
 import * as types from '../mutation-types'
 import * as R from 'ramda'
 // initial state
+
+// TODO: remove all the dropdown stuff from this code
 const state = {
   test_envs: [],
   testEnvList: [],

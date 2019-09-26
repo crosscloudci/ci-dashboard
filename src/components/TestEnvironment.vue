@@ -2,7 +2,7 @@
    <div class="container">
    <div id="test-environment" >
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-selection" @click="openDialog('dialog1')">
+          <div class="test-env-selection">
             <div class="sm-logo">
               <div class="icon">
                 <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
@@ -36,21 +36,17 @@
        <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
           <div class="test-env-selection" v-on:click="gotoProjectURL()">
-            <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'"
-            />
-            </div>
-            <div>
-              Kubernetes
+            <div class="lg-logo">
+              <div class="icon">
+                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+              </div>
+              <div>
+                Kubernetes
+              </div>
             </div>
           </div>
           <div class="environment-divider dash"></div>
-          <div class="test-env-version" v-bind:class="{ highlighted: isEnvHighlighted }" >
-            <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
-              <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
-                <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
-              </md-option>
-            </md-select>
+          <div class="test-env-version-selector-container">
               <div class="med-env-selection-radio-button-container"> 
                 <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')"> 
                   {{ release }}
@@ -77,24 +73,6 @@
           :branch="ReleaseBranch()"
          :class="ReleaseStatus()"/>
       </div>
-
-      <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog1">
-        <md-dialog-title>Select K8s Environment</md-dialog-title>
-        <md-dialog-content>
-          <md-list>
-              <md-list-item v-for="(env, index) in testEnvs" :key="index" :value="env" @click="closeDialog('dialog1', env)">
-                <span>
-                  {{ env.dropdown }}
-                </span>
-                <md-icon>{{ListIcon(env)}}</md-icon>
-              </md-list-item>
-          </md-list>
-        </md-dialog-content>
-
-        <md-dialog-actions>
-        <md-button class="md-primary" @click="closeDialog('dialog1')">Cancel</md-button>
-        </md-dialog-actions>
-      </md-dialog>
     </div>
 </template>
 
@@ -115,10 +93,8 @@
     components: { StatusLabel, StatusBadge },
     data: function () {
       return {
-        initialCurrentEnv: this.$store.state.environments.current.dropdown,
         currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type || "stable",
         currentEnvArch: this.$store.state.environments.current.arch || "amd64",
-        isEnvHighlighted: false
       }
     },
     props: {
@@ -133,15 +109,6 @@
       })
     },
     methods: {
-      openDialog (ref) {
-        this.$refs[ref].open()
-      },
-      closeDialog (ref, releaseType) {
-        if (releaseType) {
-          this.selectEnv(releaseType)
-        }
-        this.$refs[ref].close()
-      },
       gotoURL () {
         window.open(this.$props.url, '_blank')
       },
@@ -149,7 +116,6 @@
         window.open(this.$props.project.url, '_blank')
       },
       radioSelectEnv: function (newValue, typeOfNewValue) {
-
         let selectedRelease = this.currentEnvRelease;
         let selectedArch = this.currentEnvArch;
 
@@ -163,24 +129,6 @@
                     .testEnvs
                     .filter(tEnv => tEnv.kubernetes_release_type === selectedRelease && tEnv.arch === selectedArch )[0]
         this.$store.dispatch('switchEnv', { env })
-      },
-      selectEnv: function (releaseType) {
-        let env = releaseType
-        this.$store.dispatch('switchEnv', { env })
-      },
-      boldThisOption: function (dropdown) {
-        if (dropdown === this.$store.state.environments.current.dropdown) {
-          return 'boldSelector'
-        } else {
-          return 'doNotBoldSelector'
-        }
-      },
-      isSelected: function (dropdown) {
-        if (dropdown === this.$store.state.environments.current.dropdown) {
-          return 'selected-option'
-        } else {
-          return ''
-        }
       },
       SelectItems (items, releaseType) {
         var selectItems = [items[0]]
@@ -222,9 +170,6 @@
           }
         }
       },
-      CurrentEnv: function (env) {
-        return this.$store.state.environments.current.dropdown
-      },
       ReleaseTag: function () {
         let tag = '#'
         let releaseType = this.$store.state.environments.current.kubernetes_release_type
@@ -233,9 +178,6 @@
         tag = releaseType === 'head' ? sha.substring(0, 7) : releaseType === 'stable' ? ref : '#'
         return tag
       },
-      highlightEnv: function () {
-        this.isEnvHighlighted = !this.isEnvHighlighted
-      }
     },
     computed: {
       ...mapGetters({testEnvs: 'allTestEnvs', envReleases: 'selectableTestEnvReleases', envArchs: 'selectableTestEnvArch', currentEnv: 'selectedEnv', defaultEnv: 'defaultEnv'})
@@ -341,12 +283,16 @@
      }
      .test-env-selection {
         width: 90%;
-         align-items: center;
-     }
-     .test-env-selection .sm-logo {
+        align-items: center;
+
+      .sm-logo, .lg-logo {
          display: flex;
-         justify-content: center;
          font-weight: 700;
+
+         @include mq('sm') {
+           justify-content: center;
+         }
+      }
      }
      .test-env-details {
          display: flex;
@@ -412,7 +358,7 @@
       //left: 20px;
     }
 
-    .test-env-version {
+    .test-env-version-selector-container {
       height: 50px;
       display: flex;
       align-items: center;
@@ -491,130 +437,11 @@
       margin-bottom: 0;
     }
   }
-  .md-theme-default.md-select-content .md-menu-item.md-selected {
-    > div > span {
-      color: $black;
-      font-weight: 700;
-    }
-  }
-  .md-dialog-title.md-title {
-    font-weight: 900;
-  }
-  .md-dialog-content {
-    padding: 0;
-  }
-  .md-select-content {
-    display: none;
-    @include mq('md') {
-      display: block;
-      min-width: 150px;
-      width: calc((100% / 7.3) + 50px);
-    }
- }
 
-   li.md-list-item {
-     box-sizing: border-box;
-     &.md-menu-item.md-option.selected-option {
-       position: relative;
-       &::after {
-        font-family: 'Material Icons';
-        font-size: 18px;
-        font-weight: 700;
-        color: #535353;
-        position: absolute;
-        top: calc(50% - 9px);
-        transition: all 0.15s linear;
-        display: block;
-        content: '/e5ca';
-        font-feature-settings: 'liga';
-        font-feature-settings: liga;
-        content: 'check';
-        @supports (-moz-appearance:none) {
-          top: calc(50% - 10px);
-          font-size: 15px;
-        }
-        @include mq('md') {
-          right: 10px;
-        }
-        @include mq('lg') {
-          right: 20px;
-        }
-      }
-    }
-  }
      #test-environment {
      box-sizing: border-box;
        position: relative;
-        &::after {
-        color: rgba(0, 0, 0, .38);
-        margin-top: 2px;
-        position: absolute;
-        top: 25%;
-        right:  2%;
-        transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
-        transition: all 0.15s linear;
-        content: "\25BC";
-        @include mq('md') {
-          right: 2%;
-        }
-        @include mq('lg') {
-          right: 10px;
-        }
-      }
      }
-      .doNotBoldSelector {
-        font-weight: 200;
-      }
-      .boldSelector {
-        font-weight: 900;
-      }
-      .md-list-item .md-list-item-container {
-        font-size: 14px;
-        padding: 0 20px;
-        @media screen and (-ms-high-contrast: none) {
-          height: 48px;
-          &.md-button {
-            display: table-cell;
-            vertical-align: middle;
-          }
-        }
-      }
-
-      .md-select .md-select-value {
-        font-size: 14px;
-      }
-
-      .md-select-content.md-direction-bottom-right.md-active {
-         margin-top: 40px;
-         margin-left: -20px;
-      }
-
-
-      @include mq(md) {
-        .md-button:hover:not([disabled]):not(.md-raised) {
-         background-color: rgba(153, 153, 153, 0.05);
-        } 
-      }
-
-      .highlighted {
-        background: #DDD;
-        border-radius: 3px;
-          .md-select:not(.md-select-icon):after {
-          content: '\25B2';
-          }
-      }
-      .md-theme-default.md-select-content .md-menu-item.md-selected {
-       color: #535353;
-         &.md-selected > div > span {
-           color: currentColor;
-        }
-      }
-      .md-menu-content .md-theme-default.md-list .md-menu-item:hover .md-button:not([disabled]) {
-        background-color: rgba(153, 153, 153, 0.05);
-      }
-      .md-theme-default.md-active .md-button:hover:not([disabled]):not(.md-raised) {
-        background-color: rgba(153, 153, 153, 0.1);
-      }
 
     //TODO: all of these styles that override the default theme should be moved to their own theme and integrated that way
     .md-theme-default.md-radio.md-primary.md-checked .md-radio-container{
