@@ -2,14 +2,28 @@
    <div class="container">
    <div id="test-environment" >
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-name" @click="openDialog('dialog1')">
-            <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+          <div class="test-env-selection" @click="openDialog('dialog1')">
+            <div class="sm-logo">
+              <div class="icon">
+                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+              </div>
+              <div>
+                Kubernetes
+              </div>
             </div>
-            <div>
-              Kubernetes &mdash; 
-             {{ CurrentEnv(currentEnv) }}
-            </div>
+              <!-- TODO: mobile stuff goes here now we just giv boarder and border radius shape setup then and thats almost it. 
+              https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
+               -->
+              <div class="sm-env-selection-radio-button-container"> 
+                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
+                  {{ release }}
+                </md-radio>
+              </div>
+              <div class="sm-env-selection-radio-button-container"> 
+                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index"> 
+                  {{ arch }}
+                </md-radio>
+              </div>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
@@ -21,7 +35,7 @@
        </div>
        <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-name" v-on:click="gotoProjectURL()">
+          <div class="test-env-selection" v-on:click="gotoProjectURL()">
             <div class="icon">
             <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'"
             />
@@ -30,20 +44,24 @@
               Kubernetes
             </div>
           </div>
-          <div class="environment-divider dash">
-          </div>
+          <div class="environment-divider dash"></div>
           <div class="test-env-version" v-bind:class="{ highlighted: isEnvHighlighted }" >
-            <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
+            <!-- <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
               <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
                 <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
               </md-option>
-            </md-select>
-              <md-radio class="md-primary" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
-                {{ release }}
-              </md-radio>
-              <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index"> 
-                {{ arch }}
-              </md-radio>
+            </md-select> -->
+              <div class="med-env-selection-radio-button-container"> 
+                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
+                  {{ release }}
+                </md-radio>
+              </div>
+              <div class="environment-divider dash"></div>
+              <div class="med-env-selection-radio-button-container"> 
+                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index"> 
+                  {{ arch }}
+                </md-radio>
+              </div>
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -294,46 +312,51 @@ import { debug } from 'util'
          width: calc(100% - 120px - 12px - 40px);
       }
     }
-    &::before {
-      width: calc(120px + 16px);
-      background-color: white;
-
-      @include mq('md') {
-        width: calc(120px + 12px);
-        left: 40px;
-      }
-    }
 
     .test-env-label {
+         background-color: white;
          position: absolute;
-         top: -8px;
+         top: -10px;
          font-weight: 600;
          font-size: 14px;
-         width: 120px;
+         width: 140px;
          @include mq('md') {
            left: 46px;
          }
      }
-     .test-env-name, .test-env-details {
+     .test-env-selection {
+        width: 90%;
+         align-items: center;
+     }
+     .test-env-selection .sm-logo {
          display: flex;
          justify-content: center;
-     }
-     .test-env-name {
-         align-items: center;
          font-weight: 700;
-         @include mq('sm') {
-             padding-bottom: 20px;
-         }
      }
-     etest-env-details {
+     .test-env-details {
+         display: flex;
+         justify-content: space-between;
          font-size: rem(14);
          align-items: center;
+         position: absolute;
+         bottom: -12px;
+
+         .stage, .status-label {
+            background-color: white;
+         }
+         .stage {
+           width: 150px ;
+         }
+         .status-label {
+           width: 100px;
+         }
      }
   }
 
   #test-environment {
     display: flex;
     border-radius: 5px;
+    width:90%;
 
     @include mq('md') {
       display: none;
@@ -351,7 +374,7 @@ import { debug } from 'util'
       img { width: inherit; }
     }
 
-    .test-env-name {
+    .test-env-selection {
         cursor: pointer;
     }
   }
@@ -361,6 +384,9 @@ import { debug } from 'util'
     box-sizing: border-box;
     padding: 0 rem(35);
     display: none;
+    @include mq('md') {
+      display: flex;
+    }
     border-radius: 3px;
     > div {
       flex: 1;
@@ -378,7 +404,7 @@ import { debug } from 'util'
       padding: 0 20px;
     }
 
-    .test-env-name {
+    .test-env-selection {
       justify-content: initial;
       padding: 0 rem(10);
       cursor: pointer;
@@ -410,9 +436,6 @@ import { debug } from 'util'
        img {
          width: inherit;
        }
-    }
-    @include mq('md') {
-      display: flex;
     }
   }
   .container {
@@ -578,4 +601,33 @@ import { debug } from 'util'
         background-color: rgba(153, 153, 153, 0.1);
       }
 
+      .med-env-selection-radio-button-container {
+        display: flex;
+        flex-direction: column;
+        .md-radio {
+          margin: 0px 8px 4px 0;
+        }
+        .md-radio.md-checked {
+          font-weight: bold;
+        }
+      }
+
+    //TODO: all of these styles that override the default theme should be moved to their own theme and integrated that way
+    .md-theme-default.md-radio.md-primary.md-checked .md-radio-container{
+      border-color: #707070;
+      &:after {
+        background-color: #707070;
+      }
+    }
+
+   .sm-env-selection-radio-button-container {
+        .md-radio {
+          border: 1px solid #E9E9E9;
+        }
+
+        .md-radio.md-checked {
+          border: 1px solid #9A9A9A;
+          font-weight: bold;
+        }
+   }
 </style>
