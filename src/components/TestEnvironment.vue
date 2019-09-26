@@ -15,12 +15,12 @@
               https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
                -->
               <div class="sm-env-selection-radio-button-container"> 
-                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
+                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')"> 
                   {{ release }}
                 </md-radio>
               </div>
               <div class="sm-env-selection-radio-button-container"> 
-                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index"> 
+                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')"> 
                   {{ arch }}
                 </md-radio>
               </div>
@@ -46,19 +46,19 @@
           </div>
           <div class="environment-divider dash"></div>
           <div class="test-env-version" v-bind:class="{ highlighted: isEnvHighlighted }" >
-            <!-- <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
+            <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
               <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
                 <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
               </md-option>
-            </md-select> -->
+            </md-select>
               <div class="med-env-selection-radio-button-container"> 
-                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index"> 
+                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')"> 
                   {{ release }}
                 </md-radio>
               </div>
               <div class="environment-divider dash"></div>
               <div class="med-env-selection-radio-button-container"> 
-                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index"> 
+                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')"> 
                   {{ arch }}
                 </md-radio>
               </div>
@@ -107,7 +107,6 @@
   import VueMaterial from 'vue-material'
   import 'vue-material/dist/vue-material.css'
   import * as R from 'ramda'
-import { debug } from 'util'
 
   Vue.use(VueMaterial)
 
@@ -117,8 +116,8 @@ import { debug } from 'util'
     data: function () {
       return {
         initialCurrentEnv: this.$store.state.environments.current.dropdown,
-        currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type,
-        currentEnvArch: this.$store.state.environments.current.arch,
+        currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type || "stable",
+        currentEnvArch: this.$store.state.environments.current.arch || "amd64",
         isEnvHighlighted: false
       }
     },
@@ -148,6 +147,22 @@ import { debug } from 'util'
       },
       gotoProjectURL () {
         window.open(this.$props.project.url, '_blank')
+      },
+      radioSelectEnv: function (newValue, typeOfNewValue) {
+
+        let selectedRelease = this.currentEnvRelease;
+        let selectedArch = this.currentEnvArch;
+
+        if(typeOfNewValue === "release"){
+          selectedRelease = newValue;
+        } else {
+          selectedArch = newValue;
+        }
+
+        const env = this
+                    .testEnvs
+                    .filter(tEnv => tEnv.kubernetes_release_type === selectedRelease && tEnv.arch === selectedArch )[0]
+        this.$store.dispatch('switchEnv', { env })
       },
       selectEnv: function (releaseType) {
         let env = releaseType
@@ -601,22 +616,22 @@ import { debug } from 'util'
         background-color: rgba(153, 153, 153, 0.1);
       }
 
-      .med-env-selection-radio-button-container {
-        display: flex;
-        flex-direction: column;
-        .md-radio {
-          margin: 0px 8px 4px 0;
-        }
-        .md-radio.md-checked {
-          font-weight: bold;
-        }
-      }
-
     //TODO: all of these styles that override the default theme should be moved to their own theme and integrated that way
     .md-theme-default.md-radio.md-primary.md-checked .md-radio-container{
       border-color: #707070;
       &:after {
         background-color: #707070;
+      }
+    }
+    
+    .med-env-selection-radio-button-container {
+      display: flex;
+      flex-direction: column;
+      .md-radio {
+        margin: 0px 8px 4px 0;
+      }
+      .md-radio.md-checked {
+        font-weight: bold;
       }
     }
 
