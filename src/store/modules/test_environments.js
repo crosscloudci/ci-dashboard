@@ -77,17 +77,20 @@ var gatherKubernetesEnvs = (projects) => {
     }
   }
   let establishSelectableEnvs = (pipelines) => {
-    // debugger
+    state.envReleaseList = R.uniq(state.envReleaseList.concat(pipelines.map(p => {
+      return {name: p.kubernetes_release_type, displayName: p.kubernetes_release_type === 'stable' ? `Stable ${p.ref}` : `Head ${p.sha.substring(0, 7)}` };
+    })))
 
-    state.envReleaseList = R.uniq(state.envReleaseList.concat(pipelines.map(p => p.kubernetes_release_type)))
-    state.envArchList = R.uniq(state.envArchList.concat(pipelines.map(p => p.arch)))
+    state.envArchList = R.uniq(state.envArchList.concat(pipelines.map(p => {
+      return {name: p.arch, displayName: p.arch === "amd64" ? "x86" : "Arm" }
+    })))
 
     // TODO: move arch nicknames here to view
     // state.envArchList = [
-    //   {'arch': 'amd64', 'name': 'x86'}, 
+    //   {'arch': 'amd64', 'name': 'x86'},
     //   {'arch': 'arm64', 'name': 'Arm'}
     // ]
-  } 
+  }
   let getEnvs = (pipelines) => {
     let envList = []
     // TODO: update below to have envList also include arch and kubernetes_release_type so you can filter for them

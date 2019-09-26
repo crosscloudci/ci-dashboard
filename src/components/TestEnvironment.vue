@@ -11,23 +11,23 @@
                 Kubernetes
               </div>
             </div>
-              <!-- TODO: mobile stuff goes here now we just giv boarder and border radius shape setup then and thats almost it. 
+              <!-- TODO: mobile stuff goes here now we just giv boarder and border radius shape setup then and thats almost it.
               https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
                -->
-              <div class="sm-env-selection-radio-button-container"> 
-                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')"> 
-                  {{ release }}
+              <div class="sm-env-selection-radio-button-container">
+                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')">
+                  {{ release.displayName }}
                 </md-radio>
               </div>
-              <div class="sm-env-selection-radio-button-container"> 
-                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')"> 
-                  {{ arch }}
+              <div class="sm-env-selection-radio-button-container">
+                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
+                  {{ arch.displayName }}
                 </md-radio>
               </div>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
-              <StatusLabel :url="ReleaseURL()" 
+              <StatusLabel :url="ReleaseURL()"
               :label="ReleaseStatus()"
               :branch="ReleaseBranch()"
              :class="ReleaseStatus()"/>
@@ -35,7 +35,7 @@
        </div>
        <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-selection" v-on:click="gotoProjectURL()">
+          <div class="test-env-selection" v-on:click="gotoURL()">
             <div class="lg-logo">
               <div class="icon">
                 <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
@@ -46,18 +46,16 @@
             </div>
           </div>
           <div class="environment-divider dash"></div>
-          <div class="test-env-version-selector-container">
-              <div class="med-env-selection-radio-button-container"> 
-                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')"> 
-                  {{ release }}
-                </md-radio>
-              </div>
-              <div class="environment-divider dash"></div>
-              <div class="med-env-selection-radio-button-container"> 
-                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')"> 
-                  {{ arch }}
-                </md-radio>
-              </div>
+          <div class="med-env-selection-radio-button-container">
+            <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')">
+              {{ release.displayName }}
+            </md-radio>
+          </div>
+          <div class="environment-divider dash"></div>
+          <div class="med-env-selection-radio-button-container">
+            <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
+              {{ arch.displayName }}
+            </md-radio>
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -68,7 +66,7 @@
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
-          <StatusLabel :url="ReleaseURL()" 
+          <StatusLabel :url="ReleaseURL()"
           :label="ReleaseStatus()"
           :branch="ReleaseBranch()"
          :class="ReleaseStatus()"/>
@@ -98,7 +96,7 @@
       }
     },
     props: {
-      url: { type: String, default: '' },
+      url: { type: String, default: 'https://github.com/kubernetes/kubernetes/' },
       project: { type: Object }
     },
     mounted: function () {
@@ -282,7 +280,6 @@
          }
      }
      .test-env-selection {
-        width: 90%;
         align-items: center;
 
       .sm-logo, .lg-logo {
@@ -343,26 +340,15 @@
   #test-environment-full {
     margin: auto;
     box-sizing: border-box;
-    padding: 0 rem(35);
+    padding: rem(10) rem(35);
     display: none;
     @include mq('md') {
       display: flex;
     }
     border-radius: 3px;
-    > div {
-      flex: 1;
-      padding: 10px 0;
-    }
 
     .test-env-label {
       //left: 20px;
-    }
-
-    .test-env-version-selector-container {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
     }
 
     .test-env-selection {
@@ -379,7 +365,7 @@
           position: absolute;
           content: '';
           border-top: solid 2px #707070;
-          width: 80px;
+          width: 40px;
           top: 50%;
           left: 10px;
         }
@@ -390,22 +376,33 @@
         font-weight: 400;
       }
     }
- 
+
     .icon {
-       width: rem(35);
+       width: rem(40);
        padding-right: 10px;
        img {
          width: inherit;
        }
     }
+
+    .lg-logo{
+      margin-left: -20px;
+      align-items: center;
+      font-size:16px;
+    }
+
+    .stage {
+      width: 125px ;
+    }
   }
+
   .container {
     @include mq('sm') {
       @include flex-container;
       align-items: baseline;
       align-content: stretch;
     }
-    #dashboard-header { 
+    #dashboard-header {
       @include mq('sm') {
         @include fbox(1);
         font-size: rem(14);
@@ -450,12 +447,13 @@
         background-color: #707070;
       }
     }
-    
+
     .med-env-selection-radio-button-container {
       display: flex;
       flex-direction: column;
+      text-align: left;
       .md-radio {
-        margin: 0px 8px 4px 0;
+        margin: 0px 0px 8px 0;
       }
       .md-radio.md-checked {
         font-weight: bold;
