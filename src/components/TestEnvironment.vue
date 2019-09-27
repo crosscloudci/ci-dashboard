@@ -284,16 +284,22 @@
 
       .sm-logo, .lg-logo {
          display: flex;
+         align-items: center;
          font-weight: 700;
 
          @include mq('sm') {
            justify-content: center;
          }
+
+         .icon{
+           margin-top: -3px;
+         }
       }
      }
+
      .test-env-details {
          display: flex;
-         justify-content: space-between;
+         width: 85%;
          font-size: rem(14);
          align-items: center;
          position: absolute;
@@ -303,9 +309,11 @@
             background-color: white;
          }
          .stage {
+           margin-left: 24px;
            width: 150px ;
          }
          .status-label {
+           margin-left: 48px;
            width: 100px;
          }
      }
@@ -387,7 +395,6 @@
 
     .lg-logo{
       margin-left: -20px;
-      align-items: center;
       font-size:16px;
     }
 
@@ -431,7 +438,6 @@
   #test-environment {
     @include mq('sm') {
       background: #FDFDFD;
-      margin-bottom: 0;
     }
   }
 
@@ -461,13 +467,36 @@
     }
 
    .sm-env-selection-radio-button-container {
+     display: flex;
+       margin-top: 12px;
+       justify-content: center;
+
         .md-radio {
+          text-align: center;
           border: 1px solid #E9E9E9;
+          padding: 8px 12px 8px 12px;
+          margin: 0;
+          border-radius: 24px 0 0 24px;
+          min-width: 65%;
+
+          .md-radio-label{
+            flex:auto;
+          }
+
+          &:last-child{
+            flex-direction: row-reverse;
+            border-radius: 0 24px 24px 0;
+
+            .md-radio-label{
+              padding-right: 8px;
+            }
+          }
         }
 
         .md-radio.md-checked {
           border: 1px solid #9A9A9A;
           font-weight: bold;
         }
+
    }
 </style>

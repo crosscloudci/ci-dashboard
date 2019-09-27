@@ -84,12 +84,6 @@ var gatherKubernetesEnvs = (projects) => {
     state.envArchList = R.uniq(state.envArchList.concat(pipelines.map(p => {
       return {name: p.arch, displayName: p.arch === "amd64" ? "x86" : "Arm" }
     })))
-
-    // TODO: move arch nicknames here to view
-    // state.envArchList = [
-    //   {'arch': 'amd64', 'name': 'x86'},
-    //   {'arch': 'arm64', 'name': 'Arm'}
-    // ]
   }
   let getEnvs = (pipelines) => {
     let envList = []
