@@ -299,7 +299,7 @@
 
      .test-env-details {
          display: flex;
-         width: 85%;
+         width: 300px;
          font-size: rem(14);
          align-items: center;
          position: absolute;
@@ -309,11 +309,10 @@
             background-color: white;
          }
          .stage {
-           margin-left: 24px;
            width: 150px ;
          }
          .status-label {
-           margin-left: 48px;
+           margin-left: 36px;
            width: 100px;
          }
      }
@@ -367,7 +366,7 @@
     .environment-divider {
       &.dash {
         position: relative;
-        width: 100px;
+        width: 40px;
         flex: initial;
         &::before {
           position: absolute;
@@ -375,7 +374,6 @@
           border-top: solid 2px #707070;
           width: 40px;
           top: 50%;
-          left: 10px;
         }
       }
 
@@ -477,7 +475,7 @@
           padding: 8px 12px 8px 12px;
           margin: 0;
           border-radius: 24px 0 0 24px;
-          min-width: 65%;
+          min-width: 10rem;
 
           .md-radio-label{
             flex:auto;
