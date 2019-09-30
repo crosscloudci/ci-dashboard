@@ -12,7 +12,7 @@ const state = {
 const getters = {
   allProjects: state => state.projects,
   tableProjects: state => {
-    console.log('these are the tableProjects', state.projects)
+    // console.log('these are the tableProjects', state.projects)
     const tableProjects = {}
     state.projects.forEach(function (stateProject, index) {
       const subProjectName = Object.keys(stateProject)[0]
