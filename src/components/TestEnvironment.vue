@@ -91,8 +91,8 @@
     components: { StatusLabel, StatusBadge },
     data: function () {
       return {
-        currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type || "stable",
-        currentEnvArch: this.$store.state.environments.current.arch || "amd64",
+        currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type || 'stable',
+        currentEnvArch: this.$store.state.environments.current.arch || 'amd64'
       }
     },
     props: {
@@ -114,18 +114,18 @@
         window.open(this.$props.project.url, '_blank')
       },
       radioSelectEnv: function (newValue, typeOfNewValue) {
-        let selectedRelease = this.currentEnvRelease;
-        let selectedArch = this.currentEnvArch;
+        let selectedRelease = this.currentEnvRelease
+        let selectedArch = this.currentEnvArch
 
-        if(typeOfNewValue === "release"){
-          selectedRelease = newValue;
+        if (typeOfNewValue === 'release') {
+          selectedRelease = newValue
         } else {
-          selectedArch = newValue;
+          selectedArch = newValue
         }
 
         const env = this
-                    .testEnvs
-                    .filter(tEnv => tEnv.kubernetes_release_type === selectedRelease && tEnv.arch === selectedArch )[0]
+          .testEnvs
+          .filter(tEnv => tEnv.kubernetes_release_type === selectedRelease && tEnv.arch === selectedArch)[0]
         this.$store.dispatch('switchEnv', { env })
       },
       SelectItems (items, releaseType) {
@@ -175,7 +175,7 @@
         let ref = this.$store.state.environments.current.ref
         tag = releaseType === 'head' ? sha.substring(0, 7) : releaseType === 'stable' ? ref : '#'
         return tag
-      },
+      }
     },
     computed: {
       ...mapGetters({testEnvs: 'allTestEnvs', envReleases: 'selectableTestEnvReleases', envArchs: 'selectableTestEnvArch', currentEnv: 'selectedEnv', defaultEnv: 'defaultEnv'})

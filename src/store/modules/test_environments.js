@@ -78,11 +78,11 @@ var gatherKubernetesEnvs = (projects) => {
   }
   let establishSelectableEnvs = (pipelines) => {
     state.envReleaseList = R.uniq(state.envReleaseList.concat(pipelines.map(p => {
-      return {name: p.kubernetes_release_type, displayName: p.kubernetes_release_type === 'stable' ? `Stable ${p.ref}` : `Head ${p.sha.substring(0, 7)}` };
+      return { name: p.kubernetes_release_type, displayName: p.kubernetes_release_type === 'stable' ? `Stable ${p.ref}` : `Head ${p.sha.substring(0, 7)}` }
     })))
 
     state.envArchList = R.uniq(state.envArchList.concat(pipelines.map(p => {
-      return {name: p.arch, displayName: p.arch === "amd64" ? "x86" : "Arm" }
+      return { name: p.arch, displayName: p.arch === 'amd64' ? 'x86' : 'Arm' }
     })))
   }
   let getEnvs = (pipelines) => {
