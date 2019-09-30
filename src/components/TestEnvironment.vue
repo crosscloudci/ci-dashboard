@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="environment-divider dash"></div>
-          <div class="med-env-selection-radio-button-container">
+          <div class="med-env-selection-radio-button-container long-label">
             <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')">
               {{ release.displayName }}
             </md-radio>
@@ -456,14 +456,20 @@
       display: flex;
       flex-direction: column;
       text-align: left;
-      
+
       .md-radio {
         flex:1 auto;
         margin: 0px 0px 8px 0;
       }
+
       .md-radio.md-checked {
         font-weight: bold;
       }
+    }
+
+
+    .med-env-selection-radio-button-container.long-label .md-radio label {
+      min-width: 7rem;
     }
 
    .sm-env-selection-radio-button-container {
