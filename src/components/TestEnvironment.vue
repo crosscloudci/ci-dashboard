@@ -456,7 +456,9 @@
       display: flex;
       flex-direction: column;
       text-align: left;
+      
       .md-radio {
+        flex:1 auto;
         margin: 0px 0px 8px 0;
       }
       .md-radio.md-checked {
