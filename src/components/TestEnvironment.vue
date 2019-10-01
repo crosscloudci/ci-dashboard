@@ -45,13 +45,17 @@
               </div>
             </div>
           </div>
-          <div class="environment-divider"></div>
+          <div class="environment-divider">
+              <div class="dash"></div>
+          </div>
           <div class="med-env-selection-radio-button-container long-label">
             <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')">
               {{ release.displayName }}
             </md-radio>
           </div>
-          <div class="environment-divider"></div>
+          <div class="environment-divider">
+              <div class="dash"></div>
+          </div>
           <div class="med-env-selection-radio-button-container">
             <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
               {{ arch.displayName }}
@@ -364,17 +368,11 @@
       cursor: pointer;
     }
     .environment-divider {
-      &.dash {
-        position: relative;
-        width: 40px;
-        flex: initial;
-        &::before {
-          position: absolute;
-          content: '';
+      .dash {
+          position: relative;
           border-top: solid 2px #707070;
           width: 40px;
           top: 50%;
-        }
       }
 
       .fa.fa-arrow-right {
