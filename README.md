@@ -7,7 +7,7 @@ You need install node using something like [nvm](https://github.com/creationix/n
 also need to install npm
 # Choose a version of node 4.0.0 or higher e.g.:
 ```
-nvm use 8.5.0
+nvm use 9.1.0
 ```
 ## Build Setup
 
