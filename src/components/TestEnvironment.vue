@@ -2,19 +2,32 @@
    <div class="container">
    <div id="test-environment" >
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-name" @click="openDialog('dialog1')">
-            <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+          <div class="test-env-selection">
+            <div class="sm-logo">
+              <div class="icon">
+                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+              </div>
+              <div>
+                Kubernetes
+              </div>
             </div>
-            <div>
-              Kubernetes &mdash; 
-             {{ CurrentEnv(currentEnv) }}
-            </div>
-          <span class="mobile-test-env-dropdown"></span>
+              <!-- TODO: mobile stuff goes here now we just giv boarder and border radius shape setup then and thats almost it.
+              https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
+               -->
+              <div class="sm-env-selection-radio-button-container">
+                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')">
+                  {{ release.displayName }}
+                </md-radio>
+              </div>
+              <div class="sm-env-selection-radio-button-container">
+                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
+                  {{ arch.displayName }}
+                </md-radio>
+              </div>
           </div>
           <div class="test-env-details">
               <div class="stage">Bare Metal (Packet)</div>
-              <StatusLabel :url="ReleaseURL()" 
+              <StatusLabel :url="ReleaseURL()"
               :label="ReleaseStatus()"
               :branch="ReleaseBranch()"
              :class="ReleaseStatus()"/>
@@ -22,23 +35,31 @@
        </div>
        <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-name" v-on:click="gotoProjectURL()">
-            <div class="icon">
-            <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'"
-            />
-            </div>
-            <div>
-              Kubernetes
+          <div class="test-env-selection" v-on:click="gotoURL()">
+            <div class="lg-logo">
+              <div class="icon">
+                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+              </div>
+              <div>
+                Kubernetes
+              </div>
             </div>
           </div>
-          <div class="environment-divider dash">
+          <div class="environment-divider">
+              <div class="dash"></div>
           </div>
-          <div class="test-env-version" v-bind:class="{ highlighted: isEnvHighlighted }" >
-            <md-select class="testClass" v-model="initialCurrentEnv" name="initialCurrentEnv" id="release-type" v-on:opened="highlightEnv" v-on:closed="highlightEnv" v-on:selected="selectEnv($event)" :placeholder="defaultEnv">
-              <md-option v-bind:class="isSelected(env.dropdown)" v-for="(env, index) in testEnvs" :key="index" :value="env"> 
-                <div :class="boldThisOption(env.dropdown)">{{ env.dropdown }}</div>
-              </md-option>
-            </md-select>
+          <div class="med-env-selection-radio-button-container long-label">
+            <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')">
+              {{ release.displayName }}
+            </md-radio>
+          </div>
+          <div class="environment-divider">
+              <div class="dash"></div>
+          </div>
+          <div class="med-env-selection-radio-button-container">
+            <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
+              {{ arch.displayName }}
+            </md-radio>
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -49,29 +70,11 @@
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
-          <StatusLabel :url="ReleaseURL()" 
+          <StatusLabel :url="ReleaseURL()"
           :label="ReleaseStatus()"
           :branch="ReleaseBranch()"
          :class="ReleaseStatus()"/>
       </div>
-
-      <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog1">
-        <md-dialog-title>Select K8s Environment</md-dialog-title>
-        <md-dialog-content>
-          <md-list>
-              <md-list-item v-for="(env, index) in testEnvs" :key="index" :value="env" @click="closeDialog('dialog1', env)">
-                <span>
-                  {{ env.dropdown }}
-                </span>
-                <md-icon>{{ListIcon(env)}}</md-icon>
-              </md-list-item>
-          </md-list>
-        </md-dialog-content>
-
-        <md-dialog-actions>
-        <md-button class="md-primary" @click="closeDialog('dialog1')">Cancel</md-button>
-        </md-dialog-actions>
-      </md-dialog>
     </div>
 </template>
 
@@ -92,12 +95,12 @@
     components: { StatusLabel, StatusBadge },
     data: function () {
       return {
-        initialCurrentEnv: this.$store.state.environments.current.dropdown,
-        isEnvHighlighted: false
+        currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type || 'stable',
+        currentEnvArch: this.$store.state.environments.current.arch || 'amd64'
       }
     },
     props: {
-      url: { type: String, default: '' },
+      url: { type: String, default: 'https://github.com/kubernetes/kubernetes/' },
       project: { type: Object }
     },
     mounted: function () {
@@ -108,38 +111,26 @@
       })
     },
     methods: {
-      openDialog (ref) {
-        this.$refs[ref].open()
-      },
-      closeDialog (ref, releaseType) {
-        if (releaseType) {
-          this.selectEnv(releaseType)
-        }
-        this.$refs[ref].close()
-      },
       gotoURL () {
         window.open(this.$props.url, '_blank')
       },
       gotoProjectURL () {
         window.open(this.$props.project.url, '_blank')
       },
-      selectEnv: function (releaseType) {
-        let env = releaseType
+      radioSelectEnv: function (newValue, typeOfNewValue) {
+        let selectedRelease = this.currentEnvRelease
+        let selectedArch = this.currentEnvArch
+
+        if (typeOfNewValue === 'release') {
+          selectedRelease = newValue
+        } else {
+          selectedArch = newValue
+        }
+
+        const env = this
+          .testEnvs
+          .filter(tEnv => tEnv.kubernetes_release_type === selectedRelease && tEnv.arch === selectedArch)[0]
         this.$store.dispatch('switchEnv', { env })
-      },
-      boldThisOption: function (dropdown) {
-        if (dropdown === this.$store.state.environments.current.dropdown) {
-          return 'boldSelector'
-        } else {
-          return 'doNotBoldSelector'
-        }
-      },
-      isSelected: function (dropdown) {
-        if (dropdown === this.$store.state.environments.current.dropdown) {
-          return 'selected-option'
-        } else {
-          return ''
-        }
       },
       SelectItems (items, releaseType) {
         var selectItems = [items[0]]
@@ -181,9 +172,6 @@
           }
         }
       },
-      CurrentEnv: function (env) {
-        return this.$store.state.environments.current.dropdown
-      },
       ReleaseTag: function () {
         let tag = '#'
         let releaseType = this.$store.state.environments.current.kubernetes_release_type
@@ -191,13 +179,10 @@
         let ref = this.$store.state.environments.current.ref
         tag = releaseType === 'head' ? sha.substring(0, 7) : releaseType === 'stable' ? ref : '#'
         return tag
-      },
-      highlightEnv: function () {
-        this.isEnvHighlighted = !this.isEnvHighlighted
       }
     },
     computed: {
-      ...mapGetters({testEnvs: 'allTestEnvs', currentEnv: 'selectedEnv', defaultEnv: 'defaultEnv'})
+      ...mapGetters({testEnvs: 'allTestEnvs', envReleases: 'selectableTestEnvReleases', envArchs: 'selectableTestEnvArch', currentEnv: 'selectedEnv', defaultEnv: 'defaultEnv'})
     }
   }
 
@@ -286,46 +271,61 @@
          width: calc(100% - 120px - 12px - 40px);
       }
     }
-    &::before {
-      width: calc(120px + 16px);
-      background-color: white;
-
-      @include mq('md') {
-        width: calc(120px + 12px);
-        left: 40px;
-      }
-    }
 
     .test-env-label {
+         background-color: white;
          position: absolute;
-         top: -8px;
+         top: -10px;
          font-weight: 600;
          font-size: 14px;
-         width: 120px;
+         width: 140px;
          @include mq('md') {
            left: 46px;
          }
      }
-     .test-env-name, .test-env-details {
+     .test-env-selection {
+        align-items: center;
+
+      .sm-logo, .lg-logo {
          display: flex;
-         justify-content: center;
-     }
-     .test-env-name {
          align-items: center;
          font-weight: 700;
+
          @include mq('sm') {
-             padding-bottom: 20px;
+           justify-content: center;
          }
+
+         .icon{
+           margin-top: -3px;
+         }
+      }
      }
-     etest-env-details {
+
+     .test-env-details {
+         display: flex;
+         width: 300px;
          font-size: rem(14);
          align-items: center;
+         position: absolute;
+         bottom: -12px;
+
+         .stage, .status-label {
+            background-color: white;
+         }
+         .stage {
+           width: 150px ;
+         }
+         .status-label {
+           margin-left: 36px;
+           width: 100px;
+         }
      }
   }
 
   #test-environment {
     display: flex;
     border-radius: 5px;
+    width:90%;
 
     @include mq('md') {
       display: none;
@@ -343,7 +343,7 @@
       img { width: inherit; }
     }
 
-    .test-env-name {
+    .test-env-selection {
         cursor: pointer;
     }
   }
@@ -351,43 +351,28 @@
   #test-environment-full {
     margin: auto;
     box-sizing: border-box;
-    padding: 0 rem(35);
+    padding: rem(10) rem(35);
     display: none;
-    border-radius: 3px;
-    > div {
-      flex: 1;
-      padding: 10px 0;
+    @include mq('md') {
+      display: flex;
     }
+    border-radius: 3px;
 
     .test-env-label {
       //left: 20px;
     }
 
-    .test-env-version {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-    }
-
-    .test-env-name {
+    .test-env-selection {
       justify-content: initial;
       padding: 0 rem(10);
       cursor: pointer;
     }
     .environment-divider {
-      &.dash {
-        position: relative;
-        width: 100px;
-        flex: initial;
-        &::before {
-          position: absolute;
-          content: '';
+      .dash {
+          position: relative;
           border-top: solid 2px #707070;
-          width: 80px;
+          width: 40px;
           top: 50%;
-          left: 10px;
-        }
       }
 
       .fa.fa-arrow-right {
@@ -395,25 +380,32 @@
         font-weight: 400;
       }
     }
- 
+
     .icon {
-       width: rem(35);
+       width: rem(40);
        padding-right: 10px;
        img {
          width: inherit;
        }
     }
-    @include mq('md') {
-      display: flex;
+
+    .lg-logo{
+      margin-left: -20px;
+      font-size:16px;
+    }
+
+    .stage {
+      width: 125px ;
     }
   }
+
   .container {
     @include mq('sm') {
       @include flex-container;
       align-items: baseline;
       align-content: stretch;
     }
-    #dashboard-header { 
+    #dashboard-header {
       @include mq('sm') {
         @include fbox(1);
         font-size: rem(14);
@@ -442,132 +434,73 @@
   #test-environment {
     @include mq('sm') {
       background: #FDFDFD;
-      margin-bottom: 0;
     }
   }
-  .md-theme-default.md-select-content .md-menu-item.md-selected {
-    > div > span {
-      color: $black;
-      font-weight: 700;
-    }
-  }
-  .md-dialog-title.md-title {
-    font-weight: 900;
-  }
-  .md-dialog-content {
-    padding: 0;
-  }
-  .md-select-content {
-    display: none;
-    @include mq('md') {
-      display: block;
-      min-width: 150px;
-      width: calc((100% / 7.3) + 50px);
-    }
- }
 
-   li.md-list-item {
-     box-sizing: border-box;
-     &.md-menu-item.md-option.selected-option {
-       position: relative;
-       &::after {
-        font-family: 'Material Icons';
-        font-size: 18px;
-        font-weight: 700;
-        color: #535353;
-        position: absolute;
-        top: calc(50% - 9px);
-        transition: all 0.15s linear;
-        display: block;
-        content: '/e5ca';
-        font-feature-settings: 'liga';
-        font-feature-settings: liga;
-        content: 'check';
-        @supports (-moz-appearance:none) {
-          top: calc(50% - 10px);
-          font-size: 15px;
-        }
-        @include mq('md') {
-          right: 10px;
-        }
-        @include mq('lg') {
-          right: 20px;
-        }
-      }
-    }
-  }
      #test-environment {
      box-sizing: border-box;
        position: relative;
-        &::after {
-        color: rgba(0, 0, 0, .38);
-        margin-top: 2px;
-        position: absolute;
-        top: 25%;
-        right:  2%;
-        transform: translateY(-50%) scaleY(0.45) scaleX(0.85);
-        transition: all 0.15s linear;
-        content: "\25BC";
-        @include mq('md') {
-          right: 2%;
-        }
-        @include mq('lg') {
-          right: 10px;
-        }
-      }
      }
-      .doNotBoldSelector {
-        font-weight: 200;
+
+    //TODO: all of these styles that override the default theme should be moved to their own theme and integrated that way
+    .md-theme-default.md-radio.md-primary.md-checked .md-radio-container{
+      border-color: #707070;
+      &:after {
+        background-color: #707070;
       }
-      .boldSelector {
-        font-weight: 900;
+    }
+
+    .med-env-selection-radio-button-container {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      .md-radio {
+        flex:1 auto;
+        margin: 0px 0px 8px 0;
       }
-      .md-list-item .md-list-item-container {
-        font-size: 14px;
-        padding: 0 20px;
-        @media screen and (-ms-high-contrast: none) {
-          height: 48px;
-          &.md-button {
-            display: table-cell;
-            vertical-align: middle;
+
+      .md-radio.md-checked {
+        font-weight: bold;
+      }
+    }
+
+
+    .med-env-selection-radio-button-container.long-label .md-radio label {
+      min-width: 7rem;
+    }
+
+   .sm-env-selection-radio-button-container {
+     display: flex;
+       margin-top: 12px;
+       justify-content: center;
+
+        .md-radio {
+          text-align: center;
+          border: 1px solid #E9E9E9;
+          padding: 8px 12px 8px 12px;
+          margin: 0;
+          border-radius: 24px 0 0 24px;
+          min-width: 10rem;
+
+          .md-radio-label{
+            flex:auto;
+          }
+
+          &:last-child{
+            flex-direction: row-reverse;
+            border-radius: 0 24px 24px 0;
+
+            .md-radio-label{
+              padding-right: 8px;
+            }
           }
         }
-      }
 
-      .md-select .md-select-value {
-        font-size: 14px;
-      }
-
-      .md-select-content.md-direction-bottom-right.md-active {
-         margin-top: 40px;
-         margin-left: -20px;
-      }
-
-
-      @include mq(md) {
-        .md-button:hover:not([disabled]):not(.md-raised) {
-         background-color: rgba(153, 153, 153, 0.05);
-        } 
-      }
-
-      .highlighted {
-        background: #DDD;
-        border-radius: 3px;
-          .md-select:not(.md-select-icon):after {
-          content: '\25B2';
-          }
-      }
-      .md-theme-default.md-select-content .md-menu-item.md-selected {
-       color: #535353;
-         &.md-selected > div > span {
-           color: currentColor;
+        .md-radio.md-checked {
+          border: 1px solid #9A9A9A;
+          font-weight: bold;
         }
-      }
-      .md-menu-content .md-theme-default.md-list .md-menu-item:hover .md-button:not([disabled]) {
-        background-color: rgba(153, 153, 153, 0.05);
-      }
-      .md-theme-default.md-active .md-button:hover:not([disabled]):not(.md-raised) {
-        background-color: rgba(153, 153, 153, 0.1);
-      }
 
+   }
 </style>
