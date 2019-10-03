@@ -1,4 +1,4 @@
-FROM node:9.1.0-stretch
+FROM node:10.16.3-stretch
 
 COPY .babelrc /dashboard/
 COPY .editorconfig  /dashboard/
