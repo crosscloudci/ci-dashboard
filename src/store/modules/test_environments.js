@@ -77,13 +77,23 @@ var gatherKubernetesEnvs = (projects) => {
     }
   }
   let establishSelectableEnvs = (pipelines) => {
-    state.envReleaseList = R.uniq(state.envReleaseList.concat(pipelines.map(p => {
-      return { name: p.kubernetes_release_type, displayName: p.kubernetes_release_type === 'stable' ? `Stable ${p.ref}` : `Head ${p.sha.substring(0, 7)}` }
-    })))
+    let sortReleaseList = R.sortBy(R.prop('order'))
+    state.envReleaseList = sortReleaseList(R.uniq(state.envReleaseList.concat(pipelines.map(p => {
+      return { name: p.kubernetes_release_type, displayName: p.kubernetes_release_type === 'stable' ? `Stable ${p.ref}` : `Head ${p.sha.substring(0, 7)}`, order: p.kubernetes_release_type === 'stable' ? 1 : 2 }
+    }))))
 
-    state.envArchList = R.uniq(state.envArchList.concat(pipelines.map(p => {
-      return { name: p.arch, displayName: p.arch === 'amd64' ? 'x86' : 'Arm' }
-    })))
+    let sortArchList = R.sortBy(R.prop('order'))
+    let envArchList = sortArchList(R.uniq(state.envArchList.concat(pipelines.map(p => {
+      return { name: p.arch, displayName: p.arch === 'amd64' ? 'x86' : 'Arm', order: p.kubernetes_release_type === 'stable' ? 1 : 2 }
+    }))))
+
+    function removeDuplicates (myArr, prop) {
+      return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
+      })
+    }
+
+    state.envArchList = removeDuplicates(envArchList, 'displayName')
   }
   let getEnvs = (pipelines) => {
     let envList = []
