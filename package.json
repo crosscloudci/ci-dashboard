@@ -20,7 +20,7 @@
     "macaddress": "^0.2.9",
     "moment": "^2.19.2",
     "npm": "^6.10.0",
-    "phoenix": "1.2.1",
+    "phoenix": "1.4.9",
     "ramda": "^0.26.1",
     "vue": "^2.6.10",
     "vue-material": "^0.8.1",
