@@ -1,3 +1,4 @@
+ruby '2.6.3'
 # frozen_string_literal: true
 source "https://rubygems.org"
 

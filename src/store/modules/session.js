@@ -38,7 +38,7 @@ const actions = {
         commit(types.GET_ALL_TEST_ENV, {projects, kubernetesRefs})
         commit(types.RECEIVE_CLOUDS, { clouds })
         commit(types.DEFAULT_TEST_ENV)
-        // console.log('channel join event date' + lastCheckDt)
+        console.log('channel join event date' + lastCheckDt)
         v.dispatch('updateNewTime', lastCheckDt)
       })
   },
@@ -48,7 +48,7 @@ const actions = {
     const channel = socket.channel('dashboard:*')
     channel.join().receive('ok', (response) => {
       (response) => {
-      // console.log('channel tings' + response)
+        console.log('channel tings' + response)
       }
       commit(types.DASHBOARD_CONNECTED_TO_CHANNEL, { response })
     })

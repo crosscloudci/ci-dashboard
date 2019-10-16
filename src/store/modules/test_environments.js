@@ -2,29 +2,16 @@
 import * as types from '../mutation-types'
 import * as R from 'ramda'
 // initial state
+
+// TODO: remove all the dropdown stuff from this code
 const state = {
   test_envs: [],
   testEnvList: [],
   current: {},
-  // current: {
-  //   kubernetes_release_type: '',
-  //   ref: '',
-  //   sha: '',
-  //   rropdown: '',
-  //   jobs: [{
-  //     cloud_id: null,
-  //     id: null,
-  //     job_id: null,
-  //     name: 'N/A',
-  //     order: null,
-  //     pipeline_id: null,
-  //     project_id: null,
-  //     ref: 'N/A',
-  //     status: 'N/A',
-  //     url: '#'
-  //   }],
-  //   arch: ''
-  // },
+  envReleaseList: [],
+  envArchList: [],
+  selectedRelease: '',
+  selectedArch: '',
   defaultDropdownEnv: ''
 }
 
@@ -32,6 +19,8 @@ const state = {
 const getters = {
   selectedEnv: state => state.current,
   allTestEnvs: state => state.testEnvList,
+  selectableTestEnvReleases: state => state.envReleaseList,
+  selectableTestEnvArch: state => state.envArchList,
   defaultEnv: state => state.defaultDropdownEnv
 }
 
@@ -87,8 +76,28 @@ var gatherKubernetesEnvs = (projects) => {
       }
     }
   }
+  let establishSelectableEnvs = (pipelines) => {
+    let sortReleaseList = R.sortBy(R.prop('order'))
+    state.envReleaseList = sortReleaseList(R.uniq(state.envReleaseList.concat(pipelines.map(p => {
+      return { name: p.kubernetes_release_type, displayName: p.kubernetes_release_type === 'stable' ? `Stable ${p.ref}` : `Head ${p.sha.substring(0, 7)}`, order: p.kubernetes_release_type === 'stable' ? 1 : 2 }
+    }))))
+
+    let sortArchList = R.sortBy(R.prop('order'))
+    let envArchList = sortArchList(R.uniq(state.envArchList.concat(pipelines.map(p => {
+      return { name: p.arch, displayName: p.arch === 'amd64' ? 'x86' : 'Arm', order: p.kubernetes_release_type === 'stable' ? 1 : 2 }
+    }))))
+
+    function removeDuplicates (myArr, prop) {
+      return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
+      })
+    }
+
+    state.envArchList = removeDuplicates(envArchList, 'displayName')
+  }
   let getEnvs = (pipelines) => {
     let envList = []
+    // TODO: update below to have envList also include arch and kubernetes_release_type so you can filter for them
     for (let i = 0; i < pipelines.length; i++) {
       // this will need to be later when the architectures are included with the dropdown
       // currently this code will only let the dropdown work in the scenario of stable/head branches for only amd64
@@ -117,6 +126,7 @@ var gatherKubernetesEnvs = (projects) => {
     return envs
   }
   let dropdownList = getEnvs(pipelines)
+  establishSelectableEnvs(pipelines)
   pipelines = mergeDropdownWithPipelines(dropdownList, pipelines)
   const arePipelinesEqualByDropdown = R.eqProps('dropdown')
   let finalUniqPipelines = R.uniqWith(arePipelinesEqualByDropdown)(pipelines)

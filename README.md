@@ -7,7 +7,7 @@ You need install node using something like [nvm](https://github.com/creationix/n
 also need to install npm
 # Choose a version of node 4.0.0 or higher e.g.:
 ```
-nvm use 8.5.0
+nvm use 10.16.3
 ```
 ## Build Setup
 
@@ -20,12 +20,25 @@ npm install
 Set the environment var API_URL.  (use .env or set manually).  
 
 Use an .env
- 1. Create .env with `export API_URL=http://<API_SERVER>:<API_PORT>/api"`
+ 1. Create .env with the example below
  1. Load .env with `. .env`
 
 Create config/dev.env.js and config/prod.env.js by running
 ```
+.env
+
+```
+export API_URL="http://dev.vulk.co:4003/api"
+export PORT=8080
+#export TEST_URL="http://<YOUR_TEST_SERVER>"
+```
+
+
+
+
+
 ./bin/create_env_js
+
 ```
 
 # serve with hot reload at localhost:8080
@@ -58,7 +71,7 @@ docker build -t $DOCKER_IMAGE .
 
 Then use docker
 ```
- docker run -p $PORT:$PORT -e API_URL=$API_URL -e PORT=$PORT -ti cncf-ci-dashboard
+docker run -p $PORT:$PORT -e API_URL=$API_URL -e PORT=$PORT -ti $DOCKER_IMAGE
 ```
 
 or docker-compose
@@ -109,7 +122,7 @@ sudo apt-get -y install google-chrome-stable
 ```
 
 
-## 2. install ruby 2.4.1
+## 2. install ruby 2.6.3
 see: https://rvm.io/rvm/install
 
 ## 3. install ruby application dependencies
@@ -121,7 +134,6 @@ bundle install
 ```
 bundle exec cucumber
 ```
-
 
 ---
 
