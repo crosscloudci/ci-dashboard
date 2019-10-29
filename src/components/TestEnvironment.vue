@@ -35,37 +35,64 @@
        </div>
        <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
-          <div class="test-env-selection" v-on:click="gotoURL()">
-            <div class="lg-logo">
-              <div class="icon">
-                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
-              </div>
-              <div>
-                Kubernetes
+          <div class="kubernetes-env-selection">
+            <div class="test-env-selection" v-on:click="gotoURL()">
+              <div class="lg-logo">
+                <div class="icon">
+                  <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+                </div>
+                <div>
+                  Kubernetes
+                </div>
               </div>
             </div>
-          </div>
-          <div class="environment-divider">
-              <div class="dash"></div>
-          </div>
-          <div class="med-env-selection-radio-button-container long-label">
-            <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')">
-              {{ release.displayName }}
-            </md-radio>
-          </div>
-          <div class="environment-divider">
-              <div class="dash"></div>
-          </div>
-          <div class="med-env-selection-radio-button-container">
-            <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
-              {{ arch.displayName }}
-            </md-radio>
+            <div class="med-env-selection-radio-button-container long-label">
+              <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')">
+                {{ release.displayName }}
+              </md-radio>
+            </div>
           </div>
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
           </div>
+          <div class="containerd-env-selection">
+            <div class="test-env-selection" v-on:click="gotoURL()"> 
+              <div class="lg-logo">
+                <div class="icon">
+                  <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/icon/color/containerd-icon-color.png'" />
+                </div>
+                <div>
+                  containerd
+                </div>
+              </div>
+            </div>
+            <div class="med-env-selection-radio-button-container long-label">
+              <md-radio v-model="containerdRelease" md-value="1.3.0"  class="md-primary md-flex"  name="containerd-release-selection">
+                containerd 1.3.0
+              </md-radio>
+              <md-radio v-model="containerdRelease" md-value="n/a"  class="md-primary md-flex" name="containerd-release-selection" disabled>
+                N/A
+              </md-radio>
+            </div>
+          </div>
+          <div class="environment-divider">
+              <i class="fa fa-arrow-right"></i>
+          </div>
+          <div class="arch-env-selection">
+            <p> Architecture</p>
+            <div class="med-env-selection-radio-button-container">
+              <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
+                {{ arch.displayName }}
+              </md-radio>
+            </div>
+         </div>
+          <div class="environment-divider">
+              <i class="fa fa-arrow-right"></i>
+          </div>
 
-          <div class="stage">Bare Metal (Packet)</div>
+          <div class="stage">
+                  <img src='../assets/images/packet-logo.png' />
+          </div>
 
           <div class="environment-divider">
               <i class="fa fa-arrow-right"></i>
@@ -96,7 +123,8 @@
     data: function () {
       return {
         currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type || 'stable',
-        currentEnvArch: this.$store.state.environments.current.arch || 'amd64'
+        currentEnvArch: this.$store.state.environments.current.arch || 'amd64',
+        containerdRelease: '1.3.0'
       }
     },
     props: {
@@ -367,7 +395,9 @@
       padding: 0 rem(10);
       cursor: pointer;
     }
+
     .environment-divider {
+      //NOTE: this is code for old dash in desktop ui remove if no longer needed
       .dash {
           position: relative;
           border-top: solid 2px #707070;
@@ -396,6 +426,13 @@
 
     .stage {
       width: 125px ;
+    }
+
+    .arch-env-selection{
+      p {
+        font-size: 16px;
+        font-weight: 700;
+      }
     }
   }
 
