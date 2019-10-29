@@ -11,22 +11,46 @@
                 Kubernetes
               </div>
             </div>
-              <!-- TODO: mobile stuff goes here now we just giv boarder and border radius shape setup then and thats almost it.
-              https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
-               -->
               <div class="sm-env-selection-radio-button-container">
                 <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')">
                   {{ release.displayName }}
                 </md-radio>
               </div>
+          </div>
+          <div class="test-env-selection">
+            <div class="sm-logo">
+              <div class="icon">
+                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/icon/color/containerd-icon-color.png'" />
+              </div>
+              <div>
+                containerd
+              </div>
+            </div>
               <div class="sm-env-selection-radio-button-container">
-                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
-                  {{ arch.displayName }}
+                <md-radio v-model="containerdRelease" md-value="1.3.0"  class="md-primary md-flex"  name="containerd-release-selection">
+                  containerd 1.3.0
+                </md-radio>
+                <md-radio v-model="containerdRelease" md-value="n/a"  class="md-primary md-flex" name="containerd-release-selection" disabled>
+                  N/A
+                </md-radio>
+              </div>
+          </div>
+          <div class="test-env-selection">
+            <div class="sm-logo">
+              <div>
+                Architecture
+              </div>
+            </div>
+              <div class="sm-env-selection-radio-button-container">
+                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')">
+                  {{ release.displayName }}
                 </md-radio>
               </div>
           </div>
           <div class="test-env-details">
-              <div class="stage">Bare Metal (Packet)</div>
+              <div class="stage">
+                <img src='../assets/images/packet-logo.png' />
+              </div>
               <StatusLabel :url="ReleaseURL()"
               :label="ReleaseStatus()"
               :branch="ReleaseBranch()"
@@ -91,7 +115,7 @@
           </div>
 
           <div class="stage">
-                  <img src='../assets/images/packet-logo.png' />
+            <img src='../assets/images/packet-logo.png' />
           </div>
 
           <div class="environment-divider">
@@ -265,6 +289,7 @@
         margin: rem(20) 0 0 0;
         font-size: rem(18);
       }
+
     }
   }
 
@@ -373,6 +398,9 @@
 
     .test-env-selection {
         cursor: pointer;
+    }
+    .stage img {
+      height: rem(25)
     }
   }
 
