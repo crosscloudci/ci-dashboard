@@ -115,7 +115,9 @@
           </div>
 
           <div class="stage">
-            <img src='../assets/images/packet-logo.png' />
+            <a href="https://www.packet.com/" rel="noopener noreferrer" target="_blank">
+              <img src='../assets/images/packet-logo.png' />
+            </a>
           </div>
 
           <div class="environment-divider">
@@ -331,9 +333,9 @@
          top: -10px;
          font-weight: 600;
          font-size: 14px;
-         width: 140px;
+         width: 124px;
          @include mq('md') {
-           left: 46px;
+           left: 40px;
          }
      }
      .test-env-selection {
@@ -400,14 +402,14 @@
         cursor: pointer;
     }
     .stage img {
-      height: rem(25)
+      height: rem(25);
     }
   }
 
   #test-environment-full {
     margin: auto;
     box-sizing: border-box;
-    padding: rem(10) rem(35);
+    padding: rem(20) rem(10);
     display: none;
     @include mq('md') {
       display: flex;
@@ -420,12 +422,16 @@
 
     .test-env-selection {
       justify-content: initial;
-      padding: 0 rem(10);
       cursor: pointer;
+      margin-bottom:rem(20);
     }
 
     .environment-divider {
       //NOTE: this is code for old dash in desktop ui remove if no longer needed
+      height: rem(90);
+      flex-direction: column;
+      display: flex;
+
       .dash {
           position: relative;
           border-top: solid 2px #707070;
@@ -448,19 +454,31 @@
     }
 
     .lg-logo{
-      margin-left: -20px;
+      margin-left: -3px;
       font-size:16px;
     }
 
-    .stage {
-      width: 125px ;
-    }
-
+    
     .arch-env-selection{
       p {
         font-size: 16px;
         font-weight: 700;
+        margin:0 0 rem(20) 0;
       }
+    }
+
+    .stage {
+      height: rem(100);
+      width: 125px;
+      
+      img {
+        margin-top: -6px;
+        width: rem(75);
+      }
+    }
+
+    .status-label {
+      height: rem(90);
     }
   }
 
