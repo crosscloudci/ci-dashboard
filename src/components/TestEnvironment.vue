@@ -61,14 +61,16 @@
           <span class="test-env-label">Test environment</span>
           <div class="kubernetes-env-selection">
             <div class="test-env-selection" v-on:click="gotoURL()">
-              <div class="lg-logo">
-                <div class="icon">
-                  <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+              <a href="https://github.com/kubernetes/kubernetes/" rel="noopener noreferrer" target="_blank">
+                <div class="lg-logo">
+                  <div class="icon">
+                    <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+                  </div>
+                  <div>
+                    Kubernetes
+                  </div>
                 </div>
-                <div>
-                  Kubernetes
-                </div>
-              </div>
+              </a>
             </div>
             <div class="med-env-selection-radio-button-container long-label">
               <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" @change="radioSelectEnv($event, 'release')">
@@ -80,15 +82,17 @@
               <i class="fa fa-arrow-right"></i>
           </div>
           <div class="containerd-env-selection">
-            <div class="test-env-selection" v-on:click="gotoURL()"> 
-              <div class="lg-logo">
-                <div class="icon">
-                  <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/icon/color/containerd-icon-color.png'" />
+            <div class="test-env-selection"> 
+              <a href="https://github.com/containerd/containerd" rel="noopener noreferrer" target="_blank">
+                <div class="lg-logo">
+                  <div class="icon">
+                    <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/icon/color/containerd-icon-color.png'" />
+                  </div>
+                  <div>
+                    containerd
+                  </div>
                 </div>
-                <div>
-                  containerd
-                </div>
-              </div>
+              </a>
             </div>
             <div class="med-env-selection-radio-button-container long-label">
               <md-radio v-model="containerdRelease" md-value="1.3.0"  class="md-primary md-flex"  name="containerd-release-selection">
@@ -154,7 +158,7 @@
       }
     },
     props: {
-      url: { type: String, default: 'https://github.com/kubernetes/kubernetes/' },
+      url: { type: String, default: '' },
       project: { type: Object }
     },
     mounted: function () {
@@ -165,9 +169,6 @@
       })
     },
     methods: {
-      gotoURL () {
-        window.open(this.$props.url, '_blank')
-      },
       gotoProjectURL () {
         window.open(this.$props.project.url, '_blank')
       },
@@ -353,6 +354,11 @@
          .icon{
            margin-top: -3px;
          }
+      }
+
+      a, a:hover {
+        color: inherit;
+        text-decoration: none;
       }
      }
 
