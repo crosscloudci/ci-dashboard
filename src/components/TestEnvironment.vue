@@ -3,14 +3,16 @@
    <div id="test-environment" >
           <span class="test-env-label">Test environment</span>
           <div class="test-env-selection">
-            <div class="sm-logo">
-              <div class="icon">
-                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
-              </div>
-              <div>
-                Kubernetes
-              </div>
-            </div>
+              <a href="https://github.com/kubernetes/kubernetes/" rel="noopener noreferrer" target="_blank">
+                <div class="sm-logo">
+                  <div class="icon">
+                    <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg?sanitize=true'" />
+                  </div>
+                  <div>
+                    Kubernetes
+                  </div>
+                </div>
+              </a>
               <div class="sm-env-selection-radio-button-container">
                 <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')">
                   {{ release.displayName }}
@@ -18,14 +20,16 @@
               </div>
           </div>
           <div class="test-env-selection">
-            <div class="sm-logo">
-              <div class="icon">
-                <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/icon/color/containerd-icon-color.png'" />
-              </div>
-              <div>
-                containerd
-              </div>
-            </div>
+              <a href="https://github.com/containerd/containerd" rel="noopener noreferrer" target="_blank">
+                <div class="sm-logo">
+                  <div class="icon">
+                    <img :src="'https://raw.githubusercontent.com/cncf/artwork/master/projects/containerd/icon/color/containerd-icon-color.png'" />
+                  </div>
+                  <div>
+                    containerd
+                  </div>
+                </div>
+              </a>
               <div class="sm-env-selection-radio-button-container">
                 <md-radio v-model="containerdRelease" md-value="1.3.0"  class="md-primary md-flex"  name="containerd-release-selection">
                   containerd 1.3.0
@@ -42,14 +46,16 @@
               </div>
             </div>
               <div class="sm-env-selection-radio-button-container">
-                <md-radio class="md-primary md-flex" name="release-selection" v-model="currentEnvRelease" :mdValue="release.name" v-for="(release, index) in envReleases" :key="index" v-on:change="radioSelectEnv($event, 'release')">
-                  {{ release.displayName }}
+                <md-radio class="md-primary" name="arch-selection" v-model="currentEnvArch" :mdValue="arch.name" v-for="(arch, index) in envArchs" :key="index" v-on:change="radioSelectEnv($event, 'arch')">
+                  {{ arch.displayName }}
                 </md-radio>
               </div>
           </div>
           <div class="test-env-details">
               <div class="stage">
-                <img src='../assets/images/packet-logo.png' />
+                <a href="https://www.packet.com/" rel="noopener noreferrer" target="_blank">
+                  <img src='../assets/images/packet-logo.png' />
+                </a>
               </div>
               <StatusLabel :url="ReleaseURL()"
               :label="ReleaseStatus()"
@@ -60,7 +66,7 @@
        <div id="test-environment-full">
           <span class="test-env-label">Test environment</span>
           <div class="kubernetes-env-selection">
-            <div class="test-env-selection" v-on:click="gotoURL()">
+            <div class="test-env-selection">
               <a href="https://github.com/kubernetes/kubernetes/" rel="noopener noreferrer" target="_blank">
                 <div class="lg-logo">
                   <div class="icon">
@@ -362,25 +368,6 @@
       }
      }
 
-     .test-env-details {
-         display: flex;
-         width: 300px;
-         font-size: rem(14);
-         align-items: center;
-         position: absolute;
-         bottom: -12px;
-
-         .stage, .status-label {
-            background-color: white;
-         }
-         .stage {
-           width: 150px ;
-         }
-         .status-label {
-           margin-left: 36px;
-           width: 100px;
-         }
-     }
   }
 
   #test-environment {
@@ -407,9 +394,31 @@
     .test-env-selection {
         cursor: pointer;
     }
-    .stage img {
-      height: rem(25);
+
+    .stage  {
+      width: 70px;
+      img {
+        height: rem(30);
+      }
     }
+
+     .test-env-details {
+         display: flex;
+         justify-content: inherit;
+         width: 300px;
+         font-size: rem(14);
+         align-items: center;
+         position: absolute;
+         bottom: -16px;
+
+         .stage, .status-label {
+            background-color: white;
+         }
+         .status-label {
+           margin-left: 36px;
+           width: 100px;
+         }
+     }
   }
 
   #test-environment-full {
@@ -561,7 +570,7 @@
 
    .sm-env-selection-radio-button-container {
      display: flex;
-       margin-top: 12px;
+       margin: 12px 0;
        justify-content: center;
 
         .md-radio {
@@ -570,7 +579,7 @@
           padding: 8px 12px 8px 12px;
           margin: 0;
           border-radius: 24px 0 0 24px;
-          min-width: 10rem;
+          min-width: rem(180);
 
           .md-radio-label{
             flex:auto;
