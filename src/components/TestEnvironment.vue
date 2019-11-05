@@ -31,7 +31,7 @@
                 </div>
               </a>
               <div class="sm-env-selection-radio-button-container">
-                <md-radio v-model="containerdRelease" md-value="1.3.0"  class="md-primary md-flex"  name="containerd-release-selection">
+                <md-radio v-model="containerdRelease" md-value="1.2.6"  class="md-primary md-flex"  name="containerd-release-selection">
                   containerd 1.2.6
                 </md-radio>
                 <md-radio v-model="containerdRelease" md-value="n/a"  class="md-primary md-flex" name="containerd-release-selection" disabled>
