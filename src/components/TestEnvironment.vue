@@ -31,7 +31,7 @@
                 </div>
               </a>
               <div class="sm-env-selection-radio-button-container">
-                <md-radio v-model="containerdRelease" md-value="1.2.6"  class="md-primary md-flex"  name="containerd-release-selection">
+                <md-radio v-model="containerdRelease" md-value="containerd 1.2.6"  class="md-primary md-flex"  name="containerd-release-selection">
                   containerd 1.2.6
                 </md-radio>
                 <md-radio v-model="containerdRelease" md-value="n/a"  class="md-primary md-flex" name="containerd-release-selection" disabled>
@@ -101,8 +101,8 @@
               </a>
             </div>
             <div class="med-env-selection-radio-button-container long-label">
-              <md-radio v-model="containerdRelease" md-value="1.3.0"  class="md-primary md-flex"  name="containerd-release-selection">
-                containerd 1.3.0
+              <md-radio v-model="containerdRelease" md-value="containerd 1.2.6"  class="md-primary md-flex"  name="containerd-release-selection">
+                containerd 1.2.6
               </md-radio>
               <md-radio v-model="containerdRelease" md-value="n/a"  class="md-primary md-flex" name="containerd-release-selection" disabled>
                 N/A
@@ -160,7 +160,7 @@
       return {
         currentEnvRelease: this.$store.state.environments.current.kubernetes_release_type || 'stable',
         currentEnvArch: this.$store.state.environments.current.arch || 'amd64',
-        containerdRelease: '1.3.0'
+        containerdRelease: 'containerd 1.2.6'
       }
     },
     props: {
@@ -563,7 +563,6 @@
         font-weight: bold;
       }
     }
-
 
     .med-env-selection-radio-button-container.long-label .md-radio label {
       min-width: 7.31rem;
