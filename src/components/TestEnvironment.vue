@@ -580,7 +580,7 @@
           padding: 8px 12px 8px 12px;
           margin: 0;
           border-radius: 24px 0 0 24px;
-          min-width: rem(180);
+          min-width: rem(163);
 
           .md-radio-label{
             flex:auto;
