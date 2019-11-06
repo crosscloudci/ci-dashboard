@@ -415,7 +415,6 @@
             background-color: white;
          }
          .status-label {
-           margin-left: 36px;
            width: 100px;
          }
      }
@@ -425,6 +424,7 @@
     margin: auto;
     box-sizing: border-box;
     padding: rem(20) rem(10);
+    min-width: 40.5rem;
     display: none;
     @include mq('md') {
       display: flex;
@@ -446,6 +446,7 @@
       height: rem(90);
       flex-direction: column;
       display: flex;
+      margin: 0 rem(10);
 
       .dash {
           position: relative;
@@ -565,7 +566,7 @@
 
 
     .med-env-selection-radio-button-container.long-label .md-radio label {
-      min-width: 7rem;
+      min-width: 7.31rem;
     }
 
    .sm-env-selection-radio-button-container {
