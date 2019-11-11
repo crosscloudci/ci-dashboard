@@ -340,9 +340,9 @@
          top: -10px;
          font-weight: 600;
          font-size: 14px;
-         width: 124px;
+         width: rem(144);
          @include mq('md') {
-           left: 40px;
+           left: rem(40);
          }
      }
      .test-env-selection {
