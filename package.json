@@ -27,7 +27,9 @@
     "vue-moment": "^3.0.0",
     "vue-router": "^2.7.0",
     "vuex": "^2.5.0",
-    "kind-of": ">=6.0.3"
+    "kind-of": ">=6.0.3",
+    "acorn": ">=5.7.4",
+    "minimist": ">=1.2.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
