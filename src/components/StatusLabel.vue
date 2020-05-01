@@ -64,7 +64,6 @@ export default {
   @include border-radius;
   text-align: center;
   margin: 0;
-  margin-left: 20px;
   // font-size: rem(14);
   font-size: 14px;
   color: $black;
