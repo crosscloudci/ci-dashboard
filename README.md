@@ -1,5 +1,12 @@
 # cncf-ci-dashboard
 
+<!--
+| Master | 
+|---|
+|[![Build Status](https://gitlab.dev.cncf.ci/cncf/cncf-ci-dashboard/badges/master/pipeline.svg)](https://gitlab.dev.cncf.ci/cncf/cncf-ci-dashboard/pipelines)|
+-->
+
+
 Dashboard front-end for the [CNCF.CI Project](https://github.com/crosscloudci/crosscloudci)
 
 ## Prerequisites
