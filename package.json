@@ -19,14 +19,18 @@
     "growl": "^1.10.5",
     "macaddress": "^0.2.9",
     "moment": "^2.19.2",
-    "npm": "^6.10.0",
+    "npm": "^6.13.4",
     "phoenix": "1.2.1",
     "ramda": "^0.26.1",
     "vue": "^2.6.10",
     "vue-material": "^0.8.1",
     "vue-moment": "^3.0.0",
     "vue-router": "^2.7.0",
-    "vuex": "^2.5.0"
+    "vuex": "^2.5.0",
+    "kind-of": ">=6.0.3",
+    "acorn": ">=5.7.4",
+    "minimist": ">=1.2.3",
+    "https-proxy-agent": ">=2.2.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
