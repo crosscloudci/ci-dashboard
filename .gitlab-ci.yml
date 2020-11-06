@@ -56,6 +56,5 @@ Deploy-Frontend:
       fi
     - /helm/entrypoint.sh
     - export KUBECONFIG=/kubeconfig
-    - helm init
     - helm repo add cncf http://cncf.gitlab.io/stable
     - helm upgrade fnt-"$CI_COMMIT_REF_NAME" cncf/frontend --install --force --wait --timeout 3600 --set tls="$TLS" --set imagePullSecrets="$CI_COMMIT_REF_NAME"secret --set ingress.host="$FRONTEND_INGRESS" --set ingress.port=8080 --set api.url="$BACKEND_INGRESS" --set node.port=8080 --set node.host=0.0.0.0 --set image.repository="$CI_REGISTRY_IMAGE/frontend-$CI_COMMIT_REF_NAME" --set image.tag="$CI_COMMIT_SHA"
