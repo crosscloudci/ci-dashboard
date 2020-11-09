@@ -53,8 +53,8 @@
           </div>
           <div class="test-env-details">
               <div class="stage">
-                <a href="https://www.packet.com/" rel="noopener noreferrer" target="_blank">
-                  <img src='../assets/images/packet-logo.png' />
+                <a href="https://metal.equinix.com/" rel="noopener noreferrer" target="_blank">
+                  <img src='../assets/images/equinix-metal-member.svg' />
                 </a>
               </div>
               <StatusLabel :url="ReleaseURL()"
@@ -125,8 +125,8 @@
           </div>
 
           <div class="stage">
-            <a href="https://www.packet.com/" rel="noopener noreferrer" target="_blank">
-              <img src='../assets/images/packet-logo.png' />
+            <a href="https://metal.equinix.com/" rel="noopener noreferrer" target="_blank">
+              <img src='../assets/images/equinix-metal-member.svg' />
             </a>
           </div>
 
