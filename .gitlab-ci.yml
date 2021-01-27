@@ -9,14 +9,10 @@ Dashboard-Frontend:
   stage: Build
   script:
     - >
-      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "master" ]; then
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-      elif [ "$BASE_URL" == "https://gitlab.cidev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "integration" ]; then 
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-      elif [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "staging" ]; then 
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-      elif [ "$BASE_URL" == "https://gitlab.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "production" ]; then
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+      if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME"
+      elif [ "$CI_COMMIT_REF_NAME" == "production" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME"
       else
         echo "No Matching Environment Could Be Found"
         exit 1
@@ -30,23 +26,13 @@ Deploy-Frontend:
   image: crosscloudci/helm:latest
   script:
     - >
-      if [ "$BASE_URL" == "https://gitlab.dev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "master" ]; then
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+      if [ "$CI_COMMIT_REF_NAME" == "master" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME"
         export BACKEND_INGRESS="https://devapi.cncf.ci/api"
         export FRONTEND_INGRESS="dev.cncf.ci"
         export TLS="true"
-      elif [ "$BASE_URL" == "https://gitlab.cidev.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "integration" ]; then 
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-        export BACKEND_INGRESS="https://cidevapi.cncf.ci/api"
-        export FRONTEND_INGRESS="cidev.cncf.ci"
-        export TLS="true"
-      elif [ "$BASE_URL" == "https://gitlab.staging.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "staging" ]; then 
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
-        export BACKEND_INGRESS="https://stagingapi.cncf.ci/api"
-        export FRONTEND_INGRESS="staging.cncf.ci"
-        export TLS="true"
-      elif [ "$BASE_URL" == "https://gitlab.cncf.ci" ] && [ "$CI_COMMIT_REF_NAME" == "production" ]; then
-        echo "Deploying $CI_COMMIT_REF_NAME on $BASE_URL"
+      elif [ "$CI_COMMIT_REF_NAME" == "production" ]; then
+        echo "Deploying $CI_COMMIT_REF_NAME"
         export BACKEND_INGRESS="https://productionapi.cncf.ci/api"
         export FRONTEND_INGRESS="cncf.ci"
         export TLS="true"
